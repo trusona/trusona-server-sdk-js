@@ -1,0 +1,13 @@
+{
+  "name": "trusona_javascript_sdk",
+  "version": "0.0.1",
+  "description": "Trusona Javascript sdk",
+  "author": "Juan Diego Garita <jd@trusona.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
