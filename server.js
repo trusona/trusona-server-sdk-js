@@ -1,16 +1,35 @@
-'use strict';
+var webpack = require('webpack');
+var WebPackDevServer = require('webpack-dev-server');
 
-const express = require('express');
+var path = require('path');
 
-// Constants
-const PORT = 8080;
-const HOST = '0.0.0.0';
+var config = require('./webpack.config')
 
-// App
-const app = express();
-app.get('/', (req, res) => {
-  res.send('Hello world\n');
+new WebPackDevServer(webpack(config), {
+    contentBase : 'public/',
+    publicPath: '',
+    inline: true, 
+    hot: true
+
+}).listen(8080, 'localhost', function(err, result){
+    if(err){
+      return console.log(err);
+    }
+    console.log('Listening at http://localhost:8080/');
 });
+// 'use strict';
 
-app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+// const express = require('express');
+
+// // Constants
+// const PORT = 8080;
+// const HOST = '0.0.0.0';
+
+// // App
+// const app = express();
+// app.get('/', (req, res) => {
+//   res.send('Hello world\n');
+// });
+
+// app.listen(PORT, HOST);
+// console.log(`Running on http://${HOST}:${PORT}`);
