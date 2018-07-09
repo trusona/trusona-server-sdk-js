@@ -1,30 +1,22 @@
-const validator = require('webpack-validator');
 const path = require('path');
-const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const config = {
-
-    entry : [
-        'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/dev-server',
-        path.join( __dirname, 'src/Router.jsx')
-    ],
-    output : {
-        path: path.join( __dirname, 'public/assets/js/'),
-        filename : 'build.js',
-        publicPath: '',
-    },
-    module : {
-        loaders: [
-            {
-                test: /\.js|jsx$/, loaders: 'babel',
-                exclude: /node_modules/
-            }
-        ]
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ]
-
+module.exports = {
+  entry: {
+    main: './src/server.js'
+  },
+  devServer: {
+    contentBase: './dist'
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist'])
+  ],
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    library: 'Trusona-Javascript-SDK',
+    libraryTarget: 'var',
+    libraryExport: 'default',
+  }
 };
-module.exports = validator(config);
