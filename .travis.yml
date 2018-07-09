@@ -1,5 +1,11 @@
 language: node_js
 node_js:
-  - "iojs"
-  - "7"
-  - "stable"
+- 'node'
+script:
+  - npm run test
+deploy:
+skip_cleanup: true
+provider: script
+script: "./release"
+on:
+  tags: true
