@@ -3,9 +3,3 @@ node_js:
 - 'node'
 script:
   - npm run test
-deploy:
-skip_cleanup: true
-provider: script
-script: "./release"
-on:
-  tags: true
