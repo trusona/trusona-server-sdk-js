@@ -1,9 +1,7 @@
-const request = require('request');
+const request = require('request-promise');
 const dateFormat = require('dateformat');
 const HmacSignatureGenerator = require('./hmacSignatureGenerator')
 const crypto = require('crypto')
-
-
 
 class RequestHmacMessage {
   constructor(options) {
@@ -11,8 +9,9 @@ class RequestHmacMessage {
   }
 
   getHmacMessage() {
+    const body = JSON.stringify(this.options.body);
     return {
-      bodyDigest: crypto.createHash('md5').update(this.options.body).digest('hex'),
+      bodyDigest: crypto.createHash('md5').update(body).digest('hex'),
       requestUri: '/api/v2/user_devices', // TODO: parse this from this.options.url
       contentType: this.options.headers['Content-Type'],
       date: this.options.headers['Date'],
@@ -27,14 +26,15 @@ class Trusona {
     this.secret = secret
   }
 
-  createUserDevice(userIdentifier, deviceIdentifier, callback) {
+  createUserDevice(userIdentifier, deviceIdentifier) {
     const options = this.getSignedRequest({
       url: 'https://api.staging.trusona.net/api/v2/user_devices',
       method: 'POST',
-      body: JSON.stringify({
+      json: true,
+      body: {
         'user_identifier': userIdentifier,
         'device_identifier': deviceIdentifier,
-      }),
+      },
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'TrusonaServerSdk/1.0',
@@ -42,7 +42,7 @@ class Trusona {
       }
     });
 
-    request.post(options, callback);
+   return request.post(options);
   }
 
   getSignedRequest(options) {

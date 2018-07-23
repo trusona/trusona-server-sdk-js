@@ -27,19 +27,17 @@ describe('Trusona', () => {
   let trusona
 
   beforeEach(() => {
-    trusona = new Trusona(token, secret)
-  })
+    trusona = new Trusona(token, secret);
+  });
 
   describe('createUserDevice', () => {
-    it('should bind a user identifier to a device', (done) => {
-      createFauxDevice()
+    it('should bind a user identifier to a device', async () => {
+      const response = await createFauxDevice()
           .then((fauxDevice) => {
-            trusona.createUserDevice(uuid(), fauxDevice.id, (error, response, body) => {
-              assert.equal(response.statusCode, 201)
-              done()
-            })
-          })
-    })
-
-  })
+           return trusona.createUserDevice(uuid(), fauxDevice.id);
+          });
+      console.log(response);
+      assert.exists(response.id);
+    });
+  });
 })
