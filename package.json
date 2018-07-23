@@ -9,22 +9,14 @@
     "test": "mocha"
   },
   "dependencies": {
-    "crypto-js": "^3.1.9-1",
     "dateformat": "^3.0.3",
-    "express": "^4.16.1",
-    "interceptors": "^1.0.1",
-    "reflect-metadata": "^0.1.12"
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.5",
-    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
-    "eslint": "^4.19.1",
-    "html-webpack-plugin": "^3.2.0",
-    "mocha": "^5.2.0",
-    "webpack": "^4.15.1",
-    "webpack-cli": "^3.0.8",
-    "webpack-livereload-plugin": "^2.1.1"
+    "dotenv": "^6.0.0",
+    "mocha": "^5.2.0"
   },
   "directories": {
     "test": "test"
