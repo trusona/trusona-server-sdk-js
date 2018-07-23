@@ -23,12 +23,6 @@ const createFauxDevice = () => {
   return request.post(options);
 }
 
-const createTwoSecondDelay = (input) => {
-  return new Promise(fulfill => {
-    setTimeout(() => fulfill(input), 2000)
-  })
-}
-
 describe('Trusona', () => {
   let trusona
   let fauxDevice
@@ -44,4 +38,17 @@ describe('Trusona', () => {
       assert.exists(response.activation_code);
     });
   });
+
+  describe('activateUserDevice', () => {
+    let inactiveDevice
+
+    beforeEach(async () => {
+      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id);
+    })
+
+    it('should activate an inactive device', async () => {
+      const response = await trusona.activateUserDevice(inactiveDevice.activation_code)
+      assert.isTrue(response.active)
+    })
+  })
 })
