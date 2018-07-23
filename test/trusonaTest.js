@@ -41,7 +41,7 @@ describe('Trusona', () => {
   describe('createUserDevice', () => {
     it('should bind a user identifier to a device', async () => {
       const response = await trusona.createUserDevice(uuid(), fauxDevice.id);
-      assert.exists(response.id);
+      assert.exists(response.activation_code);
     });
   });
 })

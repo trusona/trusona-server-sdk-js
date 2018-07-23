@@ -49,10 +49,13 @@ class Trusona {
       url: 'https://api.staging.trusona.net/api/v2/user_devices',
       method: 'POST',
       json: true,
-      resolveWithFullResponse: true,
+      transform : (body, response, resolveWithFullResponse) => {
+        body.activation_code = body.id;
+        return body;
+      },
       body: {
         'user_identifier': userIdentifier,
-        'device_identifier': deviceIdentifier,
+        'device_identifier': deviceIdentifier
       },
       headers: {
         'Content-Type': 'application/json',
@@ -61,18 +64,25 @@ class Trusona {
       }
     });
 
-   return request.post(options).then((response) => {
-     const responseHmacMessage = new ResponseHmacMessage(response);
-     const signature = new HmacSignatureGenerator().getSignature(responseHmacMessage, this.secret)
-    if(response.headers['x-signature'] === signature){
-      return response.body;
-    }else{
-      throw new Error('The response signature failed validation');
-    }
-   });
+   return request.post(options);
   }
 
   getSignedRequest(options) {
+    let originalTransform = options.transform;
+    if(originalTransform == null){
+      originalTransform = (body, response, resolveWithFullResponse)=>{
+        return body;
+      }
+    }
+    options.transform = (body, response, resolveWithFullResponse) => { 
+      const responseHmacMessage = new ResponseHmacMessage(response);
+      const signature = new HmacSignatureGenerator().getSignature(responseHmacMessage, this.secret)
+      if(response.headers['x-signature'] === signature){
+        return originalTransform(body, response, resolveWithFullResponse);
+      }else{
+        throw new Error('The response signature failed validation');
+      }
+    }
     const signatureGenerator = new HmacSignatureGenerator()
     const hmacMessage = new RequestHmacMessage(options)
     const signature = signatureGenerator.getSignature(hmacMessage, this.secret)
