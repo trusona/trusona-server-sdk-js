@@ -23,20 +23,24 @@ const createFauxDevice = () => {
   return request.post(options);
 }
 
+const createTwoSecondDelay = (input) => {
+  return new Promise(fulfill => {
+    setTimeout(() => fulfill(input), 2000)
+  })
+}
+
 describe('Trusona', () => {
   let trusona
+  let fauxDevice
 
-  beforeEach(() => {
+  beforeEach(async () => {
     trusona = new Trusona(token, secret);
+    fauxDevice = await createFauxDevice();
   });
 
   describe('createUserDevice', () => {
     it('should bind a user identifier to a device', async () => {
-      const response = await createFauxDevice()
-          .then((fauxDevice) => {
-           return trusona.createUserDevice(uuid(), fauxDevice.id);
-          });
-      console.log(response);
+      const response = await trusona.createUserDevice(uuid(), fauxDevice.id);
       assert.exists(response.id);
     });
   });
