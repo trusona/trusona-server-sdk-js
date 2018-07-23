@@ -67,7 +67,7 @@ class Trusona {
       }
     });
 
-   return request.post(options);
+   return request(options);
   }
 
   activateUserDevice(activationCode) {
@@ -83,7 +83,7 @@ class Trusona {
       }
     });
 
-   return request.patch(options);
+   return request(options);
   }
 
   getSignedRequest(options) {
