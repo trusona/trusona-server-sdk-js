@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
-    "express": "^4.16.1"
+    "dateformat": "^3.0.3",
+    "express": "^4.16.1",
+    "interceptors": "^1.0.1",
+    "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.5",
