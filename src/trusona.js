@@ -9,7 +9,7 @@ class Trusona {
   }
 
   createUserDevice(userIdentifier, deviceIdentifier) {
-    var options = this.requestHelper.getSignedRequest({
+    const options = this.requestHelper.getSignedRequest({
       url: 'https://api.staging.trusona.net/api/v2/user_devices',
       method: 'POST',
       transform : (body, response, resolveWithFullResponse) => {
