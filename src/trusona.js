@@ -1,5 +1,7 @@
 const request = require('request-promise');
 const dateFormat = require('dateformat');
+const url = require('url');
+
 const HmacSignatureGenerator = require('./hmacSignatureGenerator');
 const crypto = require('crypto')
 
@@ -10,9 +12,11 @@ class RequestHmacMessage {
 
   getHmacMessage() {
     const body = JSON.stringify(this.options.body);
+    const requestUri = url.parse(this.options.url);
+
     return {
       bodyDigest: crypto.createHash('md5').update(body).digest('hex'),
-      requestUri: '/api/v2/user_devices', // TODO: parse this from this.options.url
+      requestUri: requestUri.pathname, // TODO: include query string for GET requests
       contentType: this.options.headers['Content-Type'],
       date: this.options.headers['Date'],
       method: this.options.method
@@ -20,21 +24,20 @@ class RequestHmacMessage {
   }
 }
 class ResponseHmacMessage {
-  constructor(response){
+  constructor(response) {
     this.response = response
   }
 
   getHmacMessage() {
     const body = JSON.stringify(this.response.body);
-    const hmacMessage =  {
+
+    return {
       bodyDigest: crypto.createHash('md5').update(body).digest('hex'),
-      requestUri: '/api/v2/user_devices', // TODO: parse this from this.options.url
+      requestUri: this.response.request.uri.pathname, // TODO: include query string for GET requests
       contentType: this.response.headers['content-type'],
       date: this.response.headers['x-date'],
       method: this.response.request.method
-    }
-    console.log(hmacMessage);
-    return hmacMessage;
+    };
   }
 }
 
@@ -64,7 +67,23 @@ class Trusona {
       }
     });
 
-   return request.post(options);
+   return request(options);
+  }
+
+  activateUserDevice(activationCode) {
+    const options = this.getSignedRequest({
+      url: `https://api.staging.trusona.net/api/v2/user_devices/${activationCode}`,
+      method: 'PATCH',
+      json: true,
+      body: { active: true },
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'TrusonaServerSdk/1.0',
+        'Date' : this.getDate()
+      }
+    });
+
+   return request(options);
   }
 
   getSignedRequest(options) {
@@ -74,7 +93,7 @@ class Trusona {
         return body;
       }
     }
-    options.transform = (body, response, resolveWithFullResponse) => { 
+    options.transform = (body, response, resolveWithFullResponse) => {
       const responseHmacMessage = new ResponseHmacMessage(response);
       const signature = new HmacSignatureGenerator().getSignature(responseHmacMessage, this.secret)
       if(response.headers['x-signature'] === signature){
