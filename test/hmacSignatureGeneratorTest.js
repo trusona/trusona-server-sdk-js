@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
 
-const HmacSignatureGenerator = require('../src/hmacSignatureGenerator')
+const HmacSignatureGenerator = require('../src/HmacSignatureGenerator')
 
 class MockHmacMessage {
   getHmacMessage() {
