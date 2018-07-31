@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
 const request = require('request-promise')
 const uuid = require('uuid/v4')
 const Trusona = require('../src/trusona')
+const Trusonafication = require('../src/Trusonafication')
 
 const token = process.env.TRUSONA_TOKEN
 const secret = process.env.TRUSONA_SECRET
@@ -48,6 +49,22 @@ describe('Trusona', () => {
 
     it('should activate an inactive device', async () => {
       const response = await trusona.activateUserDevice(inactiveDevice.activation_code)
+      assert.isTrue(response.active)
+    })
+  })
+
+  describe('createTrusonafication', () => {
+    let inactiveDevice
+    let activeDevice
+
+    beforeEach(async () => {
+      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id);
+      activeDevice = await trusona.activateUserDevice(inactiveDevice.activation_code)
+    })
+
+    it('should create a new essential trusonafication', async () => {
+      const trusonafication = new Trusonafication(activeDevice.device_identifier, "login", "jd");
+      const response = await trusona.createTrusonafication(trusonafication)
       assert.isTrue(response.active)
     })
   })
