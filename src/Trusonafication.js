@@ -12,21 +12,17 @@ class Trusonafication {
     //     this.callbackUrl = callbackUrl
     //     this.userPresence = userPresence
     //     this.prompt = prompt
-    //     this.showIdentityDocument = showIdentityDocument 
+    //     this.showIdentityDocument = showIdentityDocument
     //   }
 
       constructor(deviceIdentifier, action, resource) {
-        this.desiredLevel = 2
-        this.deviceIdentifier = deviceIdentifier
+        this.desired_level = 2
+        this.device_identifier = deviceIdentifier
         this.action = action
         this.resource = resource
-        this.trucode_id = 0
-        this.userIdentifier = 0;
-        this.expiresAt = 0;
-        this.callbackUrl = ''
-        this.userPresence = false
-        this.prompt = false
-        this.showIdentityDocument = false 
+        this.user_presence = true
+        this.prompt = true
+        this.show_identity_document = false
       }
 }
 module.exports = Trusonafication

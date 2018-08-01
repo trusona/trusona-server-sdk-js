@@ -38,7 +38,7 @@ class Trusona {
     const options = this.requestHelper.getSignedRequest({
       url: `https://api.staging.trusona.net/api/v2/trusonafications`,
       method: 'POST',
-      body : JSON.stringify(trusonafication)
+      body : trusonafication
     });
 
     return request(options);
