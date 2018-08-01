@@ -12,7 +12,8 @@ class RequestHelper {
 
     getSignedRequest(options) {
         options.headers = this.getHeaders();
-        options.json = true
+        options.json = false
+        options.body = JSON.stringify(options.body)
 
         let originalTransform = options.transform;
 
@@ -28,15 +29,15 @@ class RequestHelper {
           const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
           if(response.headers['x-signature'] === signature){
-            return originalTransform(body, response, resolveWithFullResponse);
+            return originalTransform(JSON.parse(body), response, resolveWithFullResponse);
           }else{
             throw new Error('The response signature failed validation');
           }
         }
-       
+
         const requestHmacMessage = new RequestHmacMessage(options)
         const signature = signatureGenerator.getSignature(requestHmacMessage, this.secret)
-    
+
         options.headers['Authorization'] = `TRUSONA ${this.token}:${signature}`
         return options
       }
