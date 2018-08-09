@@ -63,7 +63,12 @@ describe('Trusona', () => {
     })
 
     it('should create a new essential trusonafication', async () => {
-      const trusonafication = new Trusonafication.EssentialBuilder().deviceIdentifier(activeDevice.device_identifier).action("login").resource("jd").build();
+      const trusonafication = Trusonafication.essential
+        .deviceIdentifier(activeDevice.device_identifier)
+        .action("login")
+        .resource("jd")
+        .build();
+
       console.log(trusonafication)
       const response = await trusona.createTrusonafication(trusonafication)
       assert.exists(response.id)
