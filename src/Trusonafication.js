@@ -1,30 +1,31 @@
+const trusonaficationBuilder = require('./TrusonaficationBuilder');
+const EssentialBuilder = require('./EssentialBuilder');
+const ExecutiveBuilder = require('./ExecutiveBuilder');
+
 class Trusonafication {
 
-    // constructor(desiredLevel, deviceIdentifier, trucode_id, userIdentifier, action, resource, expiresAt,
-    //     callbackUrl, userPresence, prompt, showIdentityDocument) {
-    //     this.desiredLevel = desiredLevel
-    //     this.deviceIdentifier = deviceIdentifier
-    //     this.trucode_id = trucode_id
-    //     this.userIdentifier = userIdentifier
-    //     this.action = action
-    //     this.resource = resource
-    //     this.expiresAt = expiresAt
-    //     this.callbackUrl = callbackUrl
-    //     this.userPresence = userPresence
-    //     this.prompt = prompt
-    //     this.showIdentityDocument = showIdentityDocument
-    //   }
+  constructor(trusonaficationBuilder) {
+    this.desired_level = trusonaficationBuilder.desired_level
+    this.device_identifier = trusonaficationBuilder.device_identifier
+    this.trucode_id = trusonaficationBuilder.trucode_id
+    this.user_identifier = trusonaficationBuilder.user_identifier
+    this.action = trusonaficationBuilder.action
+    this.resource = trusonaficationBuilder.resource
+    this.expires_at = trusonaficationBuilder.expires_at
+    this.callback_url = trusonaficationBuilder.callback_url
+    this.user_presence = trusonaficationBuilder.user_presence
+    this.prompt = trusonaficationBuilder.prompt
+    this.show_identity_document = trusonaficationBuilder.show_identity_document
 
-      constructor(deviceIdentifier, action, resource, user_presence, prompt, user_identifier, trucode_id) {
-        this.desired_level = 2
-        this.device_identifier = deviceIdentifier
-        this.user_identifier = user_identifier
-        this.action = action
-        this.resource = resource
-        this.user_presence = user_presence
-        this.prompt = prompt
-        this.trucode_id = trucode_id
-        this.show_identity_document = false
-      }
+  }
+
+  static get EssentialBuilder() {
+    return EssentialBuilder;
+  }
+
+  static get ExecutiveBuilder() {
+    return ExecutiveBuilder;
+  }
+
 }
 module.exports = Trusonafication
