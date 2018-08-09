@@ -70,7 +70,6 @@ class TrusonaficationBuilder {
   }
 
   build() {
-    console.log(Trusonafication)
     return new Trusonafication(this);
   }
 }
