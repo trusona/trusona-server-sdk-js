@@ -1,7 +1,3 @@
-const trusonaficationBuilder = require('./TrusonaficationBuilder');
-const EssentialBuilder = require('./EssentialBuilder');
-const ExecutiveBuilder = require('./ExecutiveBuilder');
-
 class Trusonafication {
 
   constructor(trusonaficationBuilder) {
@@ -19,13 +15,83 @@ class Trusonafication {
 
   }
 
-  static get EssentialBuilder() {
-    return EssentialBuilder;
+  static get essential() {
+    return new EssentialBuilder();
   }
 
-  static get ExecutiveBuilder() {
-    return ExecutiveBuilder;
+  static get executive() {
+    return new ExecutiveBuilder();
   }
-
 }
+
+class TrusonaficationBuilder {
+  constructor(desired_level) {
+     this.desired_level = desired_level;
+     this.prompt = true;
+     this.user_presence = true;
+     this.show_identity_document = false;
+  }
+
+  deviceIdentifier(device_identifier) {
+     this.device_identifier = device_identifier;
+     return this;
+  }
+  trucode(trucode_id) {
+   this.trucode_id = trucode_id;
+   return this;
+  }
+  userIdentifier(user_identifier) {
+      this.user_identifier = user_identifier;
+      return this;
+   }
+  action(action) {
+   this.action = action;
+   return this;
+  }
+  resource(resource) {
+   this.resource = resource;
+   return this;
+  }
+  callbackUrl(callback_url) {
+   this.callback_url = callback_url;
+   return this;
+  }
+  expiresAt(expires_at) {
+   this.expires_at = expires_at;
+   return this;
+  }
+  withoutPrompt() {
+   this.prompt = false;
+   return this;
+  }
+  withoutUserPresence() {
+   this.user_presence = false;
+   return this;
+  }
+
+  build() {
+    return new Trusonafication(this);
+  }
+}
+
+class EssentialBuilder extends TrusonaficationBuilder{
+
+  constructor() {
+    super(2)
+  }
+
+  withoutUserPresence() {
+      super.withoutUserPresence()
+      this.desired_level = 1;
+      return this;
+  }
+}
+
+class ExecutiveBuilder extends TrusonaficationBuilder{
+  constructor() {
+    super(3)
+    this.show_identity_document = true
+  }
+}
+
 module.exports = Trusonafication
