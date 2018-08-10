@@ -54,12 +54,11 @@ describe('Trusona', () => {
   })
 
   describe('Creating an Essential Trusonafication', () => {
-    let inactiveDevice
     let activeDevice
 
     beforeEach(async () => {
-      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id);
-      activeDevice = await trusona.activateUserDevice(inactiveDevice.activation_code)
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
     })
 
     it('should create a new essential trusonafication', async () => {
@@ -76,12 +75,11 @@ describe('Trusona', () => {
 
 
   describe('Creating an Essential Trusonafication, without user presence or a prompt', () => {
-    let inactiveDevice
     let activeDevice
 
     beforeEach(async () => {
-      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id);
-      activeDevice = await trusona.activateUserDevice(inactiveDevice.activation_code)
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
     })
 
     it('should create a new essential trusonafication', async () => {
@@ -99,12 +97,11 @@ describe('Trusona', () => {
   })
 
   describe('Creating an Essential Trusonafication, with a TruCode', () => {
-    let inactiveDevice
     let activeDevice
 
     beforeEach(async () => {
-      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id);
-      activeDevice = await trusona.activateUserDevice(inactiveDevice.activation_code)
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
     })
 
     it('should create a new essential trusonafication', async () => {
@@ -120,12 +117,11 @@ describe('Trusona', () => {
   })
 
   describe('Creating an Essential Trusonafication, with the user\'s identifier', () => {
-    let inactiveDevice
     let activeDevice
 
     beforeEach(async () => {
-      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id);
-      activeDevice = await trusona.activateUserDevice(inactiveDevice.activation_code)
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
     })
 
     it('should create a new essential trusonafication', async () => {
