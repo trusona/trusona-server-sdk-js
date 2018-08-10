@@ -36,7 +36,7 @@ class TrusonaficationBuilder {
      this.device_identifier = device_identifier;
      return this;
   }
-  trucode(trucode_id) {
+  truCode(trucode_id) {
    this.trucode_id = trucode_id;
    return this;
   }
