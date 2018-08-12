@@ -11,7 +11,7 @@ class RequestHelper {
     }
 
     getSignedRequest(options) {
-        options.headers = this.getHeaders();
+        options.headers = this.getHeaders(options.method);
         options.json = false
         options.body = JSON.stringify(options.body)
 
@@ -48,12 +48,22 @@ class RequestHelper {
         return options
     }
 
-    getHeaders(){
-        const header = {
-            'Content-Type': 'application/json',
-            'User-Agent': 'TrusonaServerSdk/1.0',
-            'Date' : new DateUtils().getDate()
+    getHeaders(method){
+      let header
+
+      if(method === 'GET'){
+        header = {
+          'User-Agent': 'TrusonaServerSdk/1.0',
+          'Date' : new DateUtils().getDate()
         }
+      }else{
+        header = {
+          'Content-Type': 'application/json',
+          'User-Agent': 'TrusonaServerSdk/1.0',
+          'Date' : new DateUtils().getDate()
+        }
+      }
+        
         return header;
     }
 }
