@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
 const request = require('request-promise')
 const uuid = require('uuid/v4')
 const Trusona = require('../src/trusona')
+const Trusonafication = require('../src/Trusonafication')
 
 const token = process.env.TRUSONA_TOKEN
 const secret = process.env.TRUSONA_SECRET
@@ -51,4 +52,89 @@ describe('Trusona', () => {
       assert.isTrue(response.active)
     })
   })
+
+  describe('Creating an Essential Trusonafication', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+    })
+
+    it('should create a new essential trusonafication', async () => {
+      const trusonafication = Trusonafication.essential
+        .deviceIdentifier(activeDevice.device_identifier)
+        .action("login")
+        .resource("resource")
+        .build();
+
+      const response = await trusona.createTrusonafication(trusonafication)
+      assert.exists(response.id)
+    })
+  })
+
+
+  describe('Creating an Essential Trusonafication, without user presence or a prompt', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+    })
+
+    it('should create a new essential trusonafication', async () => {
+      const trusonafication = Trusonafication.essential
+        .deviceIdentifier(activeDevice.device_identifier)
+        .action("login")
+        .resource("resource")
+        .withoutUserPresence()
+        .withoutPrompt()
+        .build();
+
+      const response = await trusona.createTrusonafication(trusonafication)
+      assert.exists(response.id)
+    })
+  })
+
+  describe('Creating an Essential Trusonafication, with a TruCode', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+    })
+
+    it('should create a new essential trusonafication', async () => {
+      const trusonafication = Trusonafication.essential
+        .truCode("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
+        .action("login")
+        .resource("resource")
+        .build();
+
+      const response = await trusona.createTrusonafication(trusonafication)
+      assert.exists(response.id)
+    })
+  })
+
+  describe('Creating an Essential Trusonafication, with the user\'s identifier', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+    })
+
+    it('should create a new essential trusonafication', async () => {
+      const trusonafication = Trusonafication.essential
+      .userIdentifier(activeDevice.user_identifier)
+      .action("login")
+      .resource("resource")
+      .build();
+
+      const response = await trusona.createTrusonafication(trusonafication)
+      assert.exists(response.id)
+    })
+  })
 })
+
+

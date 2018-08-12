@@ -33,6 +33,16 @@ class Trusona {
 
    return request(options);
   }
+
+  createTrusonafication(trusonafication) {
+    const options = this.requestHelper.getSignedRequest({
+      url: `https://api.staging.trusona.net/api/v2/trusonafications`,
+      method: 'POST',
+      body : trusonafication
+    });
+
+    return request(options);
+  }
 }
 
 module.exports = Trusona
