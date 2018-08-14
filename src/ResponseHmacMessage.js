@@ -26,12 +26,7 @@ class ResponseHmacMessage {
     }
 
     getContentType(method){
-      if(method === 'GET'){
-        return ''
-      }else{
-        return this.response.headers['content-type'];
-      }
+      return this.response.headers['content-type'] || ''
     }
-
   }
   module.exports = ResponseHmacMessage

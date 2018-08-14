@@ -13,28 +13,23 @@ class RequestHmacMessage {
         bodyDigest: crypto.createHash('md5').update(this.options.body).digest('hex'),
       
 
-        requestUri: this.getRequestUri(this.options.method, requestUri),
-        contentType: this.getContentType(this.options.method),
+        requestUri: this.getRequestUri(this.options, requestUri),
+        contentType: this.getContentType(),
         date: this.options.headers['Date'],
         method: this.options.method
       }
     }
 
-    getRequestUri(method, requestUri){
-      if(method === 'GET'){
-        console.log(requestUri.pathname.query)
-        return requestUri.query;
-      }else{
+    getRequestUri(options, requestUri){
+      if(options.body === nil){
         return requestUri.pathname
+      }else{
+        return requestUri.query;
       }
     }
 
-    getContentType(method){
-      if(method === 'GET'){
-        return ''
-      }else{
-        return this.options.headers['content-type'];
-      }
+    getContentType(){
+      return this.response.headers['content-type'] || ''
     }
     
   }
