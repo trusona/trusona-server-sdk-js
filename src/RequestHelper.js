@@ -48,23 +48,23 @@ class RequestHelper {
         return options
     }
 
-    getHeaders(method){
+    getHeaders(options){
       let header
 
-      if(method === 'GET'){
-        header = {
-          'User-Agent': 'TrusonaServerSdk/1.0',
-          'Date' : new DateUtils().getDate()
-        }
-      }else{
+      console.log(options.body)
+      if(options.body === nil){
         header = {
           'Content-Type': 'application/json',
           'User-Agent': 'TrusonaServerSdk/1.0',
           'Date' : new DateUtils().getDate()
         }
+      }else{
+        header = {
+          'User-Agent': 'TrusonaServerSdk/1.0',
+          'Date' : new DateUtils().getDate()
+        }
       }
-        
-        return header;
+      return header;
     }
 }
 
