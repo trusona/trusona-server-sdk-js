@@ -18,6 +18,10 @@ const createFauxDevice = () => {
     body: {"relying_party_id": "0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e"},
     headers: {
       'Content-Type': 'application/json'
+    },
+    auth: {
+      user: process.env.BUSTER_USERNAME,
+      pass: process.env.BUSTER_PASSWORD
     }
   }
 
