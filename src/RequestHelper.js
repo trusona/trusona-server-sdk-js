@@ -11,7 +11,7 @@ class RequestHelper {
     }
 
     getSignedRequest(options) {
-        options.headers = this.getHeaders();
+        options.headers = this.getHeaders(options);
         options.json = false
         options.body = JSON.stringify(options.body)
 
@@ -38,7 +38,7 @@ class RequestHelper {
         const requestHmacMessage = new RequestHmacMessage(options)
         const signature = signatureGenerator.getSignature(requestHmacMessage, this.secret)
 
-        options.headers['Authorization'] = `TRUSONA ${this.token}:${signature}`
+        options.headers['authorization'] = `TRUSONA ${this.token}:${signature}`
         return options
       }
 
@@ -48,13 +48,17 @@ class RequestHelper {
         return options
     }
 
-    getHeaders(){
-        const header = {
-            'Content-Type': 'application/json',
-            'User-Agent': 'TrusonaServerSdk/1.0',
-            'Date' : new DateUtils().getDate()
-        }
-        return header;
+    getHeaders(options) {
+      let headers = {
+        'user-agent': 'TrusonaServerSdk/1.0',
+        'date' : new DateUtils().getDate()
+      }
+
+      if (options.body) {
+        headers['content-type'] = 'application/json'
+      }
+
+      return headers
     }
 }
 

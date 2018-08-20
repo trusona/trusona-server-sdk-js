@@ -43,6 +43,19 @@ class Trusona {
 
     return request(options);
   }
+
+  getDevice(deviceIdentifier) {
+    const options = this.requestHelper.getSignedRequest({
+      url: `https://api.staging.trusona.net/api/v2/devices/${deviceIdentifier}`,
+      method: 'GET',
+      transform : (body, response, resolveWithFullResponse) => {
+        body.active = body.is_active;
+        return body;
+      }
+    });
+
+    return request(options);
+  }
 }
 
 module.exports = Trusona

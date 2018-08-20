@@ -1,5 +1,6 @@
 const url = require('url');
 const crypto = require('crypto')
+const qs = require('qs')
 
 class RequestHmacMessage {
     constructor(options) {
@@ -8,14 +9,27 @@ class RequestHmacMessage {
 
     getHmacMessage() {
       const requestUri = url.parse(this.options.url);
-
+      const body = this.options.body || ''
       return {
-        bodyDigest: crypto.createHash('md5').update(this.options.body).digest('hex'),
-        requestUri: requestUri.pathname, // TODO: include query string for GET requests
-        contentType: this.options.headers['Content-Type'],
-        date: this.options.headers['Date'],
+        bodyDigest: crypto.createHash('md5').update(body).digest('hex'),
+        requestUri: this.getRequestUri(this.options, requestUri),
+        contentType: this.getContentType(),
+        date: this.options.headers['date'],
         method: this.options.method
       }
     }
+
+    getRequestUri(options, requestUri){
+      if (options.qs) {
+        return `${requestUri.pathname}?${qs.parse(options.qs)}`
+      }else{
+        return requestUri.pathname;
+      }
+    }
+
+    getContentType(){
+      return this.options.headers['content-type'] || ''
+    }
+
   }
   module.exports = RequestHmacMessage

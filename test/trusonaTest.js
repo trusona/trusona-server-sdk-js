@@ -57,6 +57,20 @@ describe('Trusona', () => {
     })
   })
 
+  describe('getUserDevice', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+      .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+    })
+
+    it('should get a user device', async () => {
+      const response = await trusona.getDevice(activeDevice.device_identifier)
+      assert.isTrue(response.active)
+    })
+  })
+
   describe('Creating an Essential Trusonafication', () => {
     let activeDevice
 
@@ -140,5 +154,3 @@ describe('Trusona', () => {
     })
   })
 })
-
-
