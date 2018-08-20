@@ -1,5 +1,6 @@
 const url = require('url');
 const crypto = require('crypto')
+const qs = require('qs')
 
 class RequestHmacMessage {
     constructor(options) {
@@ -21,15 +22,15 @@ class RequestHmacMessage {
     }
 
     getRequestUri(options, requestUri){
-      if(options.body === nil){
-        return requestUri.pathname
+      if (options.qs) {
+        return `${requestUri.pathname}?${qs.parse(options.qs)}`
       }else{
-        return requestUri.query;
+        return requestUri.pathname;
       }
     }
 
     getContentType(){
-      return this.response.headers['content-type'] || ''
+      return this.options.headers['content-type'] || ''
     }
     
   }
