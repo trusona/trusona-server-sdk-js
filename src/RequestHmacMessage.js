@@ -9,11 +9,9 @@ class RequestHmacMessage {
 
     getHmacMessage() {
       const requestUri = url.parse(this.options.url);
-
+      const body = this.options.body || ''
       return {
-        bodyDigest: crypto.createHash('md5').update(this.options.body).digest('hex'),
-
-
+        bodyDigest: crypto.createHash('md5').update(body).digest('hex'),
         requestUri: this.getRequestUri(this.options, requestUri),
         contentType: this.getContentType(),
         date: this.options.headers['date'],
