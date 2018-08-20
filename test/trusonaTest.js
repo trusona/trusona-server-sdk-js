@@ -76,13 +76,13 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-      .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+      .then((inactiveDevice)  => trusona.activateUserDevice(inactiveDevice.activation_code))
+      await trusona.deactivateUser(activeDevice.user_identifier)
     })
 
     it('should deactivate a user device', async () => {
-      const response = await trusona.deactivateUser(activeDevice.user_identifier)
-      console.log(response)
-      assert.isTrue(response.active)
+      const response = await trusona.getDevice(activeDevice.device_identifier)
+      assert.isFalse(response.active)
     })
   })
 
