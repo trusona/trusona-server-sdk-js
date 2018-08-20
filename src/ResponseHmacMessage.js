@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const qs = require('qs')
 
 class ResponseHmacMessage {
     constructor(response) {
@@ -6,26 +7,24 @@ class ResponseHmacMessage {
     }
 
     getHmacMessage() {
-      console.log(this.response.request.method)
       return {
         bodyDigest: crypto.createHash('md5').update(this.response.body).digest('hex'),
-        requestUri: this.getRequestUri(this.response.request.method),
-        contentType: this.getContentType(this.response.request.method),
+        requestUri: this.response.request.uri.pathname,
+        contentType: this.response.headers['content-type'],
         date: this.response.headers['x-date'],
         method: this.response.request.method
       };
     }
 
-    getRequestUri(method){
-      if(method === 'GET'){
-        console.log(this.response.request.uri.pathname.query)
-        return this.response.request.query;
+    getRequestUri(){
+      if (this.response.qs) {
+        return `${this.response.request.uri.pathname}?${qs.parse(this.response.qs)}`
       }else{
         return this.response.request.uri.pathname
       }
     }
 
-    getContentType(method){
+    getContentType(){
       return this.response.headers['content-type'] || ''
     }
   }
