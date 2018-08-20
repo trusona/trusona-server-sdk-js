@@ -106,7 +106,6 @@ describe('Trusona', () => {
     })
   })
 
-
   describe('Creating an Essential Trusonafication, without user presence or a prompt', () => {
     let activeDevice
 
@@ -170,9 +169,16 @@ describe('Trusona', () => {
   })
 
   describe('Getting an identity document', () => {
+      let document
+  
+      beforeEach(async () => {
+        document = await trusona.createUserDevice(uuid(), fauxDevice.id)
+            .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+            .then((activeDevice) => trusona.registerAamvaDriversLicense(activeDevice.device_identifier))
+      })
+
     it('should get an identity document based on the provided document id', async () => {
-      const response = await trusona.getIdentityDocument(uuid());
-      console.log(response)
+      const response = await trusona.getIdentityDocument(document.id);
       assert.exists(response.id);
     });
   });
@@ -187,16 +193,7 @@ describe('Trusona', () => {
 
     it('should find identity documents', async () => {
       const response = await trusona.findIdentityDocuments(activeDevice.user_identifier)
-      console.log(response)
       assert.isTrue(response.id)
     })
   })
-
-  describe('registerAamvaDriversLicense', () => {
-    it('should bind a user identifier to a device', async () => {
-      const response = await trusona.registerAamvaDriversLicense(uuid());
-      console.log(response)
-      assert.exists(response.id);
-    });
-  });
 })
