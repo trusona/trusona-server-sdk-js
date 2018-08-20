@@ -38,7 +38,7 @@ class RequestHelper {
         const requestHmacMessage = new RequestHmacMessage(options)
         const signature = signatureGenerator.getSignature(requestHmacMessage, this.secret)
 
-        options.headers['Authorization'] = `TRUSONA ${this.token}:${signature}`
+        options.headers['authorization'] = `TRUSONA ${this.token}:${signature}`
         return options
       }
 
