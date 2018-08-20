@@ -37,14 +37,14 @@ describe('Trusona', () => {
     fauxDevice = await createFauxDevice();
   });
 
-  describe('createUserDevice', () => {
+  describe('Creating an user device', () => {
     it('should bind a user identifier to a device', async () => {
       const response = await trusona.createUserDevice(uuid(), fauxDevice.id);
       assert.exists(response.activation_code);
     });
   });
 
-  describe('activateUserDevice', () => {
+  describe('Activating an user device', () => {
     let inactiveDevice
 
     beforeEach(async () => {
@@ -57,7 +57,7 @@ describe('Trusona', () => {
     })
   })
 
-  describe('getUserDevice', () => {
+  describe('Getting an user device', () => {
     let activeDevice
 
     beforeEach(async () => {
@@ -67,6 +67,21 @@ describe('Trusona', () => {
 
     it('should get a user device', async () => {
       const response = await trusona.getDevice(activeDevice.device_identifier)
+      assert.isTrue(response.active)
+    })
+  })
+
+  describe('Deactivating an user device', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+      .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+    })
+
+    it('should deactivate a user device', async () => {
+      const response = await trusona.deactivateUser(activeDevice.user_identifier)
+      console.log(response)
       assert.isTrue(response.active)
     })
   })
@@ -153,4 +168,28 @@ describe('Trusona', () => {
       assert.exists(response.id)
     })
   })
+
+  describe('Getting an identity document', () => {
+    it('should get an identity document based on the provided document id', async () => {
+      const response = await trusona.getIdentityDocument(uuid());
+      console.log(response)
+      assert.exists(response.id);
+    });
+  });
+
+  describe('Finding identity documents', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+      .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+    })
+
+    it('should find identity documents', async () => {
+      const response = await trusona.findIdentityDocuments(activeDevice.user_identifier)
+      console.log(response)
+      assert.isTrue(response.id)
+    })
+  })
+
 })
