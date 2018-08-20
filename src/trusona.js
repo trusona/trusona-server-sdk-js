@@ -82,19 +82,23 @@ class Trusona {
     const options = this.requestHelper.getSignedRequest({
       url: `https://api.staging.trusona.net/api/v2/identity_documents/`,
       method: 'GET',
-      transform : (body, response, resolveWithFullResponse) => {
-        body.active = body.is_active;
-        return body;
-      },
       query: userIdentifier
     });
 
     return request(options);
   }
   
-
-  
-  
+  registerAamvaDriversLicense(device_identifier){
+    const options = this.requestHelper.getSignedRequest({
+      url: `https://api.staging.trusona.net/${device_identifier}/api/v2/identity_documents`,
+      method: 'POST',
+      body: {
+        'hash': "hash",
+        'type': 'AAMVA_DRIVERS_LICENSE'
+      }
+    });
+   return request(options);
+  }
 }
 
 module.exports = Trusona

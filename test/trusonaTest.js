@@ -192,4 +192,11 @@ describe('Trusona', () => {
     })
   })
 
+  describe('registerAamvaDriversLicense', () => {
+    it('should bind a user identifier to a device', async () => {
+      const response = await trusona.registerAamvaDriversLicense(uuid());
+      console.log(response)
+      assert.exists(response.id);
+    });
+  });
 })
