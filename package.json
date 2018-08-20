@@ -6,7 +6,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha"
+    "test": "mocha --timeout 5000"
   },
   "dependencies": {
     "dateformat": "^3.0.3",
