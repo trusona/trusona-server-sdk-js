@@ -56,6 +56,7 @@ class RequestHelper {
 
       if (options.body) {
         headers['content-type'] = 'application/json'
+        headers['Accept'] = 'application/json'
       }
 
       return headers
