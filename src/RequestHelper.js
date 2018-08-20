@@ -29,7 +29,7 @@ class RequestHelper {
           const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
           if(response.headers['x-signature'] === signature){
-            return originalTransform(JSON.parse(body), response, resolveWithFullResponse);
+            return originalTransform(body ? JSON.parse(body) : body, response, resolveWithFullResponse);
           }else{
             throw new Error('The response signature failed validation');
           }
