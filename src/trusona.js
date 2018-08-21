@@ -56,6 +56,37 @@ class Trusona {
 
     return request(options);
   }
+
+  deactivateUser(userIdentifier){
+    const options = this.requestHelper.getSignedRequest({
+      url: `https://api.staging.trusona.net/api/v2/users/${userIdentifier}`,
+      method: 'DELETE' });
+
+    return request(options);
+  }
+
+  getIdentityDocument(document_id) {
+    const options = this.requestHelper.getSignedRequest({
+      url: `https://api.staging.trusona.net/api/v2/identity_documents/${document_id}`,
+      method: 'GET',
+      transform : (body, response, resolveWithFullResponse) => {
+        body.active = body.is_active;
+        return body;
+      }
+    });
+
+    return request(options);
+  }
+
+  findIdentityDocuments(userIdentifier) {
+    const options = this.requestHelper.getSignedRequest({
+      url: `https://api.staging.trusona.net/api/v2/identity_documents/`,
+      method: 'GET',
+      query: userIdentifier
+    });
+
+    return request(options);
+  }
 }
 
 module.exports = Trusona

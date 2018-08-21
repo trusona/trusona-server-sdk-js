@@ -21,7 +21,7 @@ class RequestHmacMessage {
 
     getRequestUri(options, requestUri){
       if (options.qs) {
-        return `${requestUri.pathname}?${qs.parse(options.qs)}`
+        return `${requestUri.pathname}?${qs.stringify(options.qs)}`
       }else{
         return requestUri.pathname;
       }

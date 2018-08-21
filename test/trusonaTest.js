@@ -37,14 +37,14 @@ describe('Trusona', () => {
     fauxDevice = await createFauxDevice();
   });
 
-  describe('createUserDevice', () => {
+  describe('Creating an user device', () => {
     it('should bind a user identifier to a device', async () => {
       const response = await trusona.createUserDevice(uuid(), fauxDevice.id);
       assert.exists(response.activation_code);
     });
   });
 
-  describe('activateUserDevice', () => {
+  describe('Activating an user device', () => {
     let inactiveDevice
 
     beforeEach(async () => {
@@ -57,7 +57,7 @@ describe('Trusona', () => {
     })
   })
 
-  describe('getUserDevice', () => {
+  describe('Getting an user device', () => {
     let activeDevice
 
     beforeEach(async () => {
@@ -68,6 +68,21 @@ describe('Trusona', () => {
     it('should get a user device', async () => {
       const response = await trusona.getDevice(activeDevice.device_identifier)
       assert.isTrue(response.active)
+    })
+  })
+
+  describe('Deactivating a user', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+      .then((inactiveDevice)  => trusona.activateUserDevice(inactiveDevice.activation_code))
+      await trusona.deactivateUser(activeDevice.user_identifier)
+    })
+
+    it('should deactivate a user device', async () => {
+      const response = await trusona.getDevice(activeDevice.device_identifier)
+      assert.isFalse(response.active)
     })
   })
 
@@ -90,7 +105,6 @@ describe('Trusona', () => {
       assert.exists(response.id)
     })
   })
-
 
   describe('Creating an Essential Trusonafication, without user presence or a prompt', () => {
     let activeDevice
@@ -153,4 +167,58 @@ describe('Trusona', () => {
       assert.exists(response.id)
     })
   })
+
+
+  class RegisterDriversLicenseHelper {
+    registerAamvaDriversLicense(device_identifier){
+      const options = {
+        url: `https://buster.staging.trusona.net/faux_devices/${device_identifier}/api/v2/identity_documents`,
+        method: 'POST',
+        json: true,
+        body: {
+          'hash': "hash",
+          'type': 'AAMVA_DRIVERS_LICENSE'
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        auth: {
+          user: process.env.BUSTER_USERNAME,
+          pass: process.env.BUSTER_PASSWORD
+        }
+      }
+     return request(options);
+    }
+  }
+
+  describe('Getting an identity document', () => {
+      let document
+  
+      beforeEach(async () => {
+        document = await trusona.createUserDevice(uuid(), fauxDevice.id)
+            .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+            .then((activeDevice) => new RegisterDriversLicenseHelper().registerAamvaDriversLicense(activeDevice.device_identifier))
+      })
+
+    it('should get an identity document based on the provided document id', async () => {
+      const response = await trusona.getIdentityDocument(document.id);
+      assert.exists(response.id);
+    });
+  });
+
+  // describe('Finding identity documents', () => {
+  //   let activeDevice
+
+  //   beforeEach(async () => {
+  //     activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+  //     .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+  //     await trusona.registerAamvaDriversLicense(activeDevice.device_identifier)
+  //   })
+
+  //   it('should find identity documents', async () => {
+  //     const response = await trusona.findIdentityDocuments(activeDevice.user_identifier)
+  //     assert.exists(response.id)
+  //   })
+  // })
 })

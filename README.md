@@ -1,4 +1,4 @@
-# trusona-server-sdk-js
+# trusona-server-sdk-js (in progress)
 
 ## Pending Tasks
 
@@ -15,3 +15,4 @@
 6. Making production the default environment
 7. Make responses only validate the signature if it was successful
 8. Improve error handling
+9. Create docs
