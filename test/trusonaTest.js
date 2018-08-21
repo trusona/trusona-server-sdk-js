@@ -71,7 +71,7 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Deactivating an user device', () => {
+  describe('Deactivating a user', () => {
     let activeDevice
 
     beforeEach(async () => {
@@ -168,13 +168,37 @@ describe('Trusona', () => {
     })
   })
 
+
+  class RegisterDriversLicenseHelper {
+    registerAamvaDriversLicense(device_identifier){
+      const options = {
+        url: `https://buster.staging.trusona.net/faux_devices/${device_identifier}/api/v2/identity_documents`,
+        method: 'POST',
+        json: true,
+        body: {
+          'hash': "hash",
+          'type': 'AAMVA_DRIVERS_LICENSE'
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        auth: {
+          user: process.env.BUSTER_USERNAME,
+          pass: process.env.BUSTER_PASSWORD
+        }
+      }
+     return request(options);
+    }
+  }
+
   describe('Getting an identity document', () => {
       let document
   
       beforeEach(async () => {
         document = await trusona.createUserDevice(uuid(), fauxDevice.id)
             .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
-            .then((activeDevice) => trusona.registerAamvaDriversLicense(activeDevice.device_identifier))
+            .then((activeDevice) => new RegisterDriversLicenseHelper().registerAamvaDriversLicense(activeDevice.device_identifier))
       })
 
     it('should get an identity document based on the provided document id', async () => {

@@ -87,27 +87,6 @@ class Trusona {
 
     return request(options);
   }
-  
-  registerAamvaDriversLicense(device_identifier){
-    const options = {
-      url: `https://buster.staging.trusona.net/faux_devices/${device_identifier}/api/v2/identity_documents`,
-      method: 'POST',
-      json: true,
-      body: {
-        'hash': "hash",
-        'type': 'AAMVA_DRIVERS_LICENSE'
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      auth: {
-        user: process.env.BUSTER_USERNAME,
-        pass: process.env.BUSTER_PASSWORD
-      }
-    }
-   return request(options);
-  }
 }
 
 module.exports = Trusona
