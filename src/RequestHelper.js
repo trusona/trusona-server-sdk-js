@@ -5,12 +5,14 @@ const DateUtils = require('./DateUtils');
 
 class RequestHelper {
 
-    constructor(token, secret) {
+    constructor(token, secret, baseUrl) {
         this.token = token
         this.secret = secret
+        this.baseUrl = baseUrl
     }
 
     getSignedRequest(options) {
+        options.baseUrl = this.baseUrl
         options.headers = this.getHeaders(options);
         options.json = false
         options.body = JSON.stringify(options.body)
@@ -43,7 +45,8 @@ class RequestHelper {
       }
 
     getRequest(options){
-        options.headers = this.getHeaders();
+        options.baseUrl = this.baseUrl
+        options.headers = this.getHeaders()
         options.json = true
         return options
     }
