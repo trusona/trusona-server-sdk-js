@@ -5,12 +5,12 @@ class Trusona {
   constructor(token, secret) {
     this.token = token
     this.secret = secret
-    this.requestHelper = new RequestHelper(this.token, this.secret);
+    this.requestHelper = new RequestHelper(this.token, this.secret, 'https://api.staging.trusona.net');
   }
 
   createUserDevice(userIdentifier, deviceIdentifier) {
     const options = this.requestHelper.getSignedRequest({
-      url: 'https://api.staging.trusona.net/api/v2/user_devices',
+      url: '/api/v2/user_devices',
       method: 'POST',
       transform : (body, response, resolveWithFullResponse) => {
         body.activation_code = body.id;
@@ -26,7 +26,7 @@ class Trusona {
 
   activateUserDevice(activationCode) {
     const options = this.requestHelper.getSignedRequest({
-      url: `https://api.staging.trusona.net/api/v2/user_devices/${activationCode}`,
+      url: `/api/v2/user_devices/${activationCode}`,
       method: 'PATCH',
       body: { active: true }
     });
@@ -36,7 +36,7 @@ class Trusona {
 
   createTrusonafication(trusonafication) {
     const options = this.requestHelper.getSignedRequest({
-      url: `https://api.staging.trusona.net/api/v2/trusonafications`,
+      url: `/api/v2/trusonafications`,
       method: 'POST',
       body : trusonafication
     });
@@ -46,7 +46,7 @@ class Trusona {
 
   getDevice(deviceIdentifier) {
     const options = this.requestHelper.getSignedRequest({
-      url: `https://api.staging.trusona.net/api/v2/devices/${deviceIdentifier}`,
+      url: `/api/v2/devices/${deviceIdentifier}`,
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
         body.active = body.is_active;
@@ -59,7 +59,7 @@ class Trusona {
 
   deactivateUser(userIdentifier){
     const options = this.requestHelper.getSignedRequest({
-      url: `https://api.staging.trusona.net/api/v2/users/${userIdentifier}`,
+      url: `/api/v2/users/${userIdentifier}`,
       method: 'DELETE' });
 
     return request(options);
@@ -67,7 +67,7 @@ class Trusona {
 
   getIdentityDocument(document_id) {
     const options = this.requestHelper.getSignedRequest({
-      url: `https://api.staging.trusona.net/api/v2/identity_documents/${document_id}`,
+      url: `/api/v2/identity_documents/${document_id}`,
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
         body.active = body.is_active;
@@ -80,9 +80,9 @@ class Trusona {
 
   findIdentityDocuments(userIdentifier) {
     const options = this.requestHelper.getSignedRequest({
-      url: `https://api.staging.trusona.net/api/v2/identity_documents/`,
+      url: `/api/v2/identity_documents`,
       method: 'GET',
-      query: userIdentifier
+      qs: { user_identifier: userIdentifier }
     });
 
     return request(options);

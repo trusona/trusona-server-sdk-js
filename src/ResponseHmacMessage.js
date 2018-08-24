@@ -23,9 +23,5 @@ class ResponseHmacMessage {
         return this.response.request.uri.pathname
       }
     }
-    
-    getContentType(){
-      return this.response.headers['content-type'] || ''
-    }
   }
   module.exports = ResponseHmacMessage
