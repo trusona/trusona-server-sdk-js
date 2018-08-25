@@ -2,13 +2,14 @@ const HmacSignatureGenerator = require('./HmacSignatureGenerator');
 const RequestHmacMessage = require('./RequestHmacMessage')
 const ResponseHmacMessage = require('./ResponseHmacMessage');
 const DateUtils = require('./DateUtils');
+const Environment = require('./Environment')
 
 class RequestHelper {
 
-    constructor(token, secret, baseUrl) {
+    constructor(token, secret, env) {
         this.token = token
         this.secret = secret
-        this.baseUrl = baseUrl
+        this.baseUrl = Environment.getEnvironment(env)
     }
 
     getSignedRequest(options) {

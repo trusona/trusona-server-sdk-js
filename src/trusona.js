@@ -1,11 +1,18 @@
 const request = require('request-promise');
 const RequestHelper = require('./RequestHelper');
 
+const UAT = "uat";
+
 class Trusona {
-  constructor(token, secret) {
+
+  constructor(token, secret, env) {
     this.token = token
     this.secret = secret
-    this.requestHelper = new RequestHelper(this.token, this.secret, 'https://api.staging.trusona.net');
+    this.requestHelper = new RequestHelper(this.token, this.secret, env);
+  }
+
+  static get UAT() {
+    return UAT;
   }
 
   createUserDevice(userIdentifier, deviceIdentifier) {
