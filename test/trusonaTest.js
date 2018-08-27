@@ -15,7 +15,7 @@ describe('Trusona', () => {
   let fauxDevice
 
   beforeEach(async () => {
-    trusona = new Trusona(token, secret)
+    trusona = new Trusona(token, secret, Trusona.UAT)
     fauxDevice = await FauxDevice.create()
   });
 

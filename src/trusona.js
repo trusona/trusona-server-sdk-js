@@ -1,13 +1,24 @@
 const request = require('request-promise');
 const RequestHelper = require('./RequestHelper');
 
+const UAT = "uat";
+const PRODUCTION = "production";
+
 class Trusona {
-  constructor(token, secret) {
+
+  constructor(token, secret, env) {
     this.token = token
     this.secret = secret
-    this.requestHelper = new RequestHelper(this.token, this.secret, 'https://api.staging.trusona.net');
+    this.requestHelper = new RequestHelper(this.token, this.secret, env);
   }
 
+  static get UAT() {
+    return UAT;
+  }
+
+  static get PRODUCTION() {
+    return PRODUCTION;
+  }
   createUserDevice(userIdentifier, deviceIdentifier) {
     const options = this.requestHelper.getSignedRequest({
       url: '/api/v2/user_devices',
