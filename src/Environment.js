@@ -1,12 +1,11 @@
+const config = {
+    production: 'https://api.trusona.net',
+    uat: 'https://api.staging.trusona.net'
+  }
+
 class Environment{
 
-    static getEnvironment(env){
-
-        const config = {
-            production: 'https://api.trusona.net',
-            uat: 'https://api.staging.trusona.net'
-          }
-    
+    static getEnvironment(env){    
           return config[env] || config.production
     }
 }
