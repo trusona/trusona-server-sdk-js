@@ -98,6 +98,14 @@ class Trusona {
 
     return request(options);
   }
+
+  getPairedTruCode(trucode_id){
+    const options = this.requestHelper.getSignedRequest({
+      url: `/api/v2/paired_trucodes/${trucode_id}`,
+      method: 'GET'
+    });
+    return request(options)
+  }
 }
 
 module.exports = Trusona
