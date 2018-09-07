@@ -180,4 +180,11 @@ describe('Trusona', () => {
       assert.equal(response[0].hash, 'hash2')
     })
   })
+
+  // describe('Getting a paired trucode by polling', () => {
+  //   it('should get a paired trucode by polling', async () => {
+  //     const response = await trusona.getPairedTruCode(uuid(), 100);
+  //     assert.exists(response.id);
+  //   });
+  // });
 })

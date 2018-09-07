@@ -1,6 +1,6 @@
 const request = require('request-promise');
 const RequestHelper = require('./RequestHelper');
-
+const promisePoller = require('promise-poller')
 const UAT = "uat";
 const PRODUCTION = "production";
 
@@ -105,6 +105,14 @@ class Trusona {
       method: 'GET'
     });
     return request(options)
+  }
+
+  getPairedTruCode(trucode_id, timeout){
+    promisePoller({
+      taskFn: this.getPairedTruCode(trucode_id),
+      interval: 5000,
+      timeout: timeout
+    });
   }
 }
 
