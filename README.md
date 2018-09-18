@@ -6,11 +6,7 @@
 	- Create a test
 2. Rendering a TruCode
 	- trusona.getWebSdkConfig()
-3. Toggle to handle multiple envirioments
-4. Getting a paired trucode
-	- one-time request
+3. Getting a paired trucode
 	- polling until it is paired
-5. Making production the default environment
-6. Make responses only validate the signature if it was successful
-7. Improve error handling
-8. Create docs
+4. Improve error handling
+5. Create docs
