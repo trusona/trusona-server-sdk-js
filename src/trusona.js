@@ -107,9 +107,9 @@ class Trusona {
     return request(options)
   }
 
-  getPairedTruCode(trucode_id, timeout){
+  pollForPairedTruCode(trucode_id, timeout){
     promisePoller({
-      taskFn: this.getPairedTruCode(trucode_id),
+      taskFn: this.getPairedTruCode.bind(this, trucode_id),
       interval: 5000,
       timeout: timeout
     });
