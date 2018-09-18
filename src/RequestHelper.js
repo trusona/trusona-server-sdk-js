@@ -30,8 +30,6 @@ class RequestHelper {
         options.transform = (body, response, resolveWithFullResponse) => {
 
           if(response.statusCode.toString().startsWith(2)){
-            console.log(response.statusCode)
-
             const responseHmacMessage = new ResponseHmacMessage(response);
             const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
