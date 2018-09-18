@@ -152,7 +152,6 @@ describe('Trusona', () => {
     })
   })
 
-
   describe('Getting an identity document', () => {
     let document
 
@@ -184,26 +183,16 @@ describe('Trusona', () => {
   })
 
   describe('Getting a paired trucode by request', () => {
-    let trucode_id
-    const RELYING_PARTY_ID = '0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e'
+    let trucode
 
     beforeEach(async () => {
-      let trucode = await FauxWebClient.createTruCode()
-      console.log(trucode)
-      trucode_id = await FauxMobileClient.pairTruCode(RELYING_PARTY_ID, trucode.payload)
-      console.log(trucode_id)
+      trucode = await FauxWebClient.createTruCode()
+      await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
     })
 
     it('should get a paired trucode by request', async () => {
-      const response = await trusona.getPairedTruCode(trucode_id)
-      assert.exists(response.id)
+      const response = await trusona.getPairedTruCode(trucode.id)
+      assert.equal(response.identifier, 'deviceIdentifier')
     })
   })
-
-  // describe('Getting a paired trucode by polling', () => {
-  //   it('should get a paired trucode by polling', async () => {
-  //     const response = await trusona.getPairedTruCode(uuid(), 100);
-  //     assert.exists(response.id);
-  //   });
-  // });
 })
