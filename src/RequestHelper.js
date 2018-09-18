@@ -28,13 +28,18 @@ class RequestHelper {
           }
         }
         options.transform = (body, response, resolveWithFullResponse) => {
-          const responseHmacMessage = new ResponseHmacMessage(response);
-          const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
-          if(response.headers['x-signature'] === signature){
-            return originalTransform(body ? JSON.parse(body) : body, response, resolveWithFullResponse);
-          }else{
-            throw new Error('The response signature failed validation');
+          if(response.statusCode.toString().startsWith(2)){
+            console.log(response.statusCode)
+
+            const responseHmacMessage = new ResponseHmacMessage(response);
+            const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
+
+            if(response.headers['x-signature'] === signature){
+              return originalTransform(body ? JSON.parse(body) : body, response, resolveWithFullResponse);
+            }else{
+              throw new Error('The response signature failed validation');
+            }
           }
         }
 
