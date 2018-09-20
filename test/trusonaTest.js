@@ -6,6 +6,8 @@ const uuid = require('uuid/v4')
 const FauxDevice = require('./FauxDevice')
 const Trusona = require('../src/trusona')
 const Trusonafication = require('../src/Trusonafication')
+const FauxWebClient = require('./FauxWebClient')
+const FauxMobileClient = require('./FauxMobileClient')
 
 const token = process.env.TRUSONA_TOKEN
 const secret = process.env.TRUSONA_SECRET
@@ -150,7 +152,6 @@ describe('Trusona', () => {
     })
   })
 
-
   describe('Getting an identity document', () => {
     let document
 
@@ -178,6 +179,20 @@ describe('Trusona', () => {
     it('should find identity documents', async () => {
       const response = await trusona.findIdentityDocuments(activeDevice.user_identifier)
       assert.equal(response[0].hash, 'hash2')
+    })
+  })
+
+  describe('Getting a paired trucode by request', () => {
+    let trucode
+
+    beforeEach(async () => {
+      trucode = await FauxWebClient.createTruCode()
+      await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
+    })
+
+    it('should get a paired trucode by request', async () => {
+      const response = await trusona.getPairedTruCode(trucode.id)
+      assert.equal(response.identifier, 'deviceIdentifier')
     })
   })
 })
