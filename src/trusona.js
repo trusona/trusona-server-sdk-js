@@ -7,7 +7,7 @@ const UAT = "uat";
 const PRODUCTION = "production"
 
 class Trusona {
-  
+
   constructor(token, secret, env) {
     this.apiCredentials = new ApiCredentials(token, secret)
     this.requestHelper = new RequestHelper(token, secret, env)
@@ -122,7 +122,7 @@ class Trusona {
     if(parsedToken === null){
       console.log("The provided access token is invalid. Please check your configuration")
     }else{
-      const webSdkConfig = new WebSdkConfig(this.requestHelper.baseUrl, parsedToken)
+      const webSdkConfig = new WebSdkConfig(this.requestHelper.baseUrl, parsedToken.sub)
     return JSON.stringify(webSdkConfig)
     }
   } 
