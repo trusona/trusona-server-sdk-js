@@ -1,5 +1,5 @@
 const request = require('request-promise')
-const promisePoller = require('promise-poller')
+const promisePoller = require('promise-poller').default;
 const RequestHelper = require('./RequestHelper')
 const ApiCredentials = require('./ApiCredentials')
 const WebSdkConfig = require('./WebSdkConfig')
@@ -110,7 +110,7 @@ class Trusona {
   }
 
   pollForPairedTruCode(trucode_id, timeout){
-    promisePoller({
+    return promisePoller({
       taskFn: this.getPairedTruCode.bind(this, trucode_id),
       interval: 5000,
       timeout: timeout
