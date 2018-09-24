@@ -27,7 +27,10 @@ describe('Trusona', () => {
       const fakeSecret = "secret"
       const fakeTrusona = new Trusona(fakeToken, fakeSecret, Trusona.UAT)
       const webSdkConfig = fakeTrusona.getWebSdkConfig();
-      assert.exists(webSdkConfig);
+      const parsedWebSdkConfig = JSON.parse(webSdkConfig)
+      assert.equal(parsedWebSdkConfig.truCodeUrl, "https://api.staging.trusona.net");
+      assert.equal(parsedWebSdkConfig.relyingPartyId, "0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e");
+      
     });
   });
 
