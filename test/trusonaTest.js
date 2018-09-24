@@ -208,4 +208,18 @@ describe('Trusona', () => {
       assert.equal(response.identifier, 'deviceIdentifier')
     })
   })
+
+  describe('Getting a paired trucode by polling', () => {
+    let trucode
+
+    beforeEach(async () => {
+      trucode = await FauxWebClient.createTruCode()
+      await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
+    })
+
+    it('should get a paired trucode by polling', async () => {
+      trusona.pollForPairedTruCode(trucode.id, 1000).then(response =>
+        assert.equal(response.identifier, 'deviceIdentifier'));
+    })
+  })
 })
