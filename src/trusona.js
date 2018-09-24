@@ -1,15 +1,16 @@
-const request = require('request-promise');
-const RequestHelper = require('./RequestHelper');
+const request = require('request-promise')
 const promisePoller = require('promise-poller')
+const RequestHelper = require('./RequestHelper')
+const ApiCredentials = require('./ApiCredentials')
+const WebSdkConfig = require('./WebSdkConfig')
 const UAT = "uat";
-const PRODUCTION = "production";
+const PRODUCTION = "production"
 
 class Trusona {
-
+  
   constructor(token, secret, env) {
-    this.token = token
-    this.secret = secret
-    this.requestHelper = new RequestHelper(this.token, this.secret, env);
+    this.apiCredentials = new ApiCredentials(token, secret)
+    this.requestHelper = new RequestHelper(token, secret, env)
   }
 
   static get UAT() {
@@ -19,6 +20,7 @@ class Trusona {
   static get PRODUCTION() {
     return PRODUCTION;
   }
+
   createUserDevice(userIdentifier, deviceIdentifier) {
     const options = this.requestHelper.getSignedRequest({
       url: '/api/v2/user_devices',
@@ -114,6 +116,16 @@ class Trusona {
       timeout: timeout
     });
   }
+
+  getWebSdkConfig(){
+    var parsedToken = this.apiCredentials.getParsedToken()
+    if(parsedToken === null){
+      console.log("The provided access token is invalid. Please check your configuration")
+    }else{
+      const webSdkConfig = new WebSdkConfig(this.requestHelper.baseUrl, parsedToken)
+    return JSON.stringify(webSdkConfig)
+    }
+  } 
 }
 
 module.exports = Trusona

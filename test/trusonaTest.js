@@ -21,6 +21,16 @@ describe('Trusona', () => {
     fauxDevice = await FauxDevice.create()
   });
 
+  describe('Getting a valid web sdk configuration from Api Credentials', () => {
+    it('Getting a valid web sdk configuration from Api Credentials', async () => {
+      const fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ0cnVhZG1pbi5hcGkudHJ1c29uYS5jb20iLCJzdWIiOiIwZjAzNDhmMC00NmQ2LTQ3YzktYmE0ZC0yZTdjZDdmODJlM2UiLCJhdWQiOiJhcGkudHJ1c29uYS5jb20iLCJleHAiOjE1MTk4ODU0OTgsImlhdCI6MTQ4ODMyNzg5OCwianRpIjoiNzg4YWYwNzAtNDBiOS00N2MxLWE3ZmUtOGUwZmE1NWUwMDE1IiwiYXRoIjoiUk9MRV9UUlVTVEVEX1JQX0NMSUVOVCJ9.2FNvjG9yB5DFEcNijk8TryRtKVffiDARRcRIb75Z_Pp85MxW63rhzdLFIN6PtQ1Tzb8lHPPM_4YOe-feeLOzWw"
+      const fakeSecret = "secret"
+      const fakeTrusona = new Trusona(fakeToken, fakeSecret, Trusona.UAT)
+      const webSdkConfig = fakeTrusona.getWebSdkConfig();
+      assert.exists(webSdkConfig);
+    });
+  });
+
   describe('Creating an user device', () => {
     it('should bind a user identifier to a device', async () => {
       const response = await trusona.createUserDevice(uuid(), fauxDevice.id);
