@@ -123,7 +123,7 @@ class Trusona {
       console.log("The provided access token is invalid. Please check your configuration")
     }else{
       const webSdkConfig = new WebSdkConfig(this.requestHelper.baseUrl, parsedToken.sub)
-    return JSON.stringify(webSdkConfig)
+      return JSON.stringify(webSdkConfig)
     }
   } 
 }

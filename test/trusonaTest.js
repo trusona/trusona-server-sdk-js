@@ -180,6 +180,28 @@ describe('Trusona', () => {
     });
   });
 
+  describe('Creating an Executive Trusonafication', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+      await fauxDevice.registerAamvaDriversLicense('hash1')
+    })
+
+    it('should create a new executive trusonafication', async () => {
+      const trusonafication = Trusonafication.executive
+        .deviceIdentifier(activeDevice.device_identifier)
+        .action("login")
+        .resource("resource")
+        .build();
+
+      const response = await trusona.createTrusonafication(trusonafication)
+      assert.equal(response.desired_level, 3)
+      assert.equal(response.show_identity_document, true)
+    })
+  })
+
   describe('Finding identity documents', () => {
     let activeDevice
 
