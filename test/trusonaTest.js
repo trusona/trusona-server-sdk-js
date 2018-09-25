@@ -198,6 +198,7 @@ describe('Trusona', () => {
 
       const response = await trusona.createTrusonafication(trusonafication)
       assert.equal(response.desired_level, 3)
+      assert.equal(response.show_identity_document, true)
     })
   })
 
