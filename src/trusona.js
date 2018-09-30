@@ -1,8 +1,10 @@
 const request = require('request-promise')
+const errors = require('request-promise/errors');
 const promisePoller = require('promise-poller').default;
 const RequestHelper = require('./RequestHelper')
 const ApiCredentials = require('./ApiCredentials')
 const WebSdkConfig = require('./WebSdkConfig')
+const CreateUserDeviceErrorHandler = require('./CreateUserDeviceErrorHandler')
 const UAT = "uat";
 const PRODUCTION = "production"
 
@@ -34,7 +36,9 @@ class Trusona {
         'device_identifier': deviceIdentifier
       }
     });
-   return request(options);
+     return request(options).catch(errors.StatusCodeError, error => {
+          return CreateUserDeviceErrorHandler.handleError(error);
+       });
   }
 
   activateUserDevice(activationCode) {
