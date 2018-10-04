@@ -5,6 +5,7 @@ const RequestHelper = require('./RequestHelper')
 const ApiCredentials = require('./ApiCredentials')
 const WebSdkConfig = require('./WebSdkConfig')
 const CreateUserDeviceErrorHandler = require('./CreateUserDeviceErrorHandler')
+const ActivateUserDeviceHandler = require('./ActivateUserDeviceHandler')
 const UAT = "uat";
 const PRODUCTION = "production"
 
@@ -36,9 +37,10 @@ class Trusona {
         'device_identifier': deviceIdentifier
       }
     });
-     return request(options).catch(errors.StatusCodeError, error => {
-          return CreateUserDeviceErrorHandler.handleError(error);
-       });
+    
+    return request(options).catch(errors.StatusCodeError, error => {
+      return CreateUserDeviceErrorHandler.handleError(error)
+    });
   }
 
   activateUserDevice(activationCode) {
@@ -48,7 +50,9 @@ class Trusona {
       body: { active: true }
     });
 
-   return request(options);
+    return request(options).catch(errors.StatusCodeError, error => {
+      return ActivateUserDeviceHandler.handleError(error)
+    });
   }
 
   createTrusonafication(trusonafication) {
