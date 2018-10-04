@@ -3,7 +3,6 @@ const TrusonaError = require('./TrusonaError')
 class GenericErrorHandler {
 
     static handleError(error){
-
         if (error.statusCode == 400) {
             throw new TrusonaError(
                 "The Trusona SDK was unable to fulfill your request do to an error with the SDK. Contact Trusona to determine the issue.");
@@ -19,7 +18,6 @@ class GenericErrorHandler {
             throw new TrusonaError(
               "The server was unable to process your request at this time. Feel free to try your request again later.");
         }
-        //throw new TrusonaError('Generic Error Message ' +  error.statusCode);
     }
 }
 
