@@ -6,6 +6,7 @@ const ApiCredentials = require('./ApiCredentials')
 const WebSdkConfig = require('./WebSdkConfig')
 const CreateUserDeviceErrorHandler = require('./CreateUserDeviceErrorHandler')
 const ActivateUserDeviceHandler = require('./ActivateUserDeviceHandler')
+const GenericErrorHandler = require('./GenericErrorHandler')
 const UAT = "uat";
 const PRODUCTION = "production"
 
@@ -61,7 +62,6 @@ class Trusona {
       method: 'POST',
       body : trusonafication
     });
-
     return request(options);
   }
 
@@ -74,7 +74,6 @@ class Trusona {
         return body;
       }
     });
-
     return request(options);
   }
 
@@ -82,8 +81,7 @@ class Trusona {
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/users/${userIdentifier}`,
       method: 'DELETE' });
-
-    return request(options);
+      return request(options); //TODO: Confirm with Ryan how the UserNotFoundException is being called in java land. 
   }
 
   getIdentityDocument(document_id) {
@@ -96,7 +94,9 @@ class Trusona {
       }
     });
 
-    return request(options);
+    return request(options).catch(errors.StatusCodeError, error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   findIdentityDocuments(userIdentifier) {
@@ -106,7 +106,9 @@ class Trusona {
       qs: { user_identifier: userIdentifier }
     });
 
-    return request(options);
+    return request(options).catch(errors.StatusCodeError, error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   getPairedTruCode(trucode_id){
@@ -114,7 +116,9 @@ class Trusona {
       url: `/api/v2/paired_trucodes/${trucode_id}`,
       method: 'GET'
     });
-    return request(options)
+    return request(options).catch(errors.StatusCodeError, error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   pollForPairedTruCode(trucode_id, timeout){
@@ -122,7 +126,9 @@ class Trusona {
       taskFn: this.getPairedTruCode.bind(this, trucode_id),
       interval: 5000,
       timeout: timeout
-    });
+    }).catch(errors.StatusCodeError, error => {
+      return GenericErrorHandler.handleError(error)
+    });;
   }
 
   getWebSdkConfig(){
