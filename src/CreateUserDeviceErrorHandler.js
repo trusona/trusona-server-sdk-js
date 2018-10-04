@@ -8,7 +8,7 @@ class CreateUserDeviceErrorHandler extends GenericErrorHandler {
         super.handleError(error)
         switch(error.statusCode) {
             case 409:
-                throw new DeviceAlreadyBoundError(
+                throw new DeviceAlreadyBoundError(error.statusCode + " - " +
                     "A different user has already been bound to this device.");
             case 424:
                 throw new DeviceNotFoundError(error.statusCode + " - " +
