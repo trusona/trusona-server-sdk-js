@@ -5,8 +5,10 @@ const RequestHelper = require('./RequestHelper')
 const ApiCredentials = require('./ApiCredentials')
 const WebSdkConfig = require('./WebSdkConfig')
 const CreateUserDeviceErrorHandler = require('./CreateUserDeviceErrorHandler')
-const ActivateUserDeviceHandler = require('./ActivateUserDeviceHandler')
+const TrusonaficationErrorHandler = require('./TrusonaficationErrorHandler')
+const ActivateUserDeviceErrorHandler = require('./ActivateUserDeviceErrorHandler')
 const GenericErrorHandler = require('./GenericErrorHandler')
+const UserErrorHandler = require('./UserErrorHandler')
 const UAT = "uat";
 const PRODUCTION = "production"
 
@@ -52,7 +54,7 @@ class Trusona {
     });
 
     return request(options).catch(errors.StatusCodeError, error => {
-      return ActivateUserDeviceHandler.handleError(error)
+      return ActivateUserDeviceErrorHandler.handleError(error)
     });
   }
 
@@ -62,7 +64,9 @@ class Trusona {
       method: 'POST',
       body : trusonafication
     });
-    return request(options);
+    return request(options).catch(errors.StatusCodeError, error => {
+      return TrusonaficationErrorHandler.handleError(error)
+    });
   }
 
   getDevice(deviceIdentifier) {
@@ -74,14 +78,18 @@ class Trusona {
         return body;
       }
     });
-    return request(options);
+    return request(options).catch(errors.StatusCodeError, error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   deactivateUser(userIdentifier){
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/users/${userIdentifier}`,
       method: 'DELETE' });
-      return request(options); //TODO: Confirm with Ryan how the UserNotFoundException is being called in java land. 
+      return request(options).catch(errors.StatusCodeError, error => {
+        return UserErrorHandler.handleError(error)
+      });
   }
 
   getIdentityDocument(document_id) {
