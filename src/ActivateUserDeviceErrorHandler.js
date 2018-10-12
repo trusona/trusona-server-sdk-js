@@ -1,7 +1,7 @@
 const GenericErrorHandler = require('./GenericErrorHandler')
 const DeviceNotFoundError = require('./DeviceNotFoundError')
 
-class ActivateUserDeviceHandler extends GenericErrorHandler {
+class ActivateUserDeviceErrorHandler extends GenericErrorHandler {
 
     static handleError(error){
         super.handleError(error)
@@ -14,4 +14,4 @@ class ActivateUserDeviceHandler extends GenericErrorHandler {
     }
 }
 
-module.exports = ActivateUserDeviceHandler
+module.exports = ActivateUserDeviceErrorHandler
