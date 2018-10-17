@@ -15,8 +15,9 @@ class GenericErrorHandler {
             //no-op since 404 results in null
         }
         else if (error.statusCode == 422) {
+            var parsedError = JSON.parse(response.error)
             throw new TrusonaError(error.statusCode + " - " +
-                error.message);
+            parsedError.message);
         }
         else if (error.statusCode >= 500 && error.statusCode < 600) {
             throw new TrusonaError(error.statusCode + " - " +
