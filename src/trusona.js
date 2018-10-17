@@ -1,5 +1,4 @@
 const request = require('request-promise')
-const errors = require('request-promise/errors');
 const promisePoller = require('promise-poller').default;
 const RequestHelper = require('./RequestHelper')
 const ApiCredentials = require('./ApiCredentials')
@@ -41,7 +40,7 @@ class Trusona {
       }
     });
     
-    return request(options).catch(errors.StatusCodeError, error => {
+    return request(options).catch(error => {
       return CreateUserDeviceErrorHandler.handleError(error)
     });
   }
@@ -53,7 +52,7 @@ class Trusona {
       body: { active: true }
     });
 
-    return request(options).catch(errors.StatusCodeError, error => {
+    return request(options).catch(error => {
       return ActivateUserDeviceErrorHandler.handleError(error)
     });
   }
@@ -64,7 +63,7 @@ class Trusona {
       method: 'POST',
       body : trusonafication
     });
-    return request(options).catch(errors.StatusCodeError, error => {
+    return request(options).catch(error => {
       return TrusonaficationErrorHandler.handleError(error)
     });
   }
@@ -78,7 +77,7 @@ class Trusona {
         return body;
       }
     });
-    return request(options).catch(errors.StatusCodeError, error => {
+    return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
     });
   }
@@ -87,7 +86,7 @@ class Trusona {
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/users/${userIdentifier}`,
       method: 'DELETE' });
-      return request(options).catch(errors.StatusCodeError, error => {
+      return request(options).catch(error => {
         return UserErrorHandler.handleError(error)
       });
   }
@@ -102,7 +101,7 @@ class Trusona {
       }
     });
 
-    return request(options).catch(errors.StatusCodeError, error => {
+    return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
     });
   }
@@ -114,7 +113,7 @@ class Trusona {
       qs: { user_identifier: userIdentifier }
     });
 
-    return request(options).catch(errors.StatusCodeError, error => {
+    return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
     });
   }
@@ -124,7 +123,7 @@ class Trusona {
       url: `/api/v2/paired_trucodes/${trucode_id}`,
       method: 'GET'
     });
-    return request(options).catch(errors.StatusCodeError, error => {
+    return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
     });
   }
@@ -134,7 +133,7 @@ class Trusona {
       taskFn: this.getPairedTruCode.bind(this, trucode_id),
       interval: 5000,
       timeout: timeout
-    }).catch(errors.StatusCodeError, error => {
+    }).catch(error => {
       return GenericErrorHandler.handleError(error)
     });;
   }
