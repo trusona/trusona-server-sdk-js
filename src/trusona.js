@@ -1,10 +1,13 @@
 const request = require('request-promise')
-const errors = require('request-promise/errors');
 const promisePoller = require('promise-poller').default;
 const RequestHelper = require('./RequestHelper')
 const ApiCredentials = require('./ApiCredentials')
 const WebSdkConfig = require('./WebSdkConfig')
 const CreateUserDeviceErrorHandler = require('./CreateUserDeviceErrorHandler')
+const TrusonaficationErrorHandler = require('./TrusonaficationErrorHandler')
+const ActivateUserDeviceErrorHandler = require('./ActivateUserDeviceErrorHandler')
+const GenericErrorHandler = require('./GenericErrorHandler')
+const UserErrorHandler = require('./UserErrorHandler')
 const UAT = "uat";
 const PRODUCTION = "production"
 
@@ -36,9 +39,10 @@ class Trusona {
         'device_identifier': deviceIdentifier
       }
     });
-     return request(options).catch(errors.StatusCodeError, error => {
-          return CreateUserDeviceErrorHandler.handleError(error);
-       });
+    
+    return request(options).catch(error => {
+      return CreateUserDeviceErrorHandler.handleError(error)
+    });
   }
 
   activateUserDevice(activationCode) {
@@ -48,7 +52,9 @@ class Trusona {
       body: { active: true }
     });
 
-   return request(options);
+    return request(options).catch(error => {
+      return ActivateUserDeviceErrorHandler.handleError(error)
+    });
   }
 
   createTrusonafication(trusonafication) {
@@ -57,8 +63,9 @@ class Trusona {
       method: 'POST',
       body : trusonafication
     });
-
-    return request(options);
+    return request(options).catch(error => {
+      return TrusonaficationErrorHandler.handleError(error)
+    });
   }
 
   getDevice(deviceIdentifier) {
@@ -70,16 +77,18 @@ class Trusona {
         return body;
       }
     });
-
-    return request(options);
+    return request(options).catch(error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   deactivateUser(userIdentifier){
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/users/${userIdentifier}`,
       method: 'DELETE' });
-
-    return request(options);
+      return request(options).catch(error => {
+        return UserErrorHandler.handleError(error)
+      });
   }
 
   getIdentityDocument(document_id) {
@@ -92,7 +101,9 @@ class Trusona {
       }
     });
 
-    return request(options);
+    return request(options).catch(error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   findIdentityDocuments(userIdentifier) {
@@ -102,7 +113,9 @@ class Trusona {
       qs: { user_identifier: userIdentifier }
     });
 
-    return request(options);
+    return request(options).catch(error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   getPairedTruCode(trucode_id){
@@ -110,7 +123,9 @@ class Trusona {
       url: `/api/v2/paired_trucodes/${trucode_id}`,
       method: 'GET'
     });
-    return request(options)
+    return request(options).catch(error => {
+      return GenericErrorHandler.handleError(error)
+    });
   }
 
   pollForPairedTruCode(trucode_id, timeout){
@@ -118,7 +133,9 @@ class Trusona {
       taskFn: this.getPairedTruCode.bind(this, trucode_id),
       interval: 5000,
       timeout: timeout
-    });
+    }).catch(error => {
+      return GenericErrorHandler.handleError(error)
+    });;
   }
 
   getWebSdkConfig(){
