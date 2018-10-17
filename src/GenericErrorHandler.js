@@ -16,7 +16,7 @@ class GenericErrorHandler {
         }
         else if (error.statusCode == 422) {
             throw new TrusonaError(error.statusCode + " - " +
-                "Unprocessable Entity.");
+                error.message);
         }
         else if (error.statusCode >= 500 && error.statusCode < 600) {
             throw new TrusonaError(error.statusCode + " - " +
