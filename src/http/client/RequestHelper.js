@@ -1,9 +1,9 @@
-const HmacSignatureGenerator = require('./HmacSignatureGenerator')
-const ResponseHmacMessage = require('./ResponseHmacMessage')
-const RequestHmacMessage = require('./RequestHmacMessage')
-const TrusonaError = require('./TrusonaError')
-const Environment = require('./Environment')
-const DateUtils = require('./DateUtils')
+const HmacSignatureGenerator = require('./security/HmacSignatureGenerator')
+const ResponseHmacMessage = require('./security/ResponseHmacMessage')
+const RequestHmacMessage = require('./security/RequestHmacMessage')
+const TrusonaError = require('../../resources/error/TrusonaError')
+const Environment = require('./environment/Environment')
+const DateUtils = require('../../resources/util/DateUtils')
 
 class RequestHelper {
 
