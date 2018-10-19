@@ -1,15 +1,17 @@
-const request = require('request-promise')
-const promisePoller = require('promise-poller').default;
-const RequestHelper = require('./http/client/RequestHelper')
-const ApiCredentials = require('./http/client/ApiCredentials')
-const WebSdkConfig = require('./resources/dto/WebSdkConfig')
+const ActivateUserDeviceErrorHandler = require('./resources/handler/ActivateUserDeviceErrorHandler')
 const CreateUserDeviceErrorHandler = require('./resources/handler/CreateUserDeviceErrorHandler')
 const TrusonaficationErrorHandler = require('./resources/handler/TrusonaficationErrorHandler')
-const ActivateUserDeviceErrorHandler = require('./resources/handler/ActivateUserDeviceErrorHandler')
 const GenericErrorHandler = require('./http/client/GenericErrorHandler')
 const UserErrorHandler = require('./resources/handler/UserErrorHandler')
-const UAT = "uat";
+const ApiCredentials = require('./http/client/ApiCredentials')
+const RequestHelper = require('./http/client/RequestHelper')
+const WebSdkConfig = require('./resources/dto/WebSdkConfig')
+const promisePoller = require('promise-poller').default;
+const request = require('request-promise')
+
 const PRODUCTION = "production"
+const UAT = "uat";
+
 
 class Trusona {
 
@@ -38,11 +40,11 @@ class Trusona {
         'user_identifier': userIdentifier,
         'device_identifier': deviceIdentifier
       }
-    });
+    })
     
     return request(options).catch(error => {
       return CreateUserDeviceErrorHandler.handleError(error)
-    });
+    })
   }
 
   activateUserDevice(activationCode) {
@@ -50,11 +52,11 @@ class Trusona {
       url: `/api/v2/user_devices/${activationCode}`,
       method: 'PATCH',
       body: { active: true }
-    });
+    })
 
     return request(options).catch(error => {
       return ActivateUserDeviceErrorHandler.handleError(error)
-    });
+    })
   }
 
   createTrusonafication(trusonafication) {
@@ -62,10 +64,11 @@ class Trusona {
       url: `/api/v2/trusonafications`,
       method: 'POST',
       body : trusonafication
-    });
+    })
+
     return request(options).catch(error => {
       return TrusonaficationErrorHandler.handleError(error)
-    });
+    })
   }
 
   getDevice(deviceIdentifier) {
@@ -74,21 +77,24 @@ class Trusona {
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
         body.active = body.is_active;
-        return body;
+        return body
       }
-    });
+    })
+
     return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
-    });
+    })
   }
 
   deactivateUser(userIdentifier){
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/users/${userIdentifier}`,
-      method: 'DELETE' });
-      return request(options).catch(error => {
-        return UserErrorHandler.handleError(error)
-      });
+      method: 'DELETE' 
+    })
+
+    return request(options).catch(error => {
+      return UserErrorHandler.handleError(error)
+    })
   }
 
   getIdentityDocument(document_id) {
@@ -97,13 +103,13 @@ class Trusona {
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
         body.active = body.is_active;
-        return body;
+        return body
       }
-    });
+    })
 
     return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
-    });
+    })
   }
 
   findIdentityDocuments(userIdentifier) {
@@ -111,21 +117,22 @@ class Trusona {
       url: `/api/v2/identity_documents`,
       method: 'GET',
       qs: { user_identifier: userIdentifier }
-    });
+    })
 
     return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
-    });
+    })
   }
 
   getPairedTruCode(trucode_id){
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/paired_trucodes/${trucode_id}`,
       method: 'GET'
-    });
+    })
+
     return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
-    });
+    })
   }
 
   pollForPairedTruCode(trucode_id, timeout){
@@ -135,14 +142,14 @@ class Trusona {
       timeout: timeout
     }).catch(error => {
       return GenericErrorHandler.handleError(error)
-    });;
+    })
   }
 
   getWebSdkConfig(){
     var parsedToken = this.apiCredentials.getParsedToken()
     if(parsedToken === null){
       console.log("The provided access token is invalid. Please check your configuration")
-    }else{
+    } else{ 
       const webSdkConfig = new WebSdkConfig(this.requestHelper.baseUrl, parsedToken.sub)
       return JSON.stringify(webSdkConfig)
     }
