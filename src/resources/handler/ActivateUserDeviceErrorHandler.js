@@ -9,7 +9,7 @@ class ActivateUserDeviceErrorHandler extends GenericErrorHandler {
             case 404:
                 throw new DeviceNotFoundError(error.statusCode + " - " +
                     "The device you are attempting to activate does not exist. " +
-                    "You will need to re-register the device and re-bind it to the user to get a new activation code.");
+                    "You will need to re-register the device and re-bind it to the user to get a new activation code.")
         }
     }
 }

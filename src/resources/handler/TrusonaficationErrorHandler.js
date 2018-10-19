@@ -14,11 +14,10 @@ class TrusonaficationErrorHandler extends GenericErrorHandler {
                 }
                 else{
                     throw new TrusonaError(error.statusCode + " - " +
-                    parsedError.description);
+                    parsedError.description)
                 }
             
         }
     }
 }
-
 module.exports = TrusonaficationErrorHandler

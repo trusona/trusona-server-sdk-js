@@ -9,11 +9,11 @@ class CreateUserDeviceErrorHandler extends GenericErrorHandler {
         switch(error.statusCode) {
             case 409:
                 throw new DeviceAlreadyBoundError(error.statusCode + " - " +
-                    "A different user has already been bound to this device.");
+                    "A different user has already been bound to this device.")
             case 424:
                 throw new DeviceNotFoundError(error.statusCode + " - " +
                     "The device you are attempting to bind to a user does not exist. " +
-                    "The device will need to be re-registered with Trusona before attempting to bind it again.");
+                    "The device will need to be re-registered with Trusona before attempting to bind it again.")
         }
     }
 }
