@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config()
 const uuid = require('uuid/v4')
 const FauxDevice = require('./FauxDevice')
 const Trusona = require('../src/trusona')
-const Trusonafication = require('../src/Trusonafication')
+const Trusonafication = require('../src/resources/dto/Trusonafication')
 const FauxWebClient = require('./FauxWebClient')
 const FauxMobileClient = require('./FauxMobileClient')
 
