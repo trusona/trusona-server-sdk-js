@@ -12,6 +12,7 @@ class Trusonafication {
     this.user_presence = trusonaficationBuilder.user_presence
     this.prompt = trusonaficationBuilder.prompt
     this.show_identity_document = trusonaficationBuilder.show_identity_document
+    this.emailAddress = trusonaficationBuilder.emailAddress
 
   }
 
@@ -43,7 +44,7 @@ class TrusonaficationBuilder {
   userIdentifier(user_identifier) {
       this.user_identifier = user_identifier;
       return this;
-   }
+  }
   action(action) {
    this.action = action;
    return this;
@@ -68,6 +69,10 @@ class TrusonaficationBuilder {
    this.user_presence = false;
    return this;
   }
+  emailAddress(emailAddress){
+    this.emailAddress = emailAddress;
+    return this;
+  }
 
   build() {
     return new Trusonafication(this);
@@ -75,7 +80,6 @@ class TrusonaficationBuilder {
 }
 
 class EssentialBuilder extends TrusonaficationBuilder{
-
   constructor() {
     super(2)
   }
