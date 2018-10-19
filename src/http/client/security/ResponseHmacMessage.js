@@ -1,5 +1,4 @@
 const crypto = require('crypto')
-const qs = require('qs')
 
 class ResponseHmacMessage {
   constructor(response) {
