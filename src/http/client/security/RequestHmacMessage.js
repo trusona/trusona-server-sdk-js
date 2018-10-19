@@ -29,6 +29,5 @@ class RequestHmacMessage {
     getContentType(){
       return this.options.headers['content-type'] || ''
     }
-
   }
   module.exports = RequestHmacMessage
