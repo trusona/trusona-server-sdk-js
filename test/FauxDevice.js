@@ -18,6 +18,10 @@ const BUSTER_DEFAULTS = {
 
 class FauxDevice {
 
+  constructor(attributes) {
+    this.id = attributes.id
+  }
+  
   static async requestBuster(options) {
     return request(Object.assign(BUSTER_DEFAULTS, options))
   }
@@ -30,10 +34,6 @@ class FauxDevice {
     })
 
     return new FauxDevice(newDevice)
-  }
-
-  constructor(attributes) {
-    this.id = attributes.id
   }
 
   async sync() {
