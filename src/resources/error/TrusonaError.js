@@ -5,5 +5,4 @@ class TrusonaError extends Error {
         this.name = this.constructor.name;
     }
 }
-
 module.exports = TrusonaError
