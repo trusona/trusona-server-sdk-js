@@ -1,6 +1,6 @@
-const GenericErrorHandler = require('./GenericErrorHandler')
-const NoIdentityDocumentError = require('./NoIdentityDocumentError')
-const TrusonaError = require('./TrusonaError')
+const GenericErrorHandler = require('../../http/client/GenericErrorHandler')
+const NoIdentityDocumentError = require('../error/NoIdentityDocumentError')
+const TrusonaError = require('../error/TrusonaError')
 
 class TrusonaficationErrorHandler extends GenericErrorHandler {
 
@@ -14,11 +14,10 @@ class TrusonaficationErrorHandler extends GenericErrorHandler {
                 }
                 else{
                     throw new TrusonaError(error.statusCode + " - " +
-                    parsedError.description);
+                    parsedError.description)
                 }
             
         }
     }
 }
-
 module.exports = TrusonaficationErrorHandler

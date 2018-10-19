@@ -13,7 +13,6 @@ class Trusonafication {
     this.prompt = trusonaficationBuilder.prompt
     this.show_identity_document = trusonaficationBuilder.show_identity_document
     this.emailAddress = trusonaficationBuilder.emailAddress
-
   }
 
   static get essential() {
@@ -26,72 +25,83 @@ class Trusonafication {
 }
 
 class TrusonaficationBuilder {
+
   constructor(desired_level) {
-     this.desired_level = desired_level;
-     this.prompt = true;
-     this.user_presence = true;
-     this.show_identity_document = false;
+    this.desired_level = desired_level
+    this.prompt = true
+    this.user_presence = true
+    this.show_identity_document = false
   }
 
   deviceIdentifier(device_identifier) {
-     this.device_identifier = device_identifier;
-     return this;
+    this.device_identifier = device_identifier
+    return this
   }
+
   truCode(trucode_id) {
-   this.trucode_id = trucode_id;
-   return this;
+    this.trucode_id = trucode_id
+    return this
   }
+
   userIdentifier(user_identifier) {
-      this.user_identifier = user_identifier;
-      return this;
+    this.user_identifier = user_identifier
+    return this
   }
+
   action(action) {
-   this.action = action;
-   return this;
+    this.action = action
+    return this
   }
+
   resource(resource) {
-   this.resource = resource;
-   return this;
+    this.resource = resource
+    return this
   }
+
   callbackUrl(callback_url) {
-   this.callback_url = callback_url;
-   return this;
+    this.callback_url = callback_url
+    return this
   }
+
   expiresAt(expires_at) {
-   this.expires_at = expires_at;
-   return this;
+    this.expires_at = expires_at
+    return this
   }
+
   withoutPrompt() {
-   this.prompt = false;
-   return this;
+    this.prompt = false
+    return this
   }
+
   withoutUserPresence() {
-   this.user_presence = false;
-   return this;
+    this.user_presence = false
+    return this
   }
-  emailAddress(emailAddress){
-    this.emailAddress = emailAddress;
-    return this;
+
+  emailAddress(email_address){
+    this.email_address = email_address
+    return this
   }
 
   build() {
-    return new Trusonafication(this);
+    return new Trusonafication(this)
   }
 }
 
-class EssentialBuilder extends TrusonaficationBuilder{
+class EssentialBuilder extends TrusonaficationBuilder {
+  
   constructor() {
     super(2)
   }
 
   withoutUserPresence() {
-      super.withoutUserPresence()
-      this.desired_level = 1;
-      return this;
+    super.withoutUserPresence()
+    this.desired_level = 1
+    return this
   }
 }
 
-class ExecutiveBuilder extends TrusonaficationBuilder{
+class ExecutiveBuilder extends TrusonaficationBuilder {
   constructor() {
     super(3)
     this.show_identity_document = true

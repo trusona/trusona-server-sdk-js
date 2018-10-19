@@ -1,4 +1,4 @@
-class WebSdkConfig{
+class WebSdkConfig {
 
     constructor(truCodeUrl, relyingPartyId) {
         this.truCodeUrl = truCodeUrl

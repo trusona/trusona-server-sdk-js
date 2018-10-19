@@ -1,5 +1,5 @@
-const GenericErrorHandler = require('./GenericErrorHandler')
-const UserNotFoundError = require('./UserNotFoundError')
+const GenericErrorHandler = require('../../http/client/GenericErrorHandler')
+const UserNotFoundError = require('../error/UserNotFoundError')
 
 class UserErrorHandler extends GenericErrorHandler {
 
@@ -8,9 +8,8 @@ class UserErrorHandler extends GenericErrorHandler {
         switch(error.statusCode) {
             case 404:
                 throw new UserNotFoundError(error.statusCode + " - " +
-                    "The user you are attempting to deactivate does not exist or is already inactive.");
+                    "The user you are attempting to deactivate does not exist or is already inactive.")
         }
     }
 }
-
 module.exports = UserErrorHandler

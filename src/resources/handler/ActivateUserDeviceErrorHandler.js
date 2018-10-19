@@ -1,5 +1,5 @@
-const GenericErrorHandler = require('./GenericErrorHandler')
-const DeviceNotFoundError = require('./DeviceNotFoundError')
+const GenericErrorHandler = require('../../http/client/GenericErrorHandler')
+const DeviceNotFoundError = require('../error/DeviceNotFoundError')
 
 class ActivateUserDeviceErrorHandler extends GenericErrorHandler {
 
@@ -9,7 +9,7 @@ class ActivateUserDeviceErrorHandler extends GenericErrorHandler {
             case 404:
                 throw new DeviceNotFoundError(error.statusCode + " - " +
                     "The device you are attempting to activate does not exist. " +
-                    "You will need to re-register the device and re-bind it to the user to get a new activation code.");
+                    "You will need to re-register the device and re-bind it to the user to get a new activation code.")
         }
     }
 }
