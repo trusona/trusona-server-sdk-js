@@ -1,5 +1,5 @@
-const GenericErrorHandler = require('./GenericErrorHandler')
-const UserNotFoundError = require('./UserNotFoundError')
+const GenericErrorHandler = require('../../http/client/GenericErrorHandler')
+const UserNotFoundError = require('../error/UserNotFoundError')
 
 class UserErrorHandler extends GenericErrorHandler {
 

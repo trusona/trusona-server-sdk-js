@@ -1,5 +1,5 @@
-const GenericErrorHandler = require('./GenericErrorHandler')
-const DeviceNotFoundError = require('./DeviceNotFoundError')
+const GenericErrorHandler = require('../../http/client/GenericErrorHandler')
+const DeviceNotFoundError = require('../error/DeviceNotFoundError')
 
 class ActivateUserDeviceErrorHandler extends GenericErrorHandler {
 

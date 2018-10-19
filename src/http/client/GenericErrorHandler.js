@@ -1,4 +1,4 @@
-const TrusonaError = require('./TrusonaError')
+const TrusonaError = require('../../resources/error/TrusonaError')
 
 class GenericErrorHandler {
 
