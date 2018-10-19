@@ -1,9 +1,9 @@
-var crypto = require("crypto");
+var crypto = require("crypto")
 
 class HmacSignatureGenerator {
-  getSignature(hmacMessage, secret) {
-    const message = hmacMessage.getHmacMessage();
 
+  getSignature(hmacMessage, secret) {
+    const message = hmacMessage.getHmacMessage()
     const parts = [
       message.method,
       message.bodyDigest,
@@ -12,15 +12,12 @@ class HmacSignatureGenerator {
       message.requestUri
     ]
 
-    var valueToDigest = parts.join(`\n`);
+    var valueToDigest = parts.join(`\n`)
     const hash = crypto.createHmac('sha256', secret)
                    .update(valueToDigest)
-                   .digest('hex');
+                   .digest('hex')
 
-
-    return Buffer.from(hash).toString('base64');
-
+    return Buffer.from(hash).toString('base64')
   }
 }
-
 module.exports = HmacSignatureGenerator
