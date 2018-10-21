@@ -35,7 +35,7 @@ describe('Trusona', () => {
   describe('Creating an user device', () => {
     it('should bind a user identifier to a device', async () => {
       const response = await trusona.createUserDevice(uuid(), fauxDevice.id)
-      assert.exists(response.activation_code)
+      assert.exists(response.activationCode)
     })
   })
 
@@ -47,7 +47,7 @@ describe('Trusona', () => {
     })
 
     it('should activate an inactive device', async () => {
-      const response = await trusona.activateUserDevice(inactiveDevice.activation_code)
+      const response = await trusona.activateUserDevice(inactiveDevice.activationCode)
       assert.isTrue(response.active)
     })
   })
@@ -57,11 +57,11 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-      .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+      .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
     })
 
     it('should get a user device', async () => {
-      const response = await trusona.getDevice(activeDevice.device_identifier)
+      const response = await trusona.getDevice(activeDevice.deviceIdentifier)
       assert.isTrue(response.active)
     })
   })
@@ -71,12 +71,12 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-      .then((inactiveDevice)  => trusona.activateUserDevice(inactiveDevice.activation_code))
-      await trusona.deactivateUser(activeDevice.user_identifier)
+      .then((inactiveDevice)  => trusona.activateUserDevice(inactiveDevice.activationCode))
+      await trusona.deactivateUser(activeDevice.userIdentifier)
     })
 
     it('should deactivate a user device', async () => {
-      const response = await trusona.getDevice(activeDevice.device_identifier)
+      const response = await trusona.getDevice(activeDevice.deviceIdentifier)
       assert.isFalse(response.active)
     })
   })
@@ -86,12 +86,12 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
     })
 
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
-        .deviceIdentifier(activeDevice.device_identifier)
+        .deviceIdentifier(activeDevice.deviceIdentifier)
         .action("login")
         .resource("resource")
         .build()
@@ -106,12 +106,12 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
     })
 
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
-        .deviceIdentifier(activeDevice.device_identifier)
+        .deviceIdentifier(activeDevice.deviceIdentifier)
         .action("login")
         .resource("resource")
         .withoutUserPresence()
@@ -142,12 +142,12 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+          .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
     })
 
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
-      .userIdentifier(activeDevice.user_identifier)
+      .userIdentifier(activeDevice.userIdentifier)
       .action("login")
       .resource("resource")
       .build()
@@ -162,7 +162,7 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       document = await trusona.createUserDevice(uuid(), fauxDevice.id)
-        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
         .then((activeDevice) => fauxDevice.registerAamvaDriversLicense('hash1'))
     })
 
@@ -177,20 +177,20 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
       await fauxDevice.registerAamvaDriversLicense('hash1')
     })
 
     it('should create a new executive trusonafication', async () => {
       const trusonafication = Trusonafication.executive
-        .deviceIdentifier(activeDevice.device_identifier)
+        .deviceIdentifier(activeDevice.deviceIdentifier)
         .action("login")
         .resource("resource")
         .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
-      assert.equal(response.desired_level, 3)
-      assert.equal(response.show_identity_document, true)
+      assert.equal(response.desiredLevel, 3)
+      assert.equal(response.showIdentityDocument, true)
     })
   })
 
@@ -199,12 +199,12 @@ describe('Trusona', () => {
 
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activation_code))
+        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
       await fauxDevice.registerAamvaDriversLicense('hash2')
     })
 
     it('should find identity documents', async () => {
-      const response = await trusona.findIdentityDocuments(activeDevice.user_identifier)
+      const response = await trusona.findIdentityDocuments(activeDevice.userIdentifier)
       assert.equal(response[0].hash, 'hash2')
     })
   })
