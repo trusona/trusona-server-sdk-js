@@ -4,6 +4,7 @@ const RequestHmacMessage = require('./security/RequestHmacMessage')
 const TrusonaError = require('../../resources/error/TrusonaError')
 const DateUtils = require('../../resources/util/DateUtils')
 const Environment = require('./environment/Environment')
+const camelcaseObject = require('camelcase-object');
 
 class RequestHelper {
 
@@ -35,7 +36,10 @@ class RequestHelper {
         const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
         if(response.headers['x-signature'] === signature){
-          return originalTransform(body ? JSON.parse(body) : body, response, resolveWithFullResponse)
+
+          let bodyCamelCase = camelcaseObject(body)
+
+          return originalTransform(bodyCamelCase ? camelcaseObject(JSON.parse(body)) : body, response, resolveWithFullResponse)
         } else {
           throw new TrusonaError('The response signature failed validation')
         }
