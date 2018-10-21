@@ -3,11 +3,11 @@ const UserNotFoundError = require('../error/UserNotFoundError')
 
 class UserErrorHandler extends GenericErrorHandler {
 
-    static handleError(error){
-        super.handleError(error)
-        switch(error.statusCode) {
+    static handleError(response){
+        super.handleError(response)
+        switch(response.statusCode) {
             case 404:
-                throw new UserNotFoundError(error.statusCode + " - " +
+                throw new UserNotFoundError(response.statusCode + " - " +
                     "The user you are attempting to deactivate does not exist or is already inactive.")
         }
     }
