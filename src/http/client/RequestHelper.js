@@ -24,7 +24,7 @@ class RequestHelper {
 
     if(originalTransform == null){
       originalTransform = (body, response, resolveWithFullResponse) => {
-        return body;
+        return body
       }
     }
 
@@ -35,9 +35,9 @@ class RequestHelper {
         const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
         if(response.headers['x-signature'] === signature){
-          return originalTransform(body ? JSON.parse(body) : body, response, resolveWithFullResponse);
+          return originalTransform(body ? JSON.parse(body) : body, response, resolveWithFullResponse)
         } else {
-          throw new TrusonaError('The response signature failed validation');
+          throw new TrusonaError('The response signature failed validation')
         }
       }
     }
