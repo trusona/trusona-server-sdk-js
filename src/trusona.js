@@ -1,7 +1,7 @@
 const ActivateUserDeviceErrorHandler = require('./resources/handler/ActivateUserDeviceErrorHandler')
 const CreateUserDeviceErrorHandler = require('./resources/handler/CreateUserDeviceErrorHandler')
 const TrusonaficationErrorHandler = require('./resources/handler/TrusonaficationErrorHandler')
-const GenericErrorHandler = require('./http/client/GenericErrorHandler')
+const GenericErrorHandler = require('./resources/handler/GenericErrorHandler')
 const UserErrorHandler = require('./resources/handler/UserErrorHandler')
 const ApiCredentials = require('./http/client/ApiCredentials')
 const RequestHelper = require('./http/client/RequestHelper')
@@ -41,7 +41,7 @@ class Trusona {
         'device_identifier': deviceIdentifier
       }
     })
-    
+
     return request(options).catch(error => {
       return CreateUserDeviceErrorHandler.handleError(error)
     })

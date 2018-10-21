@@ -1,4 +1,4 @@
-const GenericErrorHandler = require('../../http/client/GenericErrorHandler')
+const GenericErrorHandler = require('./GenericErrorHandler')
 const DeviceAlreadyBoundError = require('../error/DeviceAlreadyBoundError')
 const DeviceNotFoundError = require('../error/DeviceNotFoundError')
 
