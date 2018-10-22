@@ -5,4 +5,3 @@
 1. Create docs
 2. Move project into the `Trusona` org
 3. Publish sdk to NPM
-4. Remove `trusona_javascript_sdk` package from npmjs.com
