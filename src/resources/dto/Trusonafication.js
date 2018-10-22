@@ -12,7 +12,7 @@ class Trusonafication {
     this.user_presence = trusonaficationBuilder.user_presence
     this.prompt = trusonaficationBuilder.prompt
     this.show_identity_document = trusonaficationBuilder.show_identity_document
-    this.emailAddress = trusonaficationBuilder.emailAddress
+    this.email = trusonaficationBuilder.email
   }
 
   static get essential() {
@@ -78,8 +78,8 @@ class TrusonaficationBuilder {
     return this
   }
 
-  emailAddress(email_address){
-    this.email_address = email_address
+  emailAddress(email){
+    this.email = email
     return this
   }
 
