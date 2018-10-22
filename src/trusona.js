@@ -33,7 +33,7 @@ class Trusona {
       url: '/api/v2/user_devices',
       method: 'POST',
       transform : (body, response, resolveWithFullResponse) => {
-        body.activation_code = body.id;
+        body.activationCode = body.id;
         return body;
       },
       body: {
@@ -76,7 +76,7 @@ class Trusona {
       url: `/api/v2/devices/${deviceIdentifier}`,
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
-        body.active = body.is_active;
+        body.active = body.isActive;
         return body
       }
     })
@@ -102,7 +102,7 @@ class Trusona {
       url: `/api/v2/identity_documents/${document_id}`,
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
-        body.active = body.is_active;
+        body.active = body.isActive;
         return body
       }
     })
