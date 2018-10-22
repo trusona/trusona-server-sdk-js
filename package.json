@@ -1,11 +1,13 @@
 {
-  "name": "trusona_javascript_sdk",
+  "name": "trusona-server-sdk",
   "version": "0.1.1",
-  "description": "Trusona Javascript sdk",
-  "author": "Juan Diego Garita <jd@trusona.com>",
-  "main": "server.js",
+  "description": "Trusona Server SDK for JavaScript",
+  "author": "Trusona Engineering <engineering@trusona.com>",
+  "main": "src/trusona.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
-    "start": "node server.js",
     "test": "mocha --timeout 5000"
   },
   "dependencies": {
