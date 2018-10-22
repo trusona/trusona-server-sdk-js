@@ -34,7 +34,7 @@ class Trusona {
       method: 'POST',
       transform : (body, response, resolveWithFullResponse) => {
         body.activationCode = body.id;
-        return body;
+        return response;
       },
       body: {
         'user_identifier': userIdentifier,
