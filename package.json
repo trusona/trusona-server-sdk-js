@@ -1,6 +1,6 @@
 {
   "name": "trusona_javascript_sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Trusona Javascript sdk",
   "author": "Juan Diego Garita <jd@trusona.com>",
   "main": "server.js",
