@@ -3,6 +3,7 @@ const CreateUserDeviceErrorHandler = require('./resources/handler/CreateUserDevi
 const TrusonaficationErrorHandler = require('./resources/handler/TrusonaficationErrorHandler')
 const GenericErrorHandler = require('./resources/handler/GenericErrorHandler')
 const UserErrorHandler = require('./resources/handler/UserErrorHandler')
+const TrusonaError = require('./resources/error/TrusonaError')
 const ApiCredentials = require('./http/client/ApiCredentials')
 const RequestHelper = require('./http/client/RequestHelper')
 const WebSdkConfig = require('./resources/dto/WebSdkConfig')
@@ -68,6 +69,31 @@ class Trusona {
 
     return request(options).catch(error => {
       return TrusonaficationErrorHandler.handleError(error)
+    })
+  }
+
+  getTrusonaficationResult(trusonafication_id){
+    const options = this.requestHelper.getSignedRequest({
+      url: `/api/v2/trusonafications/${trusonafication_id}`,
+      method: 'GET'
+    })
+
+    return request(options).catch(error => {
+  
+      return false
+    }).then(result => {
+      if(result.status === `IN_PROGRESS`){
+        throw TrusonaError("The Trusonafication is still in progress")
+      }
+      return result
+    })
+  }
+
+  pollForTrusonafication(trusonafication_id, timeout){
+    return promisePoller({
+      taskFn: this.getTrusonaficationResult.bind(this, trusonafication_id),
+      interval: 5000,
+      timeout: timeout
     })
   }
 
