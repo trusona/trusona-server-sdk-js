@@ -3,7 +3,6 @@ const CreateUserDeviceErrorHandler = require('./resources/handler/CreateUserDevi
 const TrusonaficationErrorHandler = require('./resources/handler/TrusonaficationErrorHandler')
 const GenericErrorHandler = require('./resources/handler/GenericErrorHandler')
 const UserErrorHandler = require('./resources/handler/UserErrorHandler')
-const TrusonaError = require('./resources/error/TrusonaError')
 const ApiCredentials = require('./http/client/ApiCredentials')
 const RequestHelper = require('./http/client/RequestHelper')
 const WebSdkConfig = require('./resources/dto/WebSdkConfig')
