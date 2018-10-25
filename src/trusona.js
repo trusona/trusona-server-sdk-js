@@ -79,13 +79,7 @@ class Trusona {
     })
 
     return request(options).catch(error => {
-  
-      return false
-    }).then(result => {
-      if(result.status === `IN_PROGRESS`){
-        throw TrusonaError("The Trusonafication is still in progress")
-      }
-      return result
+      return GenericErrorHandler.handleError(error)
     })
   }
 
@@ -93,7 +87,10 @@ class Trusona {
     return promisePoller({
       taskFn: this.getTrusonaficationResult.bind(this, trusonafication_id),
       interval: 5000,
-      timeout: timeout
+      timeout: timeout,
+      shouldContinue(error, result) {
+        return error == null && result.status === `IN_PROGRESS`
+      }
     })
   }
 
@@ -155,7 +152,6 @@ class Trusona {
       url: `/api/v2/paired_trucodes/${trucode_id}`,
       method: 'GET'
     })
-
     return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
     })
@@ -165,9 +161,10 @@ class Trusona {
     return promisePoller({
       taskFn: this.getPairedTruCode.bind(this, trucode_id),
       interval: 5000,
-      timeout: timeout
-    }).catch(error => {
-      return GenericErrorHandler.handleError(error)
+      timeout: timeout,
+      shouldContinue(error, result){
+        return error == null && result.status === `IN_PROGRESS` //CONFIRM THIS WITH Ryan.
+      }
     })
   }
 
