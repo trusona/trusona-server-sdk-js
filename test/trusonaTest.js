@@ -237,21 +237,21 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Getting an Essential Trusonafication by using email address', () => {
-    let response
+  // describe('Getting an Essential Trusonafication by using email address', () => {
+  //   let response
 
-    beforeEach(async () => {
-      const trusonafication = Trusonafication.essential
-      .emailAddress("r@trusona.com")
-      .action("login")
-      .resource("resource")
-      .build()
-      response = await trusona.createTrusonafication(trusonafication)
-    })
+  //   beforeEach(async () => {
+  //     const trusonafication = Trusonafication.essential
+  //     .emailAddress("r@trusona.com")
+  //     .action("login")
+  //     .resource("resource")
+  //     .build()
+  //     response = await trusona.createTrusonafication(trusonafication)
+  //   })
 
-    it('should get a new essential trusonafication', async () => {
-      const result = await trusona.pollForTrusonafication(response.id, 10000)
-      assert.equal(result.status, `ACCEPTED`)
-    })
-  })
+  //   it('should get a new essential trusonafication', async () => {
+  //     const result = await trusona.pollForTrusonafication(response.id, 10000)
+  //     assert.equal(result.status, `ACCEPTED`)
+  //   })
+  // })
 })
