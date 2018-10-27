@@ -78,3 +78,35 @@ var trusona = new Trusona(token, secret)
 
 You'll also want to make sure the `token` and `secret` values aren't checked in to your project.
 
+
+### Registering devices with Trusona
+
+To get a device ready to be used with Trusona, there are three main steps:
+
+1.  Create a device
+1.  Bind the device to a user
+1.  Activate the device
+
+The first step, creating a device, will be handled by the Trusona mobile SDKs on the client. Once a device is created, the Trusona `deviceIdentifier` will need to be sent to your backend which can use the Trusona Server SDK to complete the next steps.
+
+
+#### Binding a device to a user
+
+When the backend determines which user owns the `deviceIdentifier`, it can bind the `userIdentifier` to the device in Trusona. The `userIdentifier` can be any `String` that allows you to uniquely identify the user in your system. To bind a device to a user, call the `createUserDevice` function.
+
+```js
+const userDevice = await trusona.createUserDevice(user.Id, "deviceIdentifier")
+const userDevice.activationCode
+```
+
+More than one device can be bound to a user and later, when you Trusonafy them, any device bound to that user may accept the Trusonafication. Once the device is bound the user, you'll receive an activation code that can be used later to active the device.
+
+
+##### Errors
+
+|           Exception           |                                                                 Reason                                                                 |
+| :---------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| `DeviceNotFoundError`     | Indicates that the request to bind the user to the device failed because the device could not be found.                                |
+| `DeviceAlreadyBoundError` | Indicates that the request to bind the user to the device failed because the device is already bound to a different user.              |
+| `ValidationError`         | Indicates that the request to bind the user to the device failed because either the `deviceIdentifier` or `userIdentifier` were blank. |
+| `TrusonaError`            | Indicates that the request to bind the user to the device failed, check the message to determine the reason.                           |
