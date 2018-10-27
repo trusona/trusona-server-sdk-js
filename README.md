@@ -175,3 +175,23 @@ if(result.IsSuccessful) {
 ```
 
 In the above example, the addition of `withoutUserPresence()` and `withoutPrompt()` on the builder will result in a Trusonafication that can be accepted solely with possession of the device.
+
+#### Creating an Essential Trusonafication, with a TruCode
+
+```js
+const trusona = new Trusona(token, secret)
+
+const trusonafication = Trusonafication.essential
+        .truCode("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
+        .action("login")
+        .resource("Acme Bank")
+        .build() 
+
+const result = await trusona.createTrusonafication(trusonafication)
+
+if(result.IsSuccessful) {
+  // handle successful authentication
+}
+```
+
+In this example, instead of specifying a device identifier, you can provide an ID for a TruCode that was scanned by the Trusona Mobile SDK. This will create a Trusonafication for the device that scanned the TruCode. See [Using TruCode for device discovery](#using-trucode-for-device-discovery) below for more information on using TruCodes.
