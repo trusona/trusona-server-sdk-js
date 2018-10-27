@@ -1,4 +1,5 @@
 const TrusonaError = require('../../resources/error/TrusonaError')
+const ValidationError = require('../../resources/error/ValidationError')
 
 class GenericErrorHandler {
 
@@ -17,13 +18,14 @@ class GenericErrorHandler {
         else if (response.statusCode == 422) {
             var parsedError = JSON.parse(response.error)
 
-            throw new TrusonaError(response.statusCode + " - " +
-                parsedError.description)
+            throw new ValidationError(response.statusCode + " - " +
+                parsedError.description, parsedError.field_errors)
         }
         else if (response.statusCode >= 500 && response.statusCode < 600) {
             throw new TrusonaError(response.statusCode + " - " +
               "The server was unable to process your request at this time. Feel free to try your request again later.")
         }
+       
     }
 }
 module.exports = GenericErrorHandler
