@@ -195,3 +195,23 @@ if(result.IsSuccessful) {
 ```
 
 In this example, instead of specifying a device identifier, you can provide an ID for a TruCode that was scanned by the Trusona Mobile SDK. This will create a Trusonafication for the device that scanned the TruCode. See [Using TruCode for device discovery](#using-trucode-for-device-discovery) below for more information on using TruCodes.
+
+#### Creating an Essential Trusonafication, with the user's identifier
+
+```js
+const trusona = new Trusona(token, secret)
+
+const trusonafication = Trusonafication.essential
+        .userIdentifier("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
+        .action("login")
+        .resource("Acme Bank")
+        .build() 
+
+const result = await trusona.createTrusonafication(trusonafication)
+
+if(result.IsSuccessful) {
+  // handle successful authentication
+}
+```
+
+In some cases you may already know the user's identifier (i.e. in a multi-factor or step-up authentication scenario). This example shows how to issue a Trusonafication using the user's identifier.
