@@ -32,3 +32,33 @@ The Trusona Server SDK allows simplified interaction with the Trusona API.
    1. [Retrieving a device](#retrieving-a-device)
    1. [Deactivating a user](#deactivating-a-user) 
    1. [Handling errors](#handling-errors)
+
+
+## Prerequisites
+
+### Server SDK API Credentials
+
+The Server SDK requires API credentials that are used by the SDK to identify and authenticate requests from your application to the Trusona APIs.
+
+The two credentials required by the SDK include a `token` and `secret`. Both are strings generated and distributed by Trusona.
+
+*NOTE:* The `token` and `secret` should not be shared with anyone. They are how you authenticate to the Trusona services, and you should not check them into source control.
+
+
+### System requirements
+
+The Trusona Server SDK requires nodejs # or above.
+
+
+## NPM Setup
+
+
+### Installing the Trusona Package
+
+In your project, run the following command to install the latest version of the Trusona SDK.
+
+```
+npm i trusona-server-sdk
+```
+
+Alternatively, you may also search for the NPM package in www.npmjs.com
