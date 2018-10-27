@@ -22,7 +22,6 @@ The Trusona Server SDK allows simplified interaction with the Trusona API.
       1. [Creating an Essential Trusonafication, with the user's identifier](#creating-an-essential-trusonafication-with-the-users-identifier)
       1. [Creating an Essential Trusonafication, with the user's email](#creating-an-essential-trusonafication-with-the-users-email)
       1. [Creating an Executive Trusonafication](#creating-an-executive-trusonafication)
-      1. [Creating a Trusonafication for a Managed Trusona User](#creating-a-trusonafication-for-a-managed-trusona-user)
    1. [Using TruCode for device discovery](#using-trucode-for-device-discovery)
    1. [Retrieving identity documents](#retrieving-identity-documents)
       1. [Retrieving all identity documents for a user](#retrieving-all-identity-documents-for-a-user)
