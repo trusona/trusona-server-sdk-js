@@ -441,7 +441,7 @@ The deactivated user can be reactivated at a later date by binding them to a new
 
 ### Handling errors
 
-Failed requests get thrown as a `TrusonaError`, which TrusonaError a message about what went wrong and what you should do to fix the problem. Some calls may also throw subclasses of `TrusonaError` for scenarios where it might be possible to correct the issue programmatically. It's up to you if you want to handle those specific scenarios or just catch all `TrusonaError`s. If a request fails validation and has error messages for specific fields, a `ValidationError` will get thrown and you can call `getFieldErrors` to inspect the error messages associated with each field that failed.
+Failed requests get thrown as a `TrusonaError`, which TrusonaError a message about what went wrong and what you should do to fix the problem. Some calls may also throw subclasses of `TrusonaError` for scenarios where it might be possible to correct the issue programmatically. It's up to you if you want to handle those specific scenarios or just catch all `TrusonaError`s. If a request fails validation and has error messages for specific fields, a `ValidationError` will get thrown and you can call `fieldErrors` to inspect the error messages associated with each field that failed.
 
 
 ### Need additional help?
