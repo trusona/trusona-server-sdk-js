@@ -2,6 +2,5 @@
 
 ## Pending Tasks
 
-1. Create docs
-2. Move project into the `Trusona` org
-3. Publish sdk to NPM
+1. Move project into the `Trusona` org
+2. Publish sdk to NPM
