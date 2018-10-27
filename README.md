@@ -73,7 +73,7 @@ The `Trusona` class is the main class you will interact with to talk to the Trus
 *NOTE:* The `token` and `secret` should not be shared with anyone. They are how you authenticate to the Trusona services, and you should not check them into source control.
 
 ```js
-var trusona = new Trusona(token, secret)
+const trusona = new Trusona(token, secret)
 ```
 
 You'll also want to make sure the `token` and `secret` values aren't checked in to your project.
@@ -117,7 +117,7 @@ More than one device can be bound to a user and later, when you Trusonafy them, 
 When the device is ready to be activated, call the `activateUserDevice` function with the activation code.
 
 ```js
-var result = await trusona.activateUserDevice(activationCode)
+const result = await trusona.activateUserDevice(activationCode)
 ```
 
 If the request is successful, the device is ready to be Trusonafied.
@@ -129,3 +129,27 @@ If the request is successful, the device is ready to be Trusonafied.
 | `DeviceNotFoundError` | Indicates that the request to activate the device failed because the device could not be found, most likely due to an invalid `activationCode`. |
 | `ValidationError`     | Indicates that the request to activate the device failed because the `activationCode` was blank.                                                |
 | `TrusonaError`        | Indicates that the request to activate the device failed, check the message to determine the reason.        
+
+### Creating Trusonafications
+
+Once a device is bound to a user, that user can be Trusonafied using the device identifier obtained from the Trusona Mobile SDK.
+
+#### Creating an Essential Trusonafication
+
+```js
+const trusona = new Trusona(token, secret)
+
+const trusonafication = Trusonafication.essential
+        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+        .action("login")
+        .resource("Acme Bank")
+        .build() 
+
+const result = await trusona.createTrusonafication(trusonafication)
+
+if(result.IsSuccessful) {
+  // handle successful authentication
+}
+```
+
+By default, Essential Trusonafications are built such that the user's presence is required and a prompt asking the user to "Accept" or "Reject" the Trusonafication is presented by the Trusona Mobile SDK. A user's presence is determined by their ability to interact with the device's OS Security, usually by using a biometric or entering the device passcode.
