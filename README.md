@@ -146,7 +146,7 @@ const trusonafication = Trusonafication.essential
 
 const result = await trusona.createTrusonafication(trusonafication)
 
-if(result.IsSuccessful) {
+if(result.id !== 'undefined') {
   // handle successful authentication
 }
 ```
@@ -337,3 +337,26 @@ Call the `renderTruCode` function in the Web SDK using the Web SDK Config from t
 ```
 
 When the TruCode has been scanned by a Trusona enabled device, the `truCodeId` will be passed into the `onPaired` callback where you can relay it to your backend to get the `deviceIdentifier`.
+
+
+### Retrieving identity documents
+
+Identity documents can be registered using the Trusona Mobile SDK and are required for being able to accept Executive Trusonafications. Depending on your agreement with Trusona, the identity documents may also be verified using a third-party verification system. The Server SDK allows you to get all the identity documents that were registered by a user or to get a specific identity document by ID. This can be useful to see if a user is capable of accepting Executive Trusonafications or to check the result of a third-party verification.
+
+#### Retrieving all identity documents for a user
+
+```js
+const trusona = new Trusona(token, secret)
+
+const documents = trusona.findIdentityDocuments(userIdentifier);
+
+if (documents[0] !== 'undefined') {
+  // Not capable of accepting Executive Trusonafications
+} else {
+  // Is capable of accepting Executive Trusonafications
+}
+```
+
+This example shows how to determine if a user is capable of accepting Executive Trusonaficaitons. The call to the `findIdentityDocuments` function with the `userIdentifier` that was registered with Trusona will return a list of IdentityDocuments. If the list is empty, then no identity documents have been registered and the user will not be able to scan their document to accept the Trusonafication.
+
+**NOTE:** The `verificationStatus` of an identity document is not considered during the acceptance of a Trusonafication. If you only want to allow users with `VERIFIED` documents you'll have to check the status prior to issuing the Trusonafication.
