@@ -153,3 +153,25 @@ if(result.IsSuccessful) {
 ```
 
 By default, Essential Trusonafications are built such that the user's presence is required and a prompt asking the user to "Accept" or "Reject" the Trusonafication is presented by the Trusona Mobile SDK. A user's presence is determined by their ability to interact with the device's OS Security, usually by using a biometric or entering the device passcode.
+
+#### Creating an Essential Trusonafication, without user presence or a prompt
+
+```js
+const trusona = new Trusona(token, secret)
+
+const trusonafication = Trusonafication.essential
+        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+        .action("login")
+        .resource("Acme Bank")
+        .withoutUserPresence()
+        .withoutPrompt()
+        .build() 
+
+const result = await trusona.createTrusonafication(trusonafication)
+
+if(result.IsSuccessful) {
+  // handle successful authentication
+}
+```
+
+In the above example, the addition of `withoutUserPresence()` and `withoutPrompt()` on the builder will result in a Trusonafication that can be accepted solely with possession of the device.
