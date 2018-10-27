@@ -110,3 +110,22 @@ More than one device can be bound to a user and later, when you Trusonafy them, 
 | `DeviceAlreadyBoundError` | Indicates that the request to bind the user to the device failed because the device is already bound to a different user.              |
 | `ValidationError`         | Indicates that the request to bind the user to the device failed because either the `deviceIdentifier` or `userIdentifier` were blank. |
 | `TrusonaError`            | Indicates that the request to bind the user to the device failed, check the message to determine the reason.                           |
+
+
+#### Activating a device
+
+When the device is ready to be activated, call the `activateUserDevice` function with the activation code.
+
+```js
+var result = await trusona.activateUserDevice(activationCode)
+```
+
+If the request is successful, the device is ready to be Trusonafied.
+
+##### Exceptions
+
+|         Exception         |                                                                     Reason                                                                      |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DeviceNotFoundError` | Indicates that the request to activate the device failed because the device could not be found, most likely due to an invalid `activationCode`. |
+| `ValidationError`     | Indicates that the request to activate the device failed because the `activationCode` was blank.                                                |
+| `TrusonaError`        | Indicates that the request to activate the device failed, check the message to determine the reason.        
