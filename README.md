@@ -241,4 +241,24 @@ by specifying their email address. This is the case if one of the following is t
 - You have an agreement with Trusona allowing you to send Trusonafications to any email address.
 
 Creating a Trusonafication with an email address is similar to the other
-use cases, except you use the `emailAddress()` method rather than `userIdentifier()` or `deviceIdentifier()`.
+use cases, except you use the `emailAddress()` function rather than `userIdentifier()` or `deviceIdentifier()`.
+
+#### Creating an Executive Trusonafication
+
+To create an Executive Trusonafication, call the `executive` function initially instead of `essential`.
+
+```js
+const trusona = new Trusona(token, secret)
+
+const trusonafication = Trusonafication.executive
+        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+        .action("login")
+        .resource("Acme Bank")
+        .build() 
+
+const result = await trusona.createTrusonafication(trusonafication)
+
+if(result.IsSuccessful) {
+  // handle successful authentication
+}
+```
