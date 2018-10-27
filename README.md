@@ -422,3 +422,28 @@ if(device.active) {
   // Device has been activated and can receive/respond to Trusonafications
 }
 ```
+
+### Deactivating a user
+
+You may wish to disable a user from having the ability to authenticate from any of the devices they have registered with. To deactivate a user:
+
+```js
+const trusona = new Trusona(token, secret)
+ 
+const device = await trusona.deactivateUser("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
+
+if(!device.active) {
+  // Device has been deactivated
+}
+```
+
+The deactivated user can be reactivated at a later date by binding them to a new device in Trusona.
+
+### Handling errors
+
+Failed requests get thrown as a `TrusonaError`, which TrusonaError a message about what went wrong and what you should do to fix the problem. Some calls may also throw subclasses of `TrusonaError` for scenarios where it might be possible to correct the issue programmatically. It's up to you if you want to handle those specific scenarios or just catch all `TrusonaError`s. If a request fails validation and has error messages for specific fields, a `ValidationError` will get thrown and you can call `getFieldErrors` to inspect the error messages associated with each field that failed.
+
+
+### Need additional help?
+
+Contact us at engineering@trusona.com
