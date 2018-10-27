@@ -372,3 +372,38 @@ documents.verificationStatus // UNVERIFIED, UNVERIFIABLE, VERIFIED, or FAILED
 ```
 
 Here we are getting a specific identity document by ID. Since the ID is generated at the time the document is registered (on the mobile device), you'll have to send the ID to your backend server and then call the `getIdentityDocument` function in order to check the status. See all [verification statuses](#identity-document-verification-statuses).
+
+
+#### Identity document verification statuses
+
+| Status           | Description                                                                                                                                                                |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `UNVERIFIED `    | Verification of the identity document has not been attempted.                                                                                                              |
+| `UNVERIFIABLE `  | Verification of the identity document was attempted, but no verification determination has been made (i.e. the third-party verification was not available in that region). |
+| `VERIFIED`       | The document was sucessfully verified.                                                                                                                                     |
+| `FAILED`         | The document failed verification.                                                                                                                                          |
+
+#### Identity document properties
+
+|         Name         | Type               |                                           Description                                                                                              |
+| :------------------- | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                 | UUID               | The ID of the document that was generated when it was registered.                                                                                  |
+| `hash`               | String             | The hash of the raw data of the document that was scanned. Trusona does not store any of the raw information from the original document            |
+| `verificationStatus` | VerificationStatus | The status of the third-party verification that was performed, if any. See all [verification statuses](#identity-document-verification-statuses).  |
+| `verifiedAt`         | Date               | The date when the verification status was determined.                                                                                              |
+| `type`               | String             | The type of the identity document. See all [identity document types](#identity-document-types).                                                    |
+
+#### Identity document verification statuses
+
+| Status           | Description                                                                                                                                                                |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `UNVERIFIED `    | Verification of the identity document has not been attempted.                                                                                                              |
+| `UNVERIFIABLE `  | Verification of the identity document was attempted, but no verification determination has been made (i.e. the third-party verification was not available in that region). |
+| `VERIFIED`       | The document was sucessfully verified.                                                                                                                                     |
+| `FAILED`         | The document failed verification.                                                                                                                                          |
+
+#### Identity document types
+
+| Type                     | Description                                        |
+| :----------------------- | :------------------------------------------------- |
+| `AAMVA_DRIVERS_LICENSE ` | A U.S. or Canada issued driver's license.          |
