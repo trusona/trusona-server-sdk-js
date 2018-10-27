@@ -62,3 +62,19 @@ npm i trusona-server-sdk
 ```
 
 Alternatively, you may also search for the NPM package in www.npmjs.com
+
+
+## Integrating the API into a project
+
+### Creating a Trusona object
+
+The `Trusona` class is the main class you will interact with to talk to the Trusona APIs. It can be created with the `token` and `secret` provided by [Trusona](#server-sdk-api-credentials).
+
+*NOTE:* The `token` and `secret` should not be shared with anyone. They are how you authenticate to the Trusona services, and you should not check them into source control.
+
+```js
+var trusona = new Trusona(token, secret)
+```
+
+You'll also want to make sure the `token` and `secret` values aren't checked in to your project.
+
