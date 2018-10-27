@@ -407,3 +407,18 @@ Here we are getting a specific identity document by ID. Since the ID is generate
 | Type                     | Description                                        |
 | :----------------------- | :------------------------------------------------- |
 | `AAMVA_DRIVERS_LICENSE ` | A U.S. or Canada issued driver's license.          |
+
+
+### Retrieving a device
+
+If you want to check whether or not a device has been activated, or when it was activated, you can look it up in Trusona using the device's identifier.
+
+```js
+const trusona = new Trusona(token, secret)
+ 
+const device = await trusona.getDevice("r1ByVyVKJ7TRgU0RPX0-THMTD_CO3VrCSNqLpJFmhms")
+
+if(device.active) {
+  // Device has been activated and can receive/respond to Trusonafications
+}
+```
