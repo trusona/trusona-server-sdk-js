@@ -281,3 +281,59 @@ Executive Trusonafications require the user to scan an identity document to auth
 | `withoutPrompt`       |    N     |  false  | Removes the requirement for the user to explicityly "Accept" or "Reject" the Trusonafication.    |
 
 [^1]: You must provide at least one field that would allow Trusona to determine which user to authenticate. The identifier fields are `deviceIdentifier`, `truCode`, `emailAddress` and `userIdentifier`.
+
+
+### Using TruCode for device discovery
+
+In the previous section, we demonstrated how to issue a Trusonafication to a specific device using it's `deviceIdentifier`, but what if the user is trying to login to your website from their desktop computer and you don't know what the user's `deviceIdentifier` is? That's where TruCode comes in.
+
+#### What is a TruCode?
+
+A TruCode is a short-lived token that can be rendered in the form of a QR code. A Trusona enabled device can scan the QR code and send it's `deviceIdentifier` to Trusona. Your backend server can then fetch the `deviceIdentifier` from Trusona and perform a Trusonafication on the device.
+
+#### Rendering a TruCode
+
+To render a TruCode, you can use the Trusona Web SDK. Because TruCodes are short-lived, they need to be refreshed periodically. The Trusona Web SDK will handle the fetching of TruCodes, polling the status to see if they've been paired, refreshing them before they expire, and, when finally paired, return the `truCodeId` that the backend can use to look up the device identifier.
+
+First get the Web SDK Config for your system from the Server SDK. The Web SDK will need this configuration later when rendering TruCode.
+
+```js
+const trusona = new Trusona(token, secret)
+
+const webSdkConfig = trusona.getWebSdkConfig() // {"truCodeUrl": "https://example.net", "relyingPartyId": "C97A800D-75E8-43B5-87A5-3282B0DD8576" }
+```
+
+Include the trucode.js script tag before the `</body>` of your document
+
+```html
+  <!-- existing content -->
+  <script type="text/javascript" src="https://static.trusona.net/web-sdk/js/trucode-0.6.13.js"></script>
+  </body>
+</html>
+```
+
+Add an element to your page where you want the TruCode rendered in.
+
+```html
+<div id="tru-code"></div>
+```
+
+Call the `renderTruCode` function in the Web SDK using the Web SDK Config from the Server SDK.
+
+```html
+<script>
+  var truCodeConfig = #{webSdkConfig}; // example: {"truCodeUrl": "https://example.net", "relyingPartyId": "C97A800D-75E8-43B5-87A5-3282B0DD8576" }
+
+  Trusona.renderTruCode({
+    truCodeConfig: truCodeConfig,
+    truCodeElement: document.getElementById('tru-code'),
+    onPaired: function(truCodeId) {
+      // send the truCodeId to your backend service
+    },
+    onError: function() {
+      // handle if there were errors fetching truCodes
+    });
+</script>
+```
+
+When the TruCode has been scanned by a Trusona enabled device, the `truCodeId` will be passed into the `onPaired` callback where you can relay it to your backend to get the `deviceIdentifier`.
