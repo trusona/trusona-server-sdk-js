@@ -360,3 +360,15 @@ if (documents[0] !== 'undefined') {
 This example shows how to determine if a user is capable of accepting Executive Trusonaficaitons. The call to the `findIdentityDocuments` function with the `userIdentifier` that was registered with Trusona will return a list of IdentityDocuments. If the list is empty, then no identity documents have been registered and the user will not be able to scan their document to accept the Trusonafication.
 
 **NOTE:** The `verificationStatus` of an identity document is not considered during the acceptance of a Trusonafication. If you only want to allow users with `VERIFIED` documents you'll have to check the status prior to issuing the Trusonafication.
+
+#### Retrieving a specific identity document
+
+```js
+const trusona = new Trusona(token, secret)
+
+const documents = trusona.getIdentityDocument(document.id);
+
+documents.verificationStatus // UNVERIFIED, UNVERIFIABLE, VERIFIED, or FAILED
+```
+
+Here we are getting a specific identity document by ID. Since the ID is generated at the time the document is registered (on the mobile device), you'll have to send the ID to your backend server and then call the `getIdentityDocument` function in order to check the status. See all [verification statuses](#identity-document-verification-statuses).
