@@ -2,7 +2,6 @@
 
 The Trusona Server SDK allows simplified interaction with the Trusona API.
 
-
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
