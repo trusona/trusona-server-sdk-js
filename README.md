@@ -137,15 +137,15 @@ Once a device is bound to a user, that user can be Trusonafied using the device 
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = Trusonafication.essential
+const trusonafication = trusona.createTrusonafication(Trusonafication.essential
         .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
         .action("login")
         .resource("Acme Bank")
-        .build() 
+        .build()) 
 
-const result = await trusona.createTrusonafication(trusonafication)
+const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
 
-if(result.id !== 'undefined') {
+if(trusonaficationResult.IsSuccessful) {
   // handle successful authentication
 }
 ```
@@ -157,17 +157,17 @@ By default, Essential Trusonafications are built such that the user's presence i
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = Trusonafication.essential
+const trusonafication = trusona.createTrusonafication(Trusonafication.essential
         .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
         .action("login")
         .resource("Acme Bank")
         .withoutUserPresence()
         .withoutPrompt()
-        .build() 
+        .build())
 
-const result = await trusona.createTrusonafication(trusonafication)
+const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
 
-if(result.IsSuccessful) {
+if(trusonaficationResult.IsSuccessful) {
   // handle successful authentication
 }
 ```
@@ -179,15 +179,15 @@ In the above example, the addition of `withoutUserPresence()` and `withoutPrompt
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = Trusonafication.essential
+const trusonafication = trusona.createTrusonafication(Trusonafication.essential
         .truCode("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
         .action("login")
         .resource("Acme Bank")
-        .build() 
+        .build())
 
-const result = await trusona.createTrusonafication(trusonafication)
+const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
 
-if(result.IsSuccessful) {
+if(trusonaficationResult.IsSuccessful) {
   // handle successful authentication
 }
 ```
@@ -199,15 +199,15 @@ In this example, instead of specifying a device identifier, you can provide an I
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = Trusonafication.essential
+const trusonafication = trusona.createTrusonafication(Trusonafication.essential
         .userIdentifier("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
         .action("login")
         .resource("Acme Bank")
-        .build() 
+        .build())
 
-const result = await trusona.createTrusonafication(trusonafication)
+const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
 
-if(result.IsSuccessful) {
+if(trusonaficationResult.IsSuccessful) {
   // handle successful authentication
 }
 ```
@@ -219,15 +219,15 @@ In some cases you may already know the user's identifier (i.e. in a multi-factor
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = Trusonafication.essential
+const trusonafication = trusona.createTrusonafication(Trusonafication.essential
         .emailAddress("user@domain.com")
         .action("login")
         .resource("Acme Bank")
-        .build() 
+        .build())
 
-const result = await trusona.createTrusonafication(trusonafication)
+const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
 
-if(result.IsSuccessful) {
+if(trusonaficationResult.IsSuccessful) {
   // handle successful authentication
 }
 ```
@@ -248,15 +248,15 @@ To create an Executive Trusonafication, call the `executive` function initially 
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = Trusonafication.executive
+const trusonafication = trusona.createTrusonafication(Trusonafication.executive
         .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
         .action("login")
         .resource("Acme Bank")
-        .build() 
+        .build())
 
-const result = await trusona.createTrusonafication(trusonafication)
+const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
 
-if(result.IsSuccessful) {
+if(trusonaficationResult.IsSuccessful) {
   // handle successful authentication
 }
 ```
