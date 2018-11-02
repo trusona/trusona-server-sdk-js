@@ -261,8 +261,28 @@ if(trusonaficationResult.IsSuccessful) {
 }
 ```
 
-Executive Trusonafications require the user to scan an identity document to authenticate. An identity document needs to be registered with the user's account using the Trusona Mobile SDKs before the user can accept an Executive Trusonafication, and they must scan the same document they registered at the time of Trusonafication. Like Essential, both the prompt and user presence features can be used and are enabled by default, but they can be turned off independently by calling `withoutPrompt` or `withoutUserPresence`, respectively.
+Executive Trusonafications require the user to scan an identity document to authenticate. An identity document needs to be registered with the user's account using the Trusona Mobile SDKs before the user can accept an Executive Trusonafication, and they must scan the same document they registered at the time of Trusonafication. Like Essential, both the prompt and user presence features can be used and are enabled by default, but they can be turned off independently by calling `withoutPrompt()` or `withoutUserPresence()`, respectively.
 
+#### Polling for a Trusonafication
+
+Getting a Trusonafication by polling is similar to the other
+use cases, except you use the `pollForTrusonafication()` function rather than `getTrusonaficationResult()`.
+
+```js
+const trusona = new Trusona(token, secret)
+
+const trusonafication = trusona.createTrusonafication(Trusonafication.executive
+        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+        .action("login")
+        .resource("Acme Bank")
+        .build())
+
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id, 1000)
+
+if(trusonaficationResult.status === `ACCEPTED`) {
+  // handle successful authentication
+}
+```
 
 ##### Trusonafication Builder Options
 
