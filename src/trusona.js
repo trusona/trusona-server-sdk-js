@@ -15,7 +15,7 @@ const UAT = "uat";
 
 class Trusona {
 
-  constructor(token, secret, env) {
+  constructor(token, secret, env = PRODUCTION) {
     this.apiCredentials = new ApiCredentials(token, secret)
     this.requestHelper = new RequestHelper(token, secret, env)
   }
