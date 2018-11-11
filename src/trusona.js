@@ -88,7 +88,7 @@ class Trusona {
       interval: 5000,
       timeout: timeout,
       shouldContinue(error, result) {
-        return error == null && result.status === `IN_PROGRESS`
+        return error === null && result.status === `IN_PROGRESS`
       }
     })
   }
@@ -162,7 +162,7 @@ class Trusona {
       interval: 5000,
       timeout: timeout,
       shouldContinue(error, result){
-        return error == null
+        return result === `undefined`
       }
     })
   }
