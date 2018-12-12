@@ -28,13 +28,13 @@ describe('Trusona', () => {
 
   describe('Getting a valid web sdk configuration from Api Credentials', () => {
     it('Getting a valid web sdk configuration from Api Credentials', async () => {
-      const fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ0cnVhZG1pbi5hcGkudHJ1c29uYS5jb20iLCJzdWIiOiIwZjAzNDhmMC00NmQ2LTQ3YzktYmE0ZC0yZTdjZDdmODJlM2UiLCJhdWQiOiJhcGkudHJ1c29uYS5jb20iLCJleHAiOjE1MTk4ODU0OTgsImlhdCI6MTQ4ODMyNzg5OCwianRpIjoiNzg4YWYwNzAtNDBiOS00N2MxLWE3ZmUtOGUwZmE1NWUwMDE1IiwiYXRoIjoiUk9MRV9UUlVTVEVEX1JQX0NMSUVOVCJ9.2FNvjG9yB5DFEcNijk8TryRtKVffiDARRcRIb75Z_Pp85MxW63rhzdLFIN6PtQ1Tzb8lHPPM_4YOe-feeLOzWw"
-      const fakeSecret = "secret"
+      const fakeToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ0cnVhZG1pbi5hcGkudHJ1c29uYS5jb20iLCJzdWIiOiIwZjAzNDhmMC00NmQ2LTQ3YzktYmE0ZC0yZTdjZDdmODJlM2UiLCJhdWQiOiJhcGkudHJ1c29uYS5jb20iLCJleHAiOjE1MTk4ODU0OTgsImlhdCI6MTQ4ODMyNzg5OCwianRpIjoiNzg4YWYwNzAtNDBiOS00N2MxLWE3ZmUtOGUwZmE1NWUwMDE1IiwiYXRoIjoiUk9MRV9UUlVTVEVEX1JQX0NMSUVOVCJ9.2FNvjG9yB5DFEcNijk8TryRtKVffiDARRcRIb75Z_Pp85MxW63rhzdLFIN6PtQ1Tzb8lHPPM_4YOe-feeLOzWw'
+      const fakeSecret = 'secret'
       const fakeTrusona = new Trusona(fakeToken, fakeSecret, Trusona.UAT)
       const webSdkConfig = fakeTrusona.getWebSdkConfig()
       const parsedWebSdkConfig = JSON.parse(webSdkConfig)
-      assert.equal(parsedWebSdkConfig.truCodeUrl, "https://api.staging.trusona.net")
-      assert.equal(parsedWebSdkConfig.relyingPartyId, "0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e")
+      assert.equal(parsedWebSdkConfig.truCodeUrl, 'https://api.staging.trusona.net')
+      assert.equal(parsedWebSdkConfig.relyingPartyId, '0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e')
     })
   })
 
@@ -98,8 +98,8 @@ describe('Trusona', () => {
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
         .deviceIdentifier(activeDevice.deviceIdentifier)
-        .action("login")
-        .resource("resource")
+        .action('login')
+        .resource('resource')
         .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
@@ -118,8 +118,8 @@ describe('Trusona', () => {
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
         .deviceIdentifier(activeDevice.deviceIdentifier)
-        .action("login")
-        .resource("resource")
+        .action('login')
+        .resource('resource')
         .withoutUserPresence()
         .withoutPrompt()
         .build()
@@ -133,9 +133,9 @@ describe('Trusona', () => {
 
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
-        .truCode("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
-        .action("login")
-        .resource("resource")
+        .truCode('73CC202D-F866-4C72-9B43-9FCF5AF149BD')
+        .action('login')
+        .resource('resource')
         .build();
 
       const response = await trusona.createTrusonafication(trusonafication)
@@ -154,8 +154,8 @@ describe('Trusona', () => {
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
       .userIdentifier(activeDevice.userIdentifier)
-      .action("login")
-      .resource("resource")
+      .action('login')
+      .resource('resource')
       .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
@@ -190,8 +190,8 @@ describe('Trusona', () => {
     it('should create a new executive trusonafication', async () => {
       const trusonafication = Trusonafication.executive
         .deviceIdentifier(activeDevice.deviceIdentifier)
-        .action("login")
-        .resource("resource")
+        .action('login')
+        .resource('resource')
         .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
@@ -248,9 +248,9 @@ describe('Trusona', () => {
 
   //   beforeEach(async () => {
   //     const trusonafication = Trusonafication.essential
-  //     .emailAddress("r@trusona.com")
-  //     .action("login")
-  //     .resource("resource")
+  //     .emailAddress('r@trusona.com')
+  //     .action('login')
+  //     .resource('resource')
   //     .build()
   //     response = await trusona.createTrusonafication(trusonafication)
   //   })
