@@ -20,6 +20,12 @@ describe('Trusona', () => {
     fauxDevice = await FauxDevice.create()
   })
 
+  describe('The SDK constructor', () => {
+    it('should point to production by default', () => {
+      assert.equal(new Trusona(token, secret).requestHelper.baseUrl, 'https://api.trusona.net')
+    })
+  })
+
   describe('Getting a valid web sdk configuration from Api Credentials', () => {
     it('Getting a valid web sdk configuration from Api Credentials', async () => {
       const fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ0cnVhZG1pbi5hcGkudHJ1c29uYS5jb20iLCJzdWIiOiIwZjAzNDhmMC00NmQ2LTQ3YzktYmE0ZC0yZTdjZDdmODJlM2UiLCJhdWQiOiJhcGkudHJ1c29uYS5jb20iLCJleHAiOjE1MTk4ODU0OTgsImlhdCI6MTQ4ODMyNzg5OCwianRpIjoiNzg4YWYwNzAtNDBiOS00N2MxLWE3ZmUtOGUwZmE1NWUwMDE1IiwiYXRoIjoiUk9MRV9UUlVTVEVEX1JQX0NMSUVOVCJ9.2FNvjG9yB5DFEcNijk8TryRtKVffiDARRcRIb75Z_Pp85MxW63rhzdLFIN6PtQ1Tzb8lHPPM_4YOe-feeLOzWw"
