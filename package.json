@@ -27,7 +27,7 @@
     "url": "git+https://github.com/lighthauz/trusona-server-sdk-js.git"
   },
   "keywords": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/lighthauz/trusona-server-sdk-js/issues"
   },
