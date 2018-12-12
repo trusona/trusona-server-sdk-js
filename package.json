@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "Trusona Server SDK for JavaScript",
   "author": "Trusona Engineering <engineering@trusona.com>",
-  "main": "src/trusona.js",
+  "main": "src/Trusona.js",
   "files": [
     "src"
   ],
