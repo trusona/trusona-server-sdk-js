@@ -71,6 +71,28 @@ class Trusona {
     })
   }
 
+  getTrusonaficationResult(trusonafication_id){
+    const options = this.requestHelper.getSignedRequest({
+      url: `/api/v2/trusonafications/${trusonafication_id}`,
+      method: 'GET'
+    })
+
+    return request(options).catch(error => {
+      return GenericErrorHandler.handleError(error)
+    })
+  }
+
+  pollForTrusonafication(trusonafication_id, timeout){
+    return promisePoller({
+      taskFn: this.getTrusonaficationResult.bind(this, trusonafication_id),
+      interval: 5000,
+      timeout: timeout,
+      shouldContinue(error, result) {
+        return error === null && result.status === `IN_PROGRESS`
+      }
+    })
+  }
+
   getDevice(deviceIdentifier) {
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/devices/${deviceIdentifier}`,
@@ -129,7 +151,6 @@ class Trusona {
       url: `/api/v2/paired_trucodes/${trucode_id}`,
       method: 'GET'
     })
-
     return request(options).catch(error => {
       return GenericErrorHandler.handleError(error)
     })
@@ -139,9 +160,10 @@ class Trusona {
     return promisePoller({
       taskFn: this.getPairedTruCode.bind(this, trucode_id),
       interval: 5000,
-      timeout: timeout
-    }).catch(error => {
-      return GenericErrorHandler.handleError(error)
+      timeout: timeout,
+      shouldContinue(error, result){
+        return result === `undefined`
+      }
     })
   }
 

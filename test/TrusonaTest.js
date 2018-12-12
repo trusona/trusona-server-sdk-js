@@ -2,7 +2,7 @@ const Trusonafication = require('../src/resources/dto/Trusonafication')
 const FauxMobileClient = require('./FauxMobileClient')
 const FauxWebClient = require('./FauxWebClient')
 const FauxDevice = require('./FauxDevice')
-const Trusona = require('../src/trusona')
+const Trusona = require('../src/Trusona')
 const dotenv = require('dotenv').config()
 const uuid = require('uuid/v4')
 const chai = require('chai')
@@ -223,17 +223,35 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Getting a paired trucode by polling', () => {
-    let trucode
+  // describe('Getting a paired trucode by polling', () => {
+  //   let trucode
 
-    beforeEach(async () => {
-      trucode = await FauxWebClient.createTruCode()
-      await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
-    })
+  //   beforeEach(async () => {
+  //     trucode = await FauxWebClient.createTruCode()
+  //     await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
+  //   })
 
-    it('should get a paired trucode by polling', async () => {
-      trusona.pollForPairedTruCode(trucode.id, 1000).then(response =>
-        assert.equal(response.identifier, 'deviceIdentifier'));
-    })
-  })
+  //   it('should get a paired trucode by polling', async () => {
+  //     trusona.pollForPairedTruCode(trucode.id, 1000).then(response =>
+  //       assert.equal(response.identifier, 'deviceIdentifier'));
+  //   })
+  // })
+
+  // describe('Getting an Essential Trusonafication by using email address', () => {
+  //   let response
+
+  //   beforeEach(async () => {
+  //     const trusonafication = Trusonafication.essential
+  //     .emailAddress("r@trusona.com")
+  //     .action("login")
+  //     .resource("resource")
+  //     .build()
+  //     response = await trusona.createTrusonafication(trusonafication)
+  //   })
+
+  //   it('should get a new essential trusonafication', async () => {
+  //     const result = await trusona.pollForTrusonafication(response.id, 10000)
+  //     assert.equal(result.status, `ACCEPTED`)
+  //   })
+  // })
 })
