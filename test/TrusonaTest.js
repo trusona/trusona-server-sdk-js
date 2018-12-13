@@ -13,6 +13,7 @@ const FauxDevice = require('./FauxDevice')
 const Trusona = require('../src/Trusona')
 const Trusonafication = require('../src/resources/dto/Trusonafication')
 
+const DeviceAlreadyBoundError = require('../src/resources/error/DeviceAlreadyBoundError')
 const DeviceNotFoundError = require('../src/resources/error/DeviceNotFoundError')
 const NoIdentityDocumentError = require('../src/resources/error/NoIdentityDocumentError')
 
@@ -60,12 +61,19 @@ describe('Trusona', () => {
       })
     })
 
-    context('for a device already bound to that user', () => {
+    context('for a device already bound to the same user', () => {
       it('should not error and return an activation code', async () => {
         const userIdentifier = uuid()
         await trusona.createUserDevice(userIdentifier, fauxDevice.id)
         const response = await trusona.createUserDevice(userIdentifier, fauxDevice.id)
         assert.exists(response.activationCode)
+      })
+    })
+
+    context('for a device already bound to a different user', () => {
+      it('should throw a DeviceAlreadyBoundError', async () => {
+        await trusona.createUserDevice(uuid(), fauxDevice.id)
+        await assert.isRejected(trusona.createUserDevice(uuid(), fauxDevice.id), DeviceAlreadyBoundError)
       })
     })
   })
