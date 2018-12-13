@@ -59,6 +59,15 @@ describe('Trusona', () => {
         assert.exists(response.activationCode)
       })
     })
+
+    context('for a device already bound to that user', () => {
+      it('should not error and return an activation code', async () => {
+        const userIdentifier = uuid()
+        await trusona.createUserDevice(userIdentifier, fauxDevice.id)
+        const response = await trusona.createUserDevice(userIdentifier, fauxDevice.id)
+        assert.exists(response.activationCode)
+      })
+    })
   })
 
   describe('Activating an user device', () => {
