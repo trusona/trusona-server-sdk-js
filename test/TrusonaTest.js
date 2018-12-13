@@ -91,6 +91,13 @@ describe('Trusona', () => {
         const response = await trusona.activateUserDevice(inactiveDevice.activationCode)
         assert.isTrue(response.active)
       })
+
+      it('should not error if called twice', async () => {
+        let inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+        await trusona.activateUserDevice(inactiveDevice.activationCode)
+        const response = await trusona.activateUserDevice(inactiveDevice.activationCode)
+        assert.isTrue(response.active)
+      })
     })
   })
 
