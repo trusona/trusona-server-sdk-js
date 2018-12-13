@@ -17,6 +17,7 @@ const DeviceAlreadyBoundError = require('../src/resources/error/DeviceAlreadyBou
 const DeviceNotFoundError = require('../src/resources/error/DeviceNotFoundError')
 const NoIdentityDocumentError = require('../src/resources/error/NoIdentityDocumentError')
 const UserNotFoundError = require('../src/resources/error/UserNotFoundError')
+const ValidationError = require('../src/resources/error/ValidationError')
 
 const token = process.env.TRUSONA_TOKEN
 const secret = process.env.TRUSONA_SECRET
@@ -169,6 +170,50 @@ describe('Trusona', () => {
     beforeEach(async () => {
       activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
         .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
+    })
+
+    context('with missing identifier', () => {
+      it('should throw a ValidationError', async () => {
+        const trusonafication = Trusonafication.essential
+          .action('login')
+          .resource('resource')
+          .build()
+
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), ValidationError)
+      })
+    })
+
+    context('with missing action', () => {
+      it('should throw a ValidationError', async () => {
+        const trusonafication = Trusonafication.essential
+          .deviceIdentifier(activeDevice.deviceIdentifier)
+          .resource('resource')
+          .build()
+
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), ValidationError)
+      })
+    })
+
+    context('with missing resource', () => {
+      it('should throw a ValidationError', async () => {
+        const trusonafication = Trusonafication.essential
+          .deviceIdentifier(activeDevice.deviceIdentifier)
+          .action('login')
+          .build()
+
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), ValidationError)
+      })
+    })
+
+    context('with validation errors', () => {
+      it('should include the fields that are invalid', async () => {
+        const trusonafication = Trusonafication.essential
+          .deviceIdentifier(activeDevice.deviceIdentifier)
+          .build()
+
+        const error = await trusona.createTrusonafication(trusonafication).catch((error) => error)
+        assert.containsAllKeys(error.fieldErrors, ['action', 'resource'])
+      })
     })
 
     context('with a device identifier', () => {
