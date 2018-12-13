@@ -29,7 +29,7 @@ The Trusona Server SDK allows simplified interaction with the Trusona API.
       1. [Identity document verification statuses](#identity-document-verification-statuses)
       1. [Identity document types](#identity-document-types)
    1. [Retrieving a device](#retrieving-a-device)
-   1. [Deactivating a user](#deactivating-a-user) 
+   1. [Deactivating a user](#deactivating-a-user)
    1. [Handling errors](#handling-errors)
 
 
@@ -127,7 +127,7 @@ If the request is successful, the device is ready to be Trusonafied.
 | :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `DeviceNotFoundError` | Indicates that the request to activate the device failed because the device could not be found, most likely due to an invalid `activationCode`. |
 | `ValidationError`     | Indicates that the request to activate the device failed because the `activationCode` was blank.                                                |
-| `TrusonaError`        | Indicates that the request to activate the device failed, check the message to determine the reason.        
+| `TrusonaError`        | Indicates that the request to activate the device failed, check the message to determine the reason.
 
 ### Creating Trusonafications
 
@@ -142,7 +142,7 @@ const trusonafication = trusona.createTrusonafication(Trusonafication.essential
         .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
         .action("login")
         .resource("Acme Bank")
-        .build()) 
+        .build())
 
 const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
 
@@ -272,13 +272,13 @@ use cases, except you use the `pollForTrusonafication()` function rather than `g
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = trusona.createTrusonafication(Trusonafication.executive
+const trusonafication = await trusona.createTrusonafication(Trusonafication.executive
         .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
         .action("login")
         .resource("Acme Bank")
         .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id, 1000)
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
 if(trusonaficationResult.status === `ACCEPTED`) {
   // handle successful authentication
@@ -434,7 +434,7 @@ If you want to check whether or not a device has been activated, or when it was 
 
 ```js
 const trusona = new Trusona(token, secret)
- 
+
 const device = await trusona.getDevice("r1ByVyVKJ7TRgU0RPX0-THMTD_CO3VrCSNqLpJFmhms")
 
 if(device.active) {
@@ -448,7 +448,7 @@ You may wish to disable a user from having the ability to authenticate from any 
 
 ```js
 const trusona = new Trusona(token, secret)
- 
+
 const device = await trusona.deactivateUser("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
 
 if(!device.active) {

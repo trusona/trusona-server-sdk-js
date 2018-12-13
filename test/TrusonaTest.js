@@ -20,15 +20,21 @@ describe('Trusona', () => {
     fauxDevice = await FauxDevice.create()
   })
 
+  describe('The SDK constructor', () => {
+    it('should point to production by default', () => {
+      assert.equal(new Trusona(token, secret).requestHelper.baseUrl, 'https://api.trusona.net')
+    })
+  })
+
   describe('Getting a valid web sdk configuration from Api Credentials', () => {
     it('Getting a valid web sdk configuration from Api Credentials', async () => {
-      const fakeToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ0cnVhZG1pbi5hcGkudHJ1c29uYS5jb20iLCJzdWIiOiIwZjAzNDhmMC00NmQ2LTQ3YzktYmE0ZC0yZTdjZDdmODJlM2UiLCJhdWQiOiJhcGkudHJ1c29uYS5jb20iLCJleHAiOjE1MTk4ODU0OTgsImlhdCI6MTQ4ODMyNzg5OCwianRpIjoiNzg4YWYwNzAtNDBiOS00N2MxLWE3ZmUtOGUwZmE1NWUwMDE1IiwiYXRoIjoiUk9MRV9UUlVTVEVEX1JQX0NMSUVOVCJ9.2FNvjG9yB5DFEcNijk8TryRtKVffiDARRcRIb75Z_Pp85MxW63rhzdLFIN6PtQ1Tzb8lHPPM_4YOe-feeLOzWw"
-      const fakeSecret = "secret"
+      const fakeToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ0cnVhZG1pbi5hcGkudHJ1c29uYS5jb20iLCJzdWIiOiIwZjAzNDhmMC00NmQ2LTQ3YzktYmE0ZC0yZTdjZDdmODJlM2UiLCJhdWQiOiJhcGkudHJ1c29uYS5jb20iLCJleHAiOjE1MTk4ODU0OTgsImlhdCI6MTQ4ODMyNzg5OCwianRpIjoiNzg4YWYwNzAtNDBiOS00N2MxLWE3ZmUtOGUwZmE1NWUwMDE1IiwiYXRoIjoiUk9MRV9UUlVTVEVEX1JQX0NMSUVOVCJ9.2FNvjG9yB5DFEcNijk8TryRtKVffiDARRcRIb75Z_Pp85MxW63rhzdLFIN6PtQ1Tzb8lHPPM_4YOe-feeLOzWw'
+      const fakeSecret = 'secret'
       const fakeTrusona = new Trusona(fakeToken, fakeSecret, Trusona.UAT)
       const webSdkConfig = fakeTrusona.getWebSdkConfig()
       const parsedWebSdkConfig = JSON.parse(webSdkConfig)
-      assert.equal(parsedWebSdkConfig.truCodeUrl, "https://api.staging.trusona.net")
-      assert.equal(parsedWebSdkConfig.relyingPartyId, "0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e")
+      assert.equal(parsedWebSdkConfig.truCodeUrl, 'https://api.staging.trusona.net')
+      assert.equal(parsedWebSdkConfig.relyingPartyId, '0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e')
     })
   })
 
@@ -92,8 +98,8 @@ describe('Trusona', () => {
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
         .deviceIdentifier(activeDevice.deviceIdentifier)
-        .action("login")
-        .resource("resource")
+        .action('login')
+        .resource('resource')
         .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
@@ -112,8 +118,8 @@ describe('Trusona', () => {
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
         .deviceIdentifier(activeDevice.deviceIdentifier)
-        .action("login")
-        .resource("resource")
+        .action('login')
+        .resource('resource')
         .withoutUserPresence()
         .withoutPrompt()
         .build()
@@ -127,10 +133,10 @@ describe('Trusona', () => {
 
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
-        .truCode("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
-        .action("login")
-        .resource("resource")
-        .build();
+        .truCode('73CC202D-F866-4C72-9B43-9FCF5AF149BD')
+        .action('login')
+        .resource('resource')
+        .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
       assert.exists(response.id)
@@ -148,12 +154,38 @@ describe('Trusona', () => {
     it('should create a new essential trusonafication', async () => {
       const trusonafication = Trusonafication.essential
       .userIdentifier(activeDevice.userIdentifier)
-      .action("login")
-      .resource("resource")
+      .action('login')
+      .resource('resource')
       .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
       assert.exists(response.id)
+    })
+  })
+
+  describe('Polling for a trusonafication', () => {
+    it('should return null if trusonafication never does not exist', async () => {
+      const response = await trusona.pollForTrusonafication(uuid())
+      assert.isNull(response)
+    })
+
+    it('should return an expired trusonafication if not accepted', async () => {
+      const activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
+
+      const expiresAt = new Date()
+      expiresAt.setSeconds(expiresAt.getSeconds() - 1)
+
+      const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+        .userIdentifier(activeDevice.userIdentifier)
+        .action('login')
+        .resource('resource')
+        .expiresAt(expiresAt.toISOString())
+        .build())
+
+      const response = await trusona.pollForTrusonafication(trusonafication.id)
+
+      assert.equal(response.status, 'EXPIRED')
     })
   })
 
@@ -166,11 +198,16 @@ describe('Trusona', () => {
         .then((activeDevice) => fauxDevice.registerAamvaDriversLicense('hash1'))
     })
 
+    it('should return null if no identity document is found', async () => {
+      const response = await trusona.getIdentityDocument(uuid())
+      assert.isNull(response)
+    })
+
     it('should get an identity document based on the provided document id', async () => {
-      const response = await trusona.getIdentityDocument(document.id);
-      assert.equal(response.hash, 'hash1');
-    });
-  });
+      const response = await trusona.getIdentityDocument(document.id)
+      assert.equal(response.hash, 'hash1')
+    })
+  })
 
   describe('Creating an Executive Trusonafication', () => {
     let activeDevice
@@ -184,8 +221,8 @@ describe('Trusona', () => {
     it('should create a new executive trusonafication', async () => {
       const trusonafication = Trusonafication.executive
         .deviceIdentifier(activeDevice.deviceIdentifier)
-        .action("login")
-        .resource("resource")
+        .action('login')
+        .resource('resource')
         .build()
 
       const response = await trusona.createTrusonafication(trusonafication)
@@ -209,49 +246,47 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Getting a paired trucode by request', () => {
+  describe('Getting a paired trucode by id', () => {
     let trucode
 
     beforeEach(async () => {
       trucode = await FauxWebClient.createTruCode()
-      await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
     })
 
-    it('should get a paired trucode by request', async () => {
+    it('should return null if it is not paired', async () => {
+      const response = await trusona.getPairedTruCode(trucode.id)
+      assert.isNull(response)
+    })
+
+    it('should return the paired trucode if it was paired', async () => {
+      await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
       const response = await trusona.getPairedTruCode(trucode.id)
       assert.equal(response.identifier, 'deviceIdentifier')
     })
   })
 
-  // describe('Getting a paired trucode by polling', () => {
-  //   let trucode
+  describe('Getting a paired trucode by polling', () => {
+    let trucode
 
-  //   beforeEach(async () => {
-  //     trucode = await FauxWebClient.createTruCode()
-  //     await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
-  //   })
+    beforeEach(async () => {
+      trucode = await FauxWebClient.createTruCode()
+    })
 
-  //   it('should get a paired trucode by polling', async () => {
-  //     trusona.pollForPairedTruCode(trucode.id, 1000).then(response =>
-  //       assert.equal(response.identifier, 'deviceIdentifier'));
-  //   })
-  // })
+    it('should timeout and return null if it never gets paired', async () => {
+      const response = await trusona.pollForPairedTruCode(trucode.id, 1000)
+      assert.isNull(response)
+    })
 
-  // describe('Getting an Essential Trusonafication by using email address', () => {
-  //   let response
+    it('should return the paired trucode if already paired', async () => {
+      await FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload)
+      const response = await trusona.pollForPairedTruCode(trucode.id, 1000)
+      assert.equal(response.identifier, 'deviceIdentifier')
+    })
 
-  //   beforeEach(async () => {
-  //     const trusonafication = Trusonafication.essential
-  //     .emailAddress("r@trusona.com")
-  //     .action("login")
-  //     .resource("resource")
-  //     .build()
-  //     response = await trusona.createTrusonafication(trusonafication)
-  //   })
-
-  //   it('should get a new essential trusonafication', async () => {
-  //     const result = await trusona.pollForTrusonafication(response.id, 10000)
-  //     assert.equal(result.status, `ACCEPTED`)
-  //   })
-  // })
+    it('should return the paired trucode if paired while polling', async () => {
+      setTimeout(() => FauxMobileClient.pairTruCode('deviceIdentifier', trucode.payload), 1000)
+      const response = await trusona.pollForPairedTruCode(trucode.id, 3000)
+      assert.equal(response.identifier, 'deviceIdentifier')
+    })
+  })
 })

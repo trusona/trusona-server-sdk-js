@@ -12,6 +12,7 @@ const request = require('request-promise')
 const PRODUCTION = "production"
 const UAT = "uat";
 
+const DEFAULT_POLLING_INTERVAL = 5000
 
 class Trusona {
 
@@ -82,13 +83,12 @@ class Trusona {
     })
   }
 
-  pollForTrusonafication(trusonafication_id, timeout){
+  pollForTrusonafication(trusonafication_id){
     return promisePoller({
       taskFn: this.getTrusonaficationResult.bind(this, trusonafication_id),
-      interval: 5000,
-      timeout: timeout,
+      interval: DEFAULT_POLLING_INTERVAL,
       shouldContinue(error, result) {
-        return error === null && result.status === `IN_PROGRESS`
+        return error === null && result && result.status === `IN_PROGRESS`
       }
     })
   }
@@ -111,7 +111,7 @@ class Trusona {
   deactivateUser(userIdentifier){
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/users/${userIdentifier}`,
-      method: 'DELETE' 
+      method: 'DELETE'
     })
 
     return request(options).catch(error => {
@@ -156,14 +156,23 @@ class Trusona {
     })
   }
 
-  pollForPairedTruCode(trucode_id, timeout){
+  pollForPairedTruCode(trucode_id, timeout) {
+    const pollingInterval = Math.min(DEFAULT_POLLING_INTERVAL, timeout)
+    const retries = Math.floor(timeout / pollingInterval) + 1
+
     return promisePoller({
       taskFn: this.getPairedTruCode.bind(this, trucode_id),
-      interval: 5000,
-      timeout: timeout,
+      interval: pollingInterval,
+      masterTimeout: pollingInterval * retries,
       shouldContinue(error, result){
-        return result === `undefined`
+        return error === null && result === null
       }
+    })
+    .catch((error) => {
+      if (error === 'master timeout') {
+        return null
+      }
+      throw error
     })
   }
 
@@ -171,11 +180,11 @@ class Trusona {
     var parsedToken = this.apiCredentials.getParsedToken()
     if(parsedToken === null){
       console.log("The provided access token is invalid. Please check your configuration")
-    } else{ 
+    } else{
       const webSdkConfig = new WebSdkConfig(this.requestHelper.baseUrl, parsedToken.sub)
       return JSON.stringify(webSdkConfig)
     }
-  } 
+  }
 }
 
 module.exports = Trusona

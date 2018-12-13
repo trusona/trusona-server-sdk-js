@@ -13,7 +13,7 @@ class GenericErrorHandler {
                 "The token and/or secret you are using are invalid. Contact Trusona to get valid Server SDK credentials.")
         }
         else if (response.statusCode == 404) {
-            //no-op since 404 results in null
+            return null
         }
         else if (response.statusCode == 422) {
             var parsedError = JSON.parse(response.error)
@@ -25,7 +25,7 @@ class GenericErrorHandler {
             throw new TrusonaError(response.statusCode + " - " +
               "The server was unable to process your request at this time. Feel free to try your request again later.")
         }
-       
     }
+
 }
 module.exports = GenericErrorHandler
