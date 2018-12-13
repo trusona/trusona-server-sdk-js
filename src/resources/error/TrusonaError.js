@@ -1,8 +1,9 @@
 class TrusonaError extends Error {
 
-    constructor(message) {
-        super(message);
-        this.name = this.constructor.name;
-    }
+  constructor(message) {
+    super(message)
+    this.name = this.constructor.name
+  }
 }
+
 module.exports = TrusonaError

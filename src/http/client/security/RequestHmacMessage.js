@@ -23,7 +23,7 @@ class RequestHmacMessage {
     if (this.options.qs) {
       return `${this.options.url}?${qs.stringify(this.options.qs)}`
     } else {
-      return this.options.url;
+      return this.options.url
     }
   }
 

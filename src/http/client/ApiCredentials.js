@@ -14,29 +14,29 @@ class ApiCredentials{
   }
 
   getParsedToken() {
-    var parsedToken = null
-    var parts = this.token.split('.')
+    let parsedToken = null
+    const parts = this.token.split('.')
 
     if (parts.length == 3) {
-        var part = parts[1]
-        var data = this.addPadding(part);
-        
-        data = this.replace(data, "_", "/")
-        data = this.replace(data, "-", "+")
-        
-        var decodedData = Buffer.from(data, 'base64')
+        const part = parts[1]
+        let data = this.addPadding(part)
+
+        data = this.replace(data, '_', '/')
+        data = this.replace(data, '-', '+')
+
+        const decodedData = Buffer.from(data, 'base64')
         parsedToken = JSON.parse(decodedData)
     }else{
-        console.log("Invalid token")
+        console.log('Invalid token')
     }
     return parsedToken
   }
-  
+
   addPadding(s) {
-    var missing = s.length % 4;
-    var ret = s;
-    for (var i = 0; i < missing; i++) { 
-      ret = ret + "="
+    const missing = s.length % 4
+    let ret = s
+    for (let i = 0; i < missing; i++) {
+      ret = ret + '='
     }
     return ret
   }

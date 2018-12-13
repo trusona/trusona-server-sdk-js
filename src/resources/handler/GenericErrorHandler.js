@@ -18,7 +18,7 @@ class GenericErrorHandler {
       return null
     }
     else if (response.statusCode == 422) {
-      var parsedError = JSON.parse(response.error)
+      const parsedError = JSON.parse(response.error)
       throw new ValidationError(this.formatMessage(response.statusCode, parsedError.description), parsedError.field_errors)
     }
     else if (response.statusCode >= 500 && response.statusCode < 600) {

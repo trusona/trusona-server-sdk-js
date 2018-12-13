@@ -6,11 +6,11 @@ const UserErrorHandler = require('./resources/handler/UserErrorHandler')
 const ApiCredentials = require('./http/client/ApiCredentials')
 const RequestHelper = require('./http/client/RequestHelper')
 const WebSdkConfig = require('./resources/dto/WebSdkConfig')
-const promisePoller = require('promise-poller').default;
+const promisePoller = require('promise-poller').default
 const request = require('request-promise')
 
-const PRODUCTION = "production"
-const UAT = "uat";
+const PRODUCTION = 'production'
+const UAT = 'uat'
 
 const DEFAULT_POLLING_INTERVAL = 5000
 
@@ -22,11 +22,11 @@ class Trusona {
   }
 
   static get UAT() {
-    return UAT;
+    return UAT
   }
 
   static get PRODUCTION() {
-    return PRODUCTION;
+    return PRODUCTION
   }
 
   createUserDevice(userIdentifier, deviceIdentifier) {
@@ -34,12 +34,12 @@ class Trusona {
       url: '/api/v2/user_devices',
       method: 'POST',
       transform : (body, response, resolveWithFullResponse) => {
-        body.activationCode = body.id;
-        return body;
+        body.activationCode = body.id
+        return body
       },
       body: {
-        'user_identifier': userIdentifier,
-        'device_identifier': deviceIdentifier
+        user_identifier: userIdentifier,
+        device_identifier: deviceIdentifier
       }
     })
 
@@ -62,7 +62,7 @@ class Trusona {
 
   createTrusonafication(trusonafication) {
     const options = this.requestHelper.getSignedRequest({
-      url: `/api/v2/trusonafications`,
+      url: '/api/v2/trusonafications',
       method: 'POST',
       body : trusonafication
     })
@@ -72,9 +72,9 @@ class Trusona {
     })
   }
 
-  getTrusonaficationResult(trusonafication_id){
+  getTrusonaficationResult(trusonaficationId){
     const options = this.requestHelper.getSignedRequest({
-      url: `/api/v2/trusonafications/${trusonafication_id}`,
+      url: `/api/v2/trusonafications/${trusonaficationId}`,
       method: 'GET'
     })
 
@@ -83,12 +83,12 @@ class Trusona {
     })
   }
 
-  pollForTrusonafication(trusonafication_id){
+  pollForTrusonafication(trusonaficationId){
     return promisePoller({
-      taskFn: this.getTrusonaficationResult.bind(this, trusonafication_id),
+      taskFn: this.getTrusonaficationResult.bind(this, trusonaficationId),
       interval: DEFAULT_POLLING_INTERVAL,
       shouldContinue(error, result) {
-        return error === null && result && result.status === `IN_PROGRESS`
+        return error === null && result && result.status === 'IN_PROGRESS'
       }
     })
   }
@@ -98,7 +98,7 @@ class Trusona {
       url: `/api/v2/devices/${deviceIdentifier}`,
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
-        body.active = body.isActive;
+        body.active = body.isActive
         return body
       }
     })
@@ -119,12 +119,12 @@ class Trusona {
     })
   }
 
-  getIdentityDocument(document_id) {
+  getIdentityDocument(documentId) {
     const options = this.requestHelper.getSignedRequest({
-      url: `/api/v2/identity_documents/${document_id}`,
+      url: `/api/v2/identity_documents/${documentId}`,
       method: 'GET',
       transform : (body, response, resolveWithFullResponse) => {
-        body.active = body.isActive;
+        body.active = body.isActive
         return body
       }
     })
@@ -136,7 +136,7 @@ class Trusona {
 
   findIdentityDocuments(userIdentifier) {
     const options = this.requestHelper.getSignedRequest({
-      url: `/api/v2/identity_documents`,
+      url: '/api/v2/identity_documents',
       method: 'GET',
       qs: { user_identifier: userIdentifier }
     })
@@ -146,9 +146,9 @@ class Trusona {
     })
   }
 
-  getPairedTruCode(trucode_id){
+  getPairedTruCode(truCodeId){
     const options = this.requestHelper.getSignedRequest({
-      url: `/api/v2/paired_trucodes/${trucode_id}`,
+      url: `/api/v2/paired_trucodes/${truCodeId}`,
       method: 'GET'
     })
     return request(options).catch(error => {
@@ -156,12 +156,12 @@ class Trusona {
     })
   }
 
-  pollForPairedTruCode(trucode_id, timeout) {
+  pollForPairedTruCode(truCodeId, timeout) {
     const pollingInterval = Math.min(DEFAULT_POLLING_INTERVAL, timeout)
     const retries = Math.floor(timeout / pollingInterval) + 1
 
     return promisePoller({
-      taskFn: this.getPairedTruCode.bind(this, trucode_id),
+      taskFn: this.getPairedTruCode.bind(this, truCodeId),
       interval: pollingInterval,
       masterTimeout: pollingInterval * retries,
       shouldContinue(error, result){
@@ -176,10 +176,10 @@ class Trusona {
     })
   }
 
-  getWebSdkConfig(){
-    var parsedToken = this.apiCredentials.getParsedToken()
+  getWebSdkConfig() {
+    const parsedToken = this.apiCredentials.getParsedToken()
     if(parsedToken === null){
-      console.log("The provided access token is invalid. Please check your configuration")
+      console.log('The provided access token is invalid. Please check your configuration')
     } else{
       const webSdkConfig = new WebSdkConfig(this.requestHelper.baseUrl, parsedToken.sub)
       return JSON.stringify(webSdkConfig)

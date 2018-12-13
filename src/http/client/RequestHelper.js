@@ -3,7 +3,7 @@ const ResponseHmacMessage = require('./security/ResponseHmacMessage')
 const RequestHmacMessage = require('./security/RequestHmacMessage')
 const TrusonaError = require('../../resources/error/TrusonaError')
 const Environment = require('./environment/Environment')
-const camelcaseObject = require('camelcase-object');
+const camelcaseObject = require('camelcase-object')
 
 class RequestHelper {
 
@@ -31,7 +31,7 @@ class RequestHelper {
     options.transform = (body, response, resolveWithFullResponse) => {
 
       if(response.statusCode.toString().startsWith('2')){
-        const responseHmacMessage = new ResponseHmacMessage(response);
+        const responseHmacMessage = new ResponseHmacMessage(response)
         const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
         if(response.headers['x-signature'] === signature){

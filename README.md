@@ -341,7 +341,7 @@ Call the `renderTruCode` function in the Web SDK using the Web SDK Config from t
 
 ```html
 <script>
-  var truCodeConfig = #{webSdkConfig}; // example: {"truCodeUrl": "https://example.net", "relyingPartyId": "C97A800D-75E8-43B5-87A5-3282B0DD8576" }
+  var truCodeConfig = #{webSdkConfig} // example: {"truCodeUrl": "https://example.net", "relyingPartyId": "C97A800D-75E8-43B5-87A5-3282B0DD8576" }
 
   Trusona.renderTruCode({
     truCodeConfig: truCodeConfig,
@@ -351,7 +351,7 @@ Call the `renderTruCode` function in the Web SDK using the Web SDK Config from t
     },
     onError: function() {
       // handle if there were errors fetching truCodes
-    });
+    })
 </script>
 ```
 
@@ -367,7 +367,7 @@ Identity documents can be registered using the Trusona Mobile SDK and are requir
 ```js
 const trusona = new Trusona(token, secret)
 
-const documents = trusona.findIdentityDocuments(userIdentifier);
+const documents = trusona.findIdentityDocuments(userIdentifier)
 
 if (documents[0] !== 'undefined') {
   // Not capable of accepting Executive Trusonafications
@@ -385,7 +385,7 @@ This example shows how to determine if a user is capable of accepting Executive 
 ```js
 const trusona = new Trusona(token, secret)
 
-const documents = trusona.getIdentityDocument(document.id);
+const documents = trusona.getIdentityDocument(document.id)
 
 documents.verificationStatus // UNVERIFIED, UNVERIFIABLE, VERIFIED, or FAILED
 ```

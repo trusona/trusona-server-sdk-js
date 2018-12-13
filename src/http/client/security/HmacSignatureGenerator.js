@@ -1,4 +1,4 @@
-var crypto = require("crypto")
+const crypto = require('crypto')
 
 class HmacSignatureGenerator {
 
@@ -12,7 +12,7 @@ class HmacSignatureGenerator {
       message.requestUri
     ]
 
-    var valueToDigest = parts.join(`\n`)
+    const valueToDigest = parts.join(`\n`)
     const hash = crypto.createHmac('sha256', secret)
                    .update(valueToDigest)
                    .digest('hex')
