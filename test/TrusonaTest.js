@@ -16,6 +16,7 @@ const Trusonafication = require('../src/resources/dto/Trusonafication')
 const DeviceAlreadyBoundError = require('../src/resources/error/DeviceAlreadyBoundError')
 const DeviceNotFoundError = require('../src/resources/error/DeviceNotFoundError')
 const NoIdentityDocumentError = require('../src/resources/error/NoIdentityDocumentError')
+const UserNotFoundError = require('../src/resources/error/UserNotFoundError')
 
 const token = process.env.TRUSONA_TOKEN
 const secret = process.env.TRUSONA_SECRET
@@ -108,11 +109,10 @@ describe('Trusona', () => {
       inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
     })
 
-    context('with an active device', () => {
-      it('should show the device is active', async () => {
-        const activeDevice = await trusona.activateUserDevice(inactiveDevice.activationCode)
-        const response = await trusona.getDevice(activeDevice.deviceIdentifier)
-        assert.isTrue(response.active)
+    context('with a device that does not exist', () => {
+      it('should return null', async () => {
+        const response = await trusona.getDevice(uuid())
+        assert.isNull(response)
       })
     })
 
@@ -122,20 +122,44 @@ describe('Trusona', () => {
         assert.isFalse(response.active)
       })
     })
+
+    context('with an active device', () => {
+      it('should show the device is active', async () => {
+        const activeDevice = await trusona.activateUserDevice(inactiveDevice.activationCode)
+        const response = await trusona.getDevice(activeDevice.deviceIdentifier)
+        assert.isTrue(response.active)
+      })
+    })
   })
 
   describe('Deactivating a user', () => {
-    let activeDevice
-
-    beforeEach(async () => {
-      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-      .then((inactiveDevice)  => trusona.activateUserDevice(inactiveDevice.activationCode))
-      await trusona.deactivateUser(activeDevice.userIdentifier)
+    context('with a user that does not exist', () => {
+      it('should throw a UserNotFoundError', async () => {
+        await assert.isRejected(trusona.deactivateUser(uuid()), UserNotFoundError)
+      })
     })
 
-    it('should deactivate a user device', async () => {
-      const response = await trusona.getDevice(activeDevice.deviceIdentifier)
-      assert.isFalse(response.active)
+    context('with a user that does exist', () => {
+      it('should deactivate the user and his/her devices', async () => {
+        let activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice)  => trusona.activateUserDevice(inactiveDevice.activationCode))
+
+        await trusona.deactivateUser(activeDevice.userIdentifier)
+
+        const response = await trusona.getDevice(activeDevice.deviceIdentifier)
+        assert.isFalse(response.active)
+      })
+    })
+
+    context('with a user that was already deactivated', () => {
+      it('should throw a UserNotFoundError', async () => {
+        let activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+          .then((inactiveDevice)  => trusona.activateUserDevice(inactiveDevice.activationCode))
+
+        await trusona.deactivateUser(activeDevice.userIdentifier)
+
+        await assert.isRejected(trusona.deactivateUser(activeDevice.userIdentifier), UserNotFoundError)
+      })
     })
   })
 
