@@ -16,6 +16,7 @@ const Trusonafication = require('../src/resources/dto/Trusonafication')
 const DeviceAlreadyBoundError = require('../src/resources/error/DeviceAlreadyBoundError')
 const DeviceNotFoundError = require('../src/resources/error/DeviceNotFoundError')
 const NoIdentityDocumentError = require('../src/resources/error/NoIdentityDocumentError')
+const TrusonaError = require('../src/resources/error/TrusonaError')
 const UserNotFoundError = require('../src/resources/error/UserNotFoundError')
 const ValidationError = require('../src/resources/error/ValidationError')
 
@@ -31,9 +32,14 @@ describe('Trusona', () => {
     fauxDevice = await FauxDevice.create()
   })
 
-  describe('The SDK constructor', () => {
+  describe('The SDK', () => {
     it('should point to production by default', () => {
       assert.equal(new Trusona(token, secret).requestHelper.baseUrl, 'https://api.trusona.net')
+    })
+
+    it('should throw a TrusonaError if credentials are invalid after making your first call', async () => {
+      trusona = new Trusona(token, 'wrong-secret', Trusona.UAT)
+      await assert.isRejected(trusona.getDevice(uuid()), TrusonaError, 'credentials')
     })
   })
 
