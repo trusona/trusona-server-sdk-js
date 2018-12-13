@@ -47,7 +47,7 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Creating an user device', () => {
+  describe('Creating a user device', () => {
     context('for a device that does not exist', () => {
       it('should throw a DeviceNotFoundError', async () => {
         await assert.isRejected(trusona.createUserDevice(uuid(), uuid()), DeviceNotFoundError)
@@ -78,7 +78,7 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Activating an user device', () => {
+  describe('Activating a user device', () => {
     context('with an invalid activation code', () => {
       it('should throw a DeviceNotFoundException', async () => {
         await assert.isRejected(trusona.activateUserDevice(uuid()), DeviceNotFoundError)
@@ -101,17 +101,26 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Getting an user device', () => {
-    let activeDevice
+  describe('Getting a user device', () => {
+    let inactiveDevice
 
     beforeEach(async () => {
-      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-      .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
+      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
     })
 
-    it('should get a user device', async () => {
-      const response = await trusona.getDevice(activeDevice.deviceIdentifier)
-      assert.isTrue(response.active)
+    context('with an active device', () => {
+      it('should show the device is active', async () => {
+        const activeDevice = await trusona.activateUserDevice(inactiveDevice.activationCode)
+        const response = await trusona.getDevice(activeDevice.deviceIdentifier)
+        assert.isTrue(response.active)
+      })
+    })
+
+    context('with an inactive device', () => {
+      it('should show the device is not active', async () => {
+        const response = await trusona.getDevice(inactiveDevice.deviceIdentifier)
+        assert.isFalse(response.active)
+      })
     })
   })
 
