@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "camelcase-object": "^1.0.0",
-    "dateformat": "^3.0.3",
     "promise-poller": "^1.7.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2"

@@ -2,7 +2,6 @@ const HmacSignatureGenerator = require('./security/HmacSignatureGenerator')
 const ResponseHmacMessage = require('./security/ResponseHmacMessage')
 const RequestHmacMessage = require('./security/RequestHmacMessage')
 const TrusonaError = require('../../resources/error/TrusonaError')
-const DateUtils = require('../../resources/util/DateUtils')
 const Environment = require('./environment/Environment')
 const camelcaseObject = require('camelcase-object');
 
@@ -19,7 +18,7 @@ class RequestHelper {
     options.headers = this.getHeaders(options)
     options.json = false
     options.body = JSON.stringify(options.body)
-      
+
     let originalTransform = options.transform
     const signatureGenerator = new HmacSignatureGenerator()
 
@@ -63,7 +62,7 @@ class RequestHelper {
   getHeaders(options) {
     let headers = {
       'user-agent': 'TrusonaServerSdk/1.0',
-      'date' : new DateUtils().getDate()
+      'date' : new Date().toUTCString()
     }
 
     if (options.body) {
