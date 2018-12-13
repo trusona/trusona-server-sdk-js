@@ -13,6 +13,7 @@ const FauxDevice = require('./FauxDevice')
 const Trusona = require('../src/Trusona')
 const Trusonafication = require('../src/resources/dto/Trusonafication')
 
+const DeviceNotFoundError = require('../src/resources/error/DeviceNotFoundError')
 const NoIdentityDocumentError = require('../src/resources/error/NoIdentityDocumentError')
 
 const token = process.env.TRUSONA_TOKEN
@@ -46,9 +47,17 @@ describe('Trusona', () => {
   })
 
   describe('Creating an user device', () => {
-    it('should bind a user identifier to a device', async () => {
-      const response = await trusona.createUserDevice(uuid(), fauxDevice.id)
-      assert.exists(response.activationCode)
+    context('for a device that does not exist', () => {
+      it('should throw a DeviceNotFoundError', async () => {
+        await assert.isRejected(trusona.createUserDevice(uuid(), uuid()), DeviceNotFoundError)
+      })
+    })
+
+    context('for an unbound device', () => {
+      it('should bind the user identifier to the device and return an activation code', async () => {
+        const response = await trusona.createUserDevice(uuid(), fauxDevice.id)
+        assert.exists(response.activationCode)
+      })
     })
   })
 
@@ -179,14 +188,14 @@ describe('Trusona', () => {
     })
 
     context('for a user without an identity document registered', () => {
-      it('should throw a NoIdentityDocumentError', () => {
+      it('should throw a NoIdentityDocumentError', async () => {
         const trusonafication = Trusonafication.executive
           .deviceIdentifier(activeDevice.deviceIdentifier)
           .action('login')
           .resource('resource')
           .build()
 
-        return assert.isRejected(trusona.createTrusonafication(trusonafication), NoIdentityDocumentError)
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), NoIdentityDocumentError)
       })
     })
 
