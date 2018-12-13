@@ -79,15 +79,18 @@ describe('Trusona', () => {
   })
 
   describe('Activating an user device', () => {
-    let inactiveDevice
-
-    beforeEach(async () => {
-      inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+    context('with an invalid activation code', () => {
+      it('should throw a DeviceNotFoundException', async () => {
+        await assert.isRejected(trusona.activateUserDevice(uuid()), DeviceNotFoundError)
+      })
     })
 
-    it('should activate an inactive device', async () => {
-      const response = await trusona.activateUserDevice(inactiveDevice.activationCode)
-      assert.isTrue(response.active)
+    context('with a valid activation code', () => {
+      it('should activate an inactive device', async () => {
+        let inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+        const response = await trusona.activateUserDevice(inactiveDevice.activationCode)
+        assert.isTrue(response.active)
+      })
     })
   })
 
