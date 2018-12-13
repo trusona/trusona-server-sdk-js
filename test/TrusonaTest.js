@@ -1,12 +1,19 @@
-const Trusonafication = require('../src/resources/dto/Trusonafication')
-const FauxMobileClient = require('./FauxMobileClient')
-const FauxWebClient = require('./FauxWebClient')
-const FauxDevice = require('./FauxDevice')
-const Trusona = require('../src/Trusona')
 const dotenv = require('dotenv').config()
 const uuid = require('uuid/v4')
 const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+
+chai.use(chaiAsPromised)
 const assert = chai.assert
+
+const FauxMobileClient = require('./FauxMobileClient')
+const FauxWebClient = require('./FauxWebClient')
+const FauxDevice = require('./FauxDevice')
+
+const Trusona = require('../src/Trusona')
+const Trusonafication = require('../src/resources/dto/Trusonafication')
+
+const NoIdentityDocumentError = require('../src/resources/error/NoIdentityDocumentError')
 
 const token = process.env.TRUSONA_TOKEN
 const secret = process.env.TRUSONA_SECRET
@@ -163,6 +170,43 @@ describe('Trusona', () => {
     })
   })
 
+  describe('Creating an Executive Trusonafication', () => {
+    let activeDevice
+
+    beforeEach(async () => {
+      const inactiveDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
+      activeDevice = await trusona.activateUserDevice(inactiveDevice.activationCode)
+    })
+
+    context('for a user without an identity document registered', () => {
+      it('should throw a NoIdentityDocumentError', () => {
+        const trusonafication = Trusonafication.executive
+          .deviceIdentifier(activeDevice.deviceIdentifier)
+          .action('login')
+          .resource('resource')
+          .build()
+
+        return assert.isRejected(trusona.createTrusonafication(trusonafication), NoIdentityDocumentError)
+      })
+    })
+
+    context('for a user with an identity document registered', () => {
+      it('should create a new executive trusonafication', async () => {
+        await fauxDevice.registerAamvaDriversLicense('hash1')
+
+        const trusonafication = Trusonafication.executive
+          .deviceIdentifier(activeDevice.deviceIdentifier)
+          .action('login')
+          .resource('resource')
+          .build()
+
+        const response = await trusona.createTrusonafication(trusonafication)
+        assert.equal(response.desiredLevel, 3)
+        assert.equal(response.showIdentityDocument, true)
+      })
+    })
+  })
+
   describe('Polling for a trusonafication', () => {
     it('should return null if trusonafication never does not exist', async () => {
       const response = await trusona.pollForTrusonafication(uuid())
@@ -206,28 +250,6 @@ describe('Trusona', () => {
     it('should get an identity document based on the provided document id', async () => {
       const response = await trusona.getIdentityDocument(document.id)
       assert.equal(response.hash, 'hash1')
-    })
-  })
-
-  describe('Creating an Executive Trusonafication', () => {
-    let activeDevice
-
-    beforeEach(async () => {
-      activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
-        .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
-      await fauxDevice.registerAamvaDriversLicense('hash1')
-    })
-
-    it('should create a new executive trusonafication', async () => {
-      const trusonafication = Trusonafication.executive
-        .deviceIdentifier(activeDevice.deviceIdentifier)
-        .action('login')
-        .resource('resource')
-        .build()
-
-      const response = await trusona.createTrusonafication(trusonafication)
-      assert.equal(response.desiredLevel, 3)
-      assert.equal(response.showIdentityDocument, true)
     })
   })
 
