@@ -383,8 +383,37 @@ describe('Trusona', () => {
         const response = await trusona.pollForTrusonafication(trusonafication.id)
 
         assert.equal(response.status, 'EXPIRED')
+        assert.isFalse(response.successful)
       })
     })
+
+    // context('with a trusonafication that is accepted', () => {
+    //   it('should return an expired trusonafication', async () => {
+    //     const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+    //       .emailAddress('r@trusona.com')
+    //       .action('login')
+    //       .resource('resource')
+    //       .build())
+
+    //     const response = await trusona.pollForTrusonafication(trusonafication.id)
+
+    //     assert.isTrue(response.successful)
+    //   })
+    // })
+
+    // context('with a trusonafication that is rejected', () => {
+    //   it('should return an expired trusonafication', async () => {
+    //     const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+    //       .emailAddress('r@trusona.com')
+    //       .action('login')
+    //       .resource('resource')
+    //       .build())
+
+    //     const response = await trusona.pollForTrusonafication(trusonafication.id)
+
+    //     assert.isFalse(response.successful)
+    //   })
+    // })
   })
 
   describe('Getting an identity document', () => {

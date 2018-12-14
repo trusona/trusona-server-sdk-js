@@ -46,7 +46,7 @@ The two credentials required by the SDK include a `token` and `secret`. Both are
 
 ### System requirements
 
-The Trusona Server SDK requires nodejs # or above.
+The Trusona Server SDK requires Node JS (TODO: minimum node version) or above.
 
 
 ## NPM Setup
@@ -146,7 +146,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if (trusonaficationResult.status === 'ACCEPTED') {
+if (trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```
@@ -168,7 +168,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if (trusonaficationResult.status === 'ACCEPTED') {
+if (trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```
@@ -188,7 +188,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if (trusonaficationResult.status === 'ACCEPTED') {
+if (trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```
@@ -208,7 +208,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if (trusonaficationResult.status === 'ACCEPTED') {
+if (trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```
@@ -228,7 +228,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if (trusonaficationResult.status === 'ACCEPTED') {
+if (trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```
@@ -257,7 +257,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.exec
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if (trusonaficationResult.status === 'ACCEPTED') {
+if (trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```
@@ -280,7 +280,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.exec
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if(trusonaficationResult.status === `ACCEPTED`) {
+if(trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```

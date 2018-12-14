@@ -75,7 +75,13 @@ class Trusona {
   getTrusonaficationResult(trusonaficationId){
     const options = this.requestHelper.getSignedRequest({
       url: `/api/v2/trusonafications/${trusonaficationId}`,
-      method: 'GET'
+      method: 'GET',
+      transform : (body, response, resolveWithFullResponse) => {
+        if (body && body.status) {
+          body.successful = body.status === 'ACCEPTED' || body.status === 'ACCEPTED_AT_HIGHER_LEVEL'
+        }
+        return body
+      }
     })
 
     return request(options).catch(error => {

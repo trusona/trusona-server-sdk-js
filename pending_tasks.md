@@ -2,5 +2,6 @@
 
 ## Pending Tasks
 
-1. Move project into the `Trusona` org
-2. Publish sdk to NPM
+1. Update README with minimum Node version
+2. Move project into the `Trusona` org
+3. Publish sdk to NPM
