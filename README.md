@@ -21,7 +21,7 @@ The Trusona Server SDK allows simplified interaction with the Trusona API.
       1. [Creating an Essential Trusonafication, with the user's identifier](#creating-an-essential-trusonafication-with-the-users-identifier)
       1. [Creating an Essential Trusonafication, with the user's email](#creating-an-essential-trusonafication-with-the-users-email)
       1. [Creating an Executive Trusonafication](#creating-an-executive-trusonafication)
-      1. [Polling for a Trusonafication](#polling-for-a-trusonafication)
+      1. [Polling for a Trusonafication Result](#polling-for-a-trusonafication-result)
    1. [Using TruCode for device discovery](#using-trucode-for-device-discovery)
    1. [Retrieving identity documents](#retrieving-identity-documents)
       1. [Retrieving all identity documents for a user](#retrieving-all-identity-documents-for-a-user)
@@ -144,7 +144,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
   .resource("Acme Bank")
   .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
 if (trusonaficationResult.successful) {
   // handle successful authentication
@@ -166,7 +166,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
   .withoutPrompt()
   .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
 if (trusonaficationResult.successful) {
   // handle successful authentication
@@ -186,7 +186,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
   .resource("Acme Bank")
   .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
 if (trusonaficationResult.successful) {
   // handle successful authentication
@@ -206,7 +206,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
   .resource("Acme Bank")
   .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
 if (trusonaficationResult.successful) {
   // handle successful authentication
@@ -226,7 +226,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.esse
   .resource("Acme Bank")
   .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
 if (trusonaficationResult.successful) {
   // handle successful authentication
@@ -255,7 +255,7 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.exec
   .resource("Acme Bank")
   .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
 if (trusonaficationResult.successful) {
   // handle successful authentication
@@ -264,10 +264,9 @@ if (trusonaficationResult.successful) {
 
 Executive Trusonafications require the user to scan an identity document to authenticate. An identity document needs to be registered with the user's account using the Trusona Mobile SDKs before the user can accept an Executive Trusonafication, and they must scan the same document they registered at the time of Trusonafication. Like Essential, both the prompt and user presence features can be used and are enabled by default, but they can be turned off independently by calling `withoutPrompt()` or `withoutUserPresence()`, respectively.
 
-#### Polling for a Trusonafication
+#### Polling for a Trusonafication Result
 
-Getting a Trusonafication by polling is similar to the other
-use cases, except you use the `pollForTrusonafication()` function rather than `getTrusonaficationResult()`.
+Calling `pollForTrusonaficationResult()` will return a Promise that does not get fulfilled until the Trusonafication is either `ACCEPTED`, `REJECTED`, or `EXPIRED`. You may check the `status` if you want to see the details of what happened, or you can just get the `successful` property that will only return `true` if it was successful.
 
 ```js
 const trusona = new Trusona(token, secret)
@@ -278,12 +277,15 @@ const trusonafication = await trusona.createTrusonafication(Trusonafication.exec
   .resource("Acme Bank")
   .build())
 
-const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
-if(trusonaficationResult.successful) {
+if (trusonaficationResult.successful) {
   // handle successful authentication
 }
 ```
+
+Alternatively, if you already know the Trusonafication has been completed or want to implement your own polling logic, you can call
+`getTrusonaficationResult()`
 
 ##### Trusonafication Builder Options
 

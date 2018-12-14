@@ -89,7 +89,7 @@ class Trusona {
     })
   }
 
-  pollForTrusonafication(trusonaficationId){
+  pollForTrusonaficationResult(trusonaficationId){
     return promisePoller({
       taskFn: this.getTrusonaficationResult.bind(this, trusonaficationId),
       interval: DEFAULT_POLLING_INTERVAL,
