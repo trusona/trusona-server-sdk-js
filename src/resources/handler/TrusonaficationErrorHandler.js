@@ -4,20 +4,19 @@ const TrusonaError = require('../error/TrusonaError')
 
 class TrusonaficationErrorHandler extends GenericErrorHandler {
 
-    static handleError(response){
-        var parsedError = JSON.parse(response.error)
-        super.handleError(response)
-        switch(response.statusCode) {
-            case 424:
-                if(parsedError.error === "NO_DOCUMENTS"){
-                    throw new NoIdentityDocumentError(parsedError.description)
-                }
-                else{
-                    throw new TrusonaError(response.statusCode + " - " +
-                    parsedError.description)
-                }
-            
-        }
+  static handleError(response) {
+    if (response.statusCode === 424) {
+      const parsedError = JSON.parse(response.error)
+      if (parsedError.error === 'NO_DOCUMENTS') {
+        throw new NoIdentityDocumentError(parsedError.description)
+      }
+      else {
+        throw new TrusonaError(this.formatMessage(response.statusCode, parsedError.description))
+      }
     }
+    return super.handleError(response)
+  }
+
 }
+
 module.exports = TrusonaficationErrorHandler

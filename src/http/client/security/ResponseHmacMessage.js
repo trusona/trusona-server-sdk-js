@@ -12,7 +12,7 @@ class ResponseHmacMessage {
       contentType: this.response.headers['content-type'],
       date: this.response.headers['x-date'],
       method: this.response.request.method
-    };
+    }
   }
 
   getRequestUri() {

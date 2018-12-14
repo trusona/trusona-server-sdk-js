@@ -15,11 +15,11 @@ class Trusonafication {
   }
 
   static get essential() {
-    return new EssentialBuilder();
+    return new EssentialBuilder()
   }
 
   static get executive() {
-    return new ExecutiveBuilder();
+    return new ExecutiveBuilder()
   }
 }
 
@@ -83,7 +83,7 @@ class TrusonaficationBuilder {
 }
 
 class EssentialBuilder extends TrusonaficationBuilder {
-  
+
   constructor() {
     super(2)
   }

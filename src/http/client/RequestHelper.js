@@ -2,16 +2,15 @@ const HmacSignatureGenerator = require('./security/HmacSignatureGenerator')
 const ResponseHmacMessage = require('./security/ResponseHmacMessage')
 const RequestHmacMessage = require('./security/RequestHmacMessage')
 const TrusonaError = require('../../resources/error/TrusonaError')
-const DateUtils = require('../../resources/util/DateUtils')
 const Environment = require('./environment/Environment')
-const camelcaseObject = require('camelcase-object');
+const camelcase = require('./camelcase')
 
 class RequestHelper {
 
   constructor(token, secret, env) {
-      this.token = token
-      this.secret = secret
-      this.baseUrl = Environment.getEnvironment(env)
+    this.token = token
+    this.secret = secret
+    this.baseUrl = Environment.getEnvironment(env)
   }
 
   getSignedRequest(options) {
@@ -19,11 +18,11 @@ class RequestHelper {
     options.headers = this.getHeaders(options)
     options.json = false
     options.body = JSON.stringify(options.body)
-      
+
     let originalTransform = options.transform
     const signatureGenerator = new HmacSignatureGenerator()
 
-    if(originalTransform == null){
+    if (!originalTransform) {
       originalTransform = (body, response, resolveWithFullResponse) => {
         return body
       }
@@ -31,15 +30,13 @@ class RequestHelper {
 
     options.transform = (body, response, resolveWithFullResponse) => {
 
-      if(response.statusCode.toString().startsWith('2')){
-        const responseHmacMessage = new ResponseHmacMessage(response);
+      if(response.statusCode.toString().startsWith('2')) {
+        const responseHmacMessage = new ResponseHmacMessage(response)
         const signature = signatureGenerator.getSignature(responseHmacMessage, this.secret)
 
-        if(response.headers['x-signature'] === signature){
-
-          let bodyCamelCase = camelcaseObject(body)
-
-          return originalTransform(bodyCamelCase ? camelcaseObject(JSON.parse(body)) : body, response, resolveWithFullResponse)
+        if (response.headers['x-signature'] === signature) {
+          const parsedBody = body ? JSON.parse(body) : body
+          return originalTransform(camelcase(parsedBody), response, resolveWithFullResponse)
         } else {
           throw new TrusonaError('The response signature failed validation')
         }
@@ -63,7 +60,7 @@ class RequestHelper {
   getHeaders(options) {
     let headers = {
       'user-agent': 'TrusonaServerSdk/1.0',
-      'date' : new DateUtils().getDate()
+      'date' : new Date().toUTCString()
     }
 
     if (options.body) {
@@ -73,4 +70,5 @@ class RequestHelper {
     return headers
   }
 }
+
 module.exports = RequestHelper
