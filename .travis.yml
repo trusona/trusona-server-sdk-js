@@ -3,8 +3,8 @@ node_js:
 - "7"
 - "8"
 - "9"
-- "node"
 - "lts/*"
+- "node"
 script:
 - npm run test
 before_install:
@@ -17,4 +17,4 @@ deploy:
     api_key: $NPM_AUTH_TOKEN
     on:
       tags: true
-      node_js: node
+      node_js: "lts/*"
