@@ -385,9 +385,9 @@ This example shows how to determine if a user is capable of accepting Executive 
 ```js
 const trusona = new Trusona(token, secret)
 
-const documents = await trusona.getIdentityDocument(document.id)
+const document = await trusona.getIdentityDocument(document.id)
 
-documents.verificationStatus // UNVERIFIED, UNVERIFIABLE, VERIFIED, or FAILED
+document.verificationStatus // UNVERIFIED, UNVERIFIABLE, VERIFIED, or FAILED
 ```
 
 Here we are getting a specific identity document by ID. Since the ID is generated at the time the document is registered (on the mobile device), you'll have to send the ID to your backend server and then call the `getIdentityDocument` function in order to check the status. See all [verification statuses](#identity-document-verification-statuses).
