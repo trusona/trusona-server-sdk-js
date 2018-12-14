@@ -46,7 +46,7 @@ The two credentials required by the SDK include a `token` and `secret`. Both are
 
 ### System requirements
 
-The Trusona Server SDK requires Node JS (TODO: minimum node version) or above.
+The Trusona Server SDK requires Node JS 7.10.1 or above.
 
 
 ## NPM Setup
