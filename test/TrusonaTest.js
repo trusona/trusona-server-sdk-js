@@ -360,7 +360,7 @@ describe('Trusona', () => {
   describe('Polling for a trusonafication', () => {
     context('with a trusonafication that does not exist', () => {
       it('should return null', async () => {
-        const response = await trusona.pollForTrusonafication(uuid())
+        const response = await trusona.pollForTrusonaficationResult(uuid())
         assert.isNull(response)
       })
     })
@@ -380,9 +380,38 @@ describe('Trusona', () => {
           .expiresAt(expiresAt.toISOString())
           .build())
 
-        const response = await trusona.pollForTrusonafication(trusonafication.id)
+        const response = await trusona.pollForTrusonaficationResult(trusonafication.id)
 
         assert.equal(response.status, 'EXPIRED')
+        assert.isFalse(response.successful)
+      })
+    })
+
+    context('with a trusonafication that is accepted', () => {
+      xit('should return an expired trusonafication', async () => {
+        const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+          .emailAddress('r@trusona.com')
+          .action('login')
+          .resource('resource')
+          .build())
+
+        const response = await trusona.pollForTrusonaficationResult(trusonafication.id)
+
+        assert.isTrue(response.successful)
+      })
+    })
+
+    context('with a trusonafication that is rejected', () => {
+      xit('should return an expired trusonafication', async () => {
+        const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+          .emailAddress('r@trusona.com')
+          .action('login')
+          .resource('resource')
+          .build())
+
+        const response = await trusona.pollForTrusonaficationResult(trusonafication.id)
+
+        assert.isFalse(response.successful)
       })
     })
   })
