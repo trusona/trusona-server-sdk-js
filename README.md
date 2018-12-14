@@ -408,9 +408,9 @@ Here we are getting a specific identity document by ID. Since the ID is generate
 
 |         Name         | Type               |                                           Description                                                                                              |
 | :------------------- | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                 | UUID               | The ID of the document that was generated when it was registered.                                                                                  |
+| `id`                 | String             | The ID of the document that was generated when it was registered.                                                                                  |
 | `hash`               | String             | The hash of the raw data of the document that was scanned. Trusona does not store any of the raw information from the original document            |
-| `verificationStatus` | VerificationStatus | The status of the third-party verification that was performed, if any. See all [verification statuses](#identity-document-verification-statuses).  |
+| `verificationStatus` | String             | The status of the third-party verification that was performed, if any. See all [verification statuses](#identity-document-verification-statuses).  |
 | `verifiedAt`         | Date               | The date when the verification status was determined.                                                                                              |
 | `type`               | String             | The type of the identity document. See all [identity document types](#identity-document-types).                                                    |
 
