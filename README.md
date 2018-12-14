@@ -94,8 +94,8 @@ The first step, creating a device, will be handled by the Trusona mobile SDKs on
 When the backend determines which user owns the `deviceIdentifier`, it can bind the `userIdentifier` to the device in Trusona. The `userIdentifier` can be any `String` that allows you to uniquely identify the user in your system. To bind a device to a user, call the `createUserDevice` function.
 
 ```js
-const userDevice = await trusona.createUserDevice(user.Id, "deviceIdentifier")
-const userDevice.activationCode
+const userDevice = await trusona.createUserDevice(yourUser.id, "deviceIdentifier")
+const activationCode = userDevice.activationCode
 ```
 
 More than one device can be bound to a user and later, when you Trusonafy them, any device bound to that user may accept the Trusonafication. Once the device is bound the user, you'll receive an activation code that can be used later to active the device.
@@ -138,15 +138,15 @@ Once a device is bound to a user, that user can be Trusonafied using the device 
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = trusona.createTrusonafication(Trusonafication.essential
-        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
-        .action("login")
-        .resource("Acme Bank")
-        .build())
+const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+  .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+  .action("login")
+  .resource("Acme Bank")
+  .build())
 
-const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if(trusonaficationResult.IsSuccessful) {
+if (trusonaficationResult.status === 'ACCEPTED') {
   // handle successful authentication
 }
 ```
@@ -158,17 +158,17 @@ By default, Essential Trusonafications are built such that the user's presence i
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = trusona.createTrusonafication(Trusonafication.essential
-        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
-        .action("login")
-        .resource("Acme Bank")
-        .withoutUserPresence()
-        .withoutPrompt()
-        .build())
+const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+  .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+  .action("login")
+  .resource("Acme Bank")
+  .withoutUserPresence()
+  .withoutPrompt()
+  .build())
 
-const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if(trusonaficationResult.IsSuccessful) {
+if (trusonaficationResult.status === 'ACCEPTED') {
   // handle successful authentication
 }
 ```
@@ -180,15 +180,15 @@ In the above example, the addition of `withoutUserPresence()` and `withoutPrompt
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = trusona.createTrusonafication(Trusonafication.essential
-        .truCode("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
-        .action("login")
-        .resource("Acme Bank")
-        .build())
+const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+  .truCode("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
+  .action("login")
+  .resource("Acme Bank")
+  .build())
 
-const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if(trusonaficationResult.IsSuccessful) {
+if (trusonaficationResult.status === 'ACCEPTED') {
   // handle successful authentication
 }
 ```
@@ -200,15 +200,15 @@ In this example, instead of specifying a device identifier, you can provide an I
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = trusona.createTrusonafication(Trusonafication.essential
-        .userIdentifier("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
-        .action("login")
-        .resource("Acme Bank")
-        .build())
+const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+  .userIdentifier("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
+  .action("login")
+  .resource("Acme Bank")
+  .build())
 
-const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if(trusonaficationResult.IsSuccessful) {
+if (trusonaficationResult.status === 'ACCEPTED') {
   // handle successful authentication
 }
 ```
@@ -220,15 +220,15 @@ In some cases you may already know the user's identifier (i.e. in a multi-factor
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = trusona.createTrusonafication(Trusonafication.essential
-        .emailAddress("user@domain.com")
-        .action("login")
-        .resource("Acme Bank")
-        .build())
+const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+  .emailAddress("user@domain.com")
+  .action("login")
+  .resource("Acme Bank")
+  .build())
 
-const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if(trusonaficationResult.IsSuccessful) {
+if (trusonaficationResult.status === 'ACCEPTED') {
   // handle successful authentication
 }
 ```
@@ -249,15 +249,15 @@ To create an Executive Trusonafication, call the `executive` function initially 
 ```js
 const trusona = new Trusona(token, secret)
 
-const trusonafication = trusona.createTrusonafication(Trusonafication.executive
-        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
-        .action("login")
-        .resource("Acme Bank")
-        .build())
+const trusonafication = await trusona.createTrusonafication(Trusonafication.executive
+  .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+  .action("login")
+  .resource("Acme Bank")
+  .build())
 
-const trusonaficationResult = await trusona.getTrusonaficationResult(trusonafication.id)
+const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
-if(trusonaficationResult.IsSuccessful) {
+if (trusonaficationResult.status === 'ACCEPTED') {
   // handle successful authentication
 }
 ```
@@ -273,10 +273,10 @@ use cases, except you use the `pollForTrusonafication()` function rather than `g
 const trusona = new Trusona(token, secret)
 
 const trusonafication = await trusona.createTrusonafication(Trusonafication.executive
-        .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
-        .action("login")
-        .resource("Acme Bank")
-        .build())
+  .deviceIdentifier("PBanKaajTmz_Cq1pDkrRzyeISBSBoGjExzp5r6-UjcI")
+  .action("login")
+  .resource("Acme Bank")
+  .build())
 
 const trusonaficationResult = await trusona.pollForTrusonafication(trusonafication.id)
 
@@ -367,9 +367,9 @@ Identity documents can be registered using the Trusona Mobile SDK and are requir
 ```js
 const trusona = new Trusona(token, secret)
 
-const documents = trusona.findIdentityDocuments(userIdentifier)
+const documents = await trusona.findIdentityDocuments(userIdentifier)
 
-if (documents[0] !== 'undefined') {
+if (documents.length === 0) {
   // Not capable of accepting Executive Trusonafications
 } else {
   // Is capable of accepting Executive Trusonafications
@@ -385,7 +385,7 @@ This example shows how to determine if a user is capable of accepting Executive 
 ```js
 const trusona = new Trusona(token, secret)
 
-const documents = trusona.getIdentityDocument(document.id)
+const documents = await trusona.getIdentityDocument(document.id)
 
 documents.verificationStatus // UNVERIFIED, UNVERIFIABLE, VERIFIED, or FAILED
 ```
@@ -437,7 +437,7 @@ const trusona = new Trusona(token, secret)
 
 const device = await trusona.getDevice("r1ByVyVKJ7TRgU0RPX0-THMTD_CO3VrCSNqLpJFmhms")
 
-if(device.active) {
+if (device.active) {
   // Device has been activated and can receive/respond to Trusonafications
 }
 ```
@@ -451,7 +451,7 @@ const trusona = new Trusona(token, secret)
 
 const device = await trusona.deactivateUser("73CC202D-F866-4C72-9B43-9FCF5AF149BD")
 
-if(!device.active) {
+if (!device.active) {
   // Device has been deactivated
 }
 ```
