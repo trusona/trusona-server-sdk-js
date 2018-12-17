@@ -1,6 +1,6 @@
 {
   "name": "trusona-server-sdk",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Trusona Server SDK for JavaScript",
   "author": "Trusona Engineering <engineering@trusona.com>",
   "main": "src/Trusona.js",
