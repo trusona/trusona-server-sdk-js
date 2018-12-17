@@ -25,12 +25,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lighthauz/trusona-server-sdk-js.git"
+    "url": "git+https://github.com/trusona/trusona-server-sdk-js.git"
   },
   "keywords": [],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/lighthauz/trusona-server-sdk-js/issues"
+    "url": "https://github.com/trusona/trusona-server-sdk-js/issues"
   },
-  "homepage": "https://github.com/lighthauz/trusona-server-sdk-js#readme"
+  "homepage": "https://github.com/trusona/trusona-server-sdk-js#readme"
 }
