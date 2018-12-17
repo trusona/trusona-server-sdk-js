@@ -1,3 +1,6 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/1c5f6a27c9cbe4bf57ae/maintainability)](https://codeclimate.com/github/trusona/trusona-server-sdk-js/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/1c5f6a27c9cbe4bf57ae/test_coverage)](https://codeclimate.com/github/trusona/trusona-server-sdk-js/test_coverage)
+
 # Trusona Server SDK
 
 The Trusona Server SDK allows simplified interaction with the Trusona API.
