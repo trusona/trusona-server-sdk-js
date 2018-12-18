@@ -33,6 +33,11 @@ describe('Trusona', () => {
   })
 
   describe('The SDK', () => {
+    it('should expose variables for configuring which environment you are pointing to', () => {
+      assert.equal(Trusona.UAT, 'uat')
+      assert.equal(Trusona.PRODUCTION, 'production')
+    })
+
     it('should point to production by default', () => {
       assert.equal(new Trusona(token, secret).requestHelper.baseUrl, 'https://api.trusona.net')
     })
