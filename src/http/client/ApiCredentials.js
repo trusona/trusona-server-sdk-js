@@ -5,14 +5,6 @@ class ApiCredentials{
     this.secret = secret
   }
 
-  getToken(){
-    return this.token
-  }
-
-  getSecret(){
-    return this.secret
-  }
-
   getParsedToken() {
     let parsedToken = null
     const parts = this.token.split('.')
