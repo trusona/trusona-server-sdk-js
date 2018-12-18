@@ -50,13 +50,6 @@ class RequestHelper {
     return options
   }
 
-  getRequest(options){
-    options.baseUrl = this.baseUrl
-    options.headers = this.getHeaders()
-    options.json = true
-    return options
-  }
-
   getHeaders(options) {
     let headers = {
       'user-agent': 'TrusonaServerSdk/1.0',
