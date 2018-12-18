@@ -8,7 +8,7 @@
     "src"
   ],
   "scripts": {
-    "test": "nyc mocha --timeout 30000 --exit"
+    "test": "nyc --reporter lcov mocha --timeout 30000 --exit"
   },
   "dependencies": {
     "camelcase-object": "^1.0.0",

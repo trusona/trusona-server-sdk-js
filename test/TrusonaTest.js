@@ -366,7 +366,7 @@ describe('Trusona', () => {
     })
 
     context('with a trusonafication that does not get responded to', () => {
-      it('should return an expired trusonafication', async () => {
+      it('should return an expired, unsuccessful trusonafication', async () => {
         const activeDevice = await trusona.createUserDevice(uuid(), fauxDevice.id)
           .then((inactiveDevice) => trusona.activateUserDevice(inactiveDevice.activationCode))
 
@@ -388,7 +388,7 @@ describe('Trusona', () => {
     })
 
     context('with a trusonafication that is accepted', () => {
-      xit('should return an expired trusonafication', async () => {
+      xit('should be successful', async () => {
         const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
           .emailAddress('r@trusona.com')
           .action('login')
@@ -402,7 +402,7 @@ describe('Trusona', () => {
     })
 
     context('with a trusonafication that is rejected', () => {
-      xit('should return an expired trusonafication', async () => {
+      xit('should not be successful', async () => {
         const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
           .emailAddress('r@trusona.com')
           .action('login')
