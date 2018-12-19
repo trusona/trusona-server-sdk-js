@@ -465,6 +465,12 @@ describe('Trusona', () => {
         assert.equal(response[0].verificationStatus, 'UNVERIFIED')
       })
     })
+
+    context('with a blank user identifier', () => {
+      it('should throw a ValidationError', async () => {
+        await assert.isRejected(trusona.findIdentityDocuments(''), ValidationError)
+      })
+    })
   })
 
   describe('Getting a paired trucode by id', () => {
