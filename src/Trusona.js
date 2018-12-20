@@ -9,24 +9,18 @@ const WebSdkConfig = require('./resources/dto/WebSdkConfig')
 const promisePoller = require('promise-poller').default
 const request = require('request-promise')
 
-const PRODUCTION = 'production'
-const UAT = 'uat'
-
 const DEFAULT_POLLING_INTERVAL = 5000
 
 class Trusona {
 
-  constructor(token, secret, env = PRODUCTION) {
+  static get UAT() { return 'https://api.staging.trusona.net' }
+  static get PRODUCTION() { return 'https://api.trusona.net' }
+  static get AP_UAT() { return 'https://api.staging.ap.trusona.net' }
+  static get AP_PRODUCTION() { return 'https://api.ap.trusona.net' }
+
+  constructor(token, secret, endpoint = Trusona.PRODUCTION) {
     this.apiCredentials = new ApiCredentials(token, secret)
-    this.requestHelper = new RequestHelper(token, secret, env)
-  }
-
-  static get UAT() {
-    return UAT
-  }
-
-  static get PRODUCTION() {
-    return PRODUCTION
+    this.requestHelper = new RequestHelper(token, secret, endpoint)
   }
 
   createUserDevice(userIdentifier, deviceIdentifier) {
