@@ -34,8 +34,10 @@ describe('Trusona', () => {
 
   describe('The SDK', () => {
     it('should expose variables for configuring which environment you are pointing to', () => {
-      assert.equal(Trusona.UAT, 'uat')
-      assert.equal(Trusona.PRODUCTION, 'production')
+      assert.equal(Trusona.UAT, 'https://api.staging.trusona.net')
+      assert.equal(Trusona.PRODUCTION, 'https://api.trusona.net')
+      assert.equal(Trusona.AP_UAT, 'https://api.staging.ap.trusona.net')
+      assert.equal(Trusona.AP_PRODUCTION, 'https://api.ap.trusona.net')
     })
 
     it('should point to production by default', () => {

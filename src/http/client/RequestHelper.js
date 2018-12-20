@@ -2,15 +2,14 @@ const HmacSignatureGenerator = require('./security/HmacSignatureGenerator')
 const ResponseHmacMessage = require('./security/ResponseHmacMessage')
 const RequestHmacMessage = require('./security/RequestHmacMessage')
 const TrusonaError = require('../../resources/error/TrusonaError')
-const Environment = require('./environment/Environment')
 const camelcase = require('./camelcase')
 
 class RequestHelper {
 
-  constructor(token, secret, env) {
+  constructor(token, secret, endpoint) {
     this.token = token
     this.secret = secret
-    this.baseUrl = Environment.getEnvironment(env)
+    this.baseUrl = endpoint
   }
 
   getSignedRequest(options) {
