@@ -357,7 +357,8 @@ Call the `renderTruCode` function in the Web SDK using the Web SDK Config from t
     },
     onError: function() {
       // handle if there were errors fetching truCodes
-    })
+    }
+   })
 </script>
 ```
 
