@@ -13,9 +13,6 @@ script:
   - npm run test
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-before_install:
-  - openssl aes-256-cbc -K $encrypted_9c8b27f7c340_key -iv $encrypted_9c8b27f7c340_iv
-    -in .env.enc -out .env -d
 deploy:
   - provider: npm
     skip_cleanup: true
