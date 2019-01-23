@@ -10,8 +10,7 @@ const FauxMobileClient = require('./FauxMobileClient')
 const FauxWebClient = require('./FauxWebClient')
 const FauxDevice = require('./FauxDevice')
 
-const Trusona = require('../src/Trusona')
-const Trusonafication = require('../src/resources/dto/Trusonafication')
+const { Trusona, Trusonafication } = require('../src/Trusona')
 
 const DeviceAlreadyBoundError = require('../src/resources/error/DeviceAlreadyBoundError')
 const DeviceNotFoundError = require('../src/resources/error/DeviceNotFoundError')
