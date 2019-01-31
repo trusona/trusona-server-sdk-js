@@ -5,6 +5,7 @@ const GenericErrorHandler = require('./resources/handler/GenericErrorHandler')
 const UserErrorHandler = require('./resources/handler/UserErrorHandler')
 const ApiCredentials = require('./http/client/ApiCredentials')
 const RequestHelper = require('./http/client/RequestHelper')
+const Trusonafication = require('./resources/dto/Trusonafication')
 const WebSdkConfig = require('./resources/dto/WebSdkConfig')
 const promisePoller = require('promise-poller').default
 const request = require('request-promise')
@@ -187,4 +188,4 @@ class Trusona {
   }
 }
 
-module.exports = Trusona
+module.exports = { Trusona, Trusonafication }

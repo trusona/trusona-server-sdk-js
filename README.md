@@ -69,6 +69,15 @@ Alternatively, you may also search for the NPM package in www.npmjs.com
 
 ## Integrating the API into a project
 
+### Require or Import SDK
+
+```js
+// CommonJS
+const { Trusona, Trusonafication } = require("trusona-server-sdk")
+// ES Modules
+import { Trusona, Trusonafication } from "trusona-server-sdk"
+```
+
 ### Creating a Trusona object
 
 The `Trusona` class is the main class you will interact with to talk to the Trusona APIs. It can be created with the `token` and `secret` provided by [Trusona](#server-sdk-api-credentials).
