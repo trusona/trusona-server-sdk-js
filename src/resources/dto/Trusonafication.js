@@ -4,6 +4,7 @@ class Trusonafication {
     this.desired_level = trusonaficationBuilder.desired_level
     this.device_identifier = trusonaficationBuilder.device_identifier
     this.trucode_id = trusonaficationBuilder.trucode_id
+    this.trusona_id = trusonaficationBuilder.trusona_id
     this.user_identifier = trusonaficationBuilder.user_identifier
     this.action = trusonaficationBuilder.action
     this.resource = trusonaficationBuilder.resource
@@ -39,6 +40,11 @@ class TrusonaficationBuilder {
 
   truCode(trucode_id) {
     this.trucode_id = trucode_id
+    return this
+  }
+
+  trusonaId(trusona_id) {
+    this.trusona_id = trusona_id
     return this
   }
 
