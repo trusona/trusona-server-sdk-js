@@ -228,6 +228,22 @@ describe('Trusona', () => {
       })
     })
 
+    context('with a trusona id', () => {
+      it('should create it with desired level 2 and be in progress', async () => {
+        const trusonafication = Trusonafication.essential
+          .trusonaId(activeDevice.trusonaId)
+          .action('login')
+          .resource('resource')
+          .build()
+
+        const response = await trusona.createTrusonafication(trusonafication)
+        assert.equal(response.trusonaId, activeDevice.trusonaId)
+        assert.equal(response.status, 'IN_PROGRESS')
+        assert.equal(response.desiredLevel, 2)
+        assert.isTrue(response.userPresence)
+      })
+    })
+
     context('with a device identifier', () => {
       it('should create it with desired level 2 and be in progress', async () => {
         const trusonafication = Trusonafication.essential
