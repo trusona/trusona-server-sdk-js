@@ -37,6 +37,8 @@ describe('Trusona', () => {
       assert.equal(Trusona.PRODUCTION, 'https://api.trusona.net')
       assert.equal(Trusona.AP_UAT, 'https://api.staging.ap.trusona.net')
       assert.equal(Trusona.AP_PRODUCTION, 'https://api.ap.trusona.net')
+      assert.equal(Trusona.EU_UAT, 'https://api.staging.eu.trusona.net')
+      assert.equal(Trusona.EU_PRODUCTION, 'https://api.eu.trusona.net')
     })
 
     it('should point to production by default', () => {
