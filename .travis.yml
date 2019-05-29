@@ -10,7 +10,9 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - npm run test
+  - TRUSONA_ENDPOINT=$TRUSONA_ENDPOINT_US BUSTER_BASE_URL=$BUSTER_BASE_URL_US npm run test
+  - TRUSONA_ENDPOINT=$TRUSONA_ENDPOINT_AP BUSTER_BASE_URL=$BUSTER_BASE_URL_AP npm run test
+  - TRUSONA_ENDPOINT=$TRUSONA_ENDPOINT_EU BUSTER_BASE_URL=$BUSTER_BASE_URL_EU npm run test
   - ./scripts/audit
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
