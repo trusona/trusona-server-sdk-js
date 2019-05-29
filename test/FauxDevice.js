@@ -3,8 +3,10 @@ const request = require('request-promise')
 
 const RELYING_PARTY_ID = '0f0348f0-46d6-47c9-ba4d-2e7cd7f82e3e'
 
+const BUSTER_BASE_URL = process.env.BUSTER_BASE_URL || 'https://buster.staging.trusona.net'
+
 const BUSTER_DEFAULTS = {
-  baseUrl: 'https://buster.staging.trusona.net/faux_devices',
+  baseUrl: `${BUSTER_BASE_URL}/faux_devices`,
   json: true,
   headers: {
     'accept': 'application/json',

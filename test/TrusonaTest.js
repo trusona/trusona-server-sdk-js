@@ -21,13 +21,14 @@ const ValidationError = require('../src/resources/error/ValidationError')
 
 const token = process.env.TRUSONA_TOKEN
 const secret = process.env.TRUSONA_SECRET
+const endpoint = process.env.TRUSONA_ENDPOINT || Trusona.UAT
 
 describe('Trusona', () => {
   let trusona
   let fauxDevice
 
   beforeEach(async () => {
-    trusona = new Trusona(token, secret, Trusona.UAT)
+    trusona = new Trusona(token, secret, endpoint)
     fauxDevice = await FauxDevice.create()
   })
 

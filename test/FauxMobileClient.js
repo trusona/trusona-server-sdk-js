@@ -1,7 +1,9 @@
 const request = require('request-promise')
 
+const ENDPOINT = process.env.TRUSONA_ENDPOINT || 'https://api.staging.trusona.net'
+
 const TRUCODE_DEFAULTS  = {
-  baseUrl: 'https://api.staging.trusona.net/api/v2/paired_trucodes',
+  baseUrl: `${ENDPOINT}/api/v2/paired_trucodes`,
   json: true,
   headers: {
     'accept': 'application/json',
