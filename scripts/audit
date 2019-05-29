@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+if [[ $(npm --version | cut -d. -f1) -ge 6 ]]; then
+  npm audit
+fi
