@@ -188,46 +188,45 @@ describe('Trusona', () => {
     })
 
     context('with missing identifier', () => {
-      it('should throw a ValidationError', async () => {
+      it('should throw a TrusonaError', async () => {
         const trusonafication = Trusonafication.essential
           .action('login')
           .resource('resource')
           .build()
 
-        await assert.isRejected(trusona.createTrusonafication(trusonafication), ValidationError)
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), TrusonaError)
       })
     })
 
     context('with missing action', () => {
-      it('should throw a ValidationError', async () => {
+      it('should throw a TrusonaError', async () => {
         const trusonafication = Trusonafication.essential
           .deviceIdentifier(activeDevice.deviceIdentifier)
           .resource('resource')
           .build()
 
-        await assert.isRejected(trusona.createTrusonafication(trusonafication), ValidationError)
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), TrusonaError)
       })
     })
 
     context('with missing resource', () => {
-      it('should throw a ValidationError', async () => {
+      it('should throw a TrusonaError', async () => {
         const trusonafication = Trusonafication.essential
           .deviceIdentifier(activeDevice.deviceIdentifier)
           .action('login')
           .build()
 
-        await assert.isRejected(trusona.createTrusonafication(trusonafication), ValidationError)
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), TrusonaError)
       })
     })
 
     context('with validation errors', () => {
-      it('should include the fields that are invalid', async () => {
+      it('should throw a TrusonaError', async () => {
         const trusonafication = Trusonafication.essential
           .deviceIdentifier(activeDevice.deviceIdentifier)
           .build()
 
-        const error = await trusona.createTrusonafication(trusonafication).catch((error) => error)
-        assert.containsAllKeys(error.fieldErrors, ['action', 'resource'])
+        await assert.isRejected(trusona.createTrusonafication(trusonafication), TrusonaError)
       })
     })
 
