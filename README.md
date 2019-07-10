@@ -255,6 +255,30 @@ by specifying their email address. This is the case if one of the following is t
 Creating a Trusonafication with an email address is similar to the other
 use cases, except you use the `emailAddress()` function rather than `userIdentifier()` or `deviceIdentifier()`.
 
+#### Adding custom fields to a Trusonafication
+ If you are using the mobile SDK to build a custom app that integrates with Trusona, you have the option of including additional data on the Trusonafication which the app can use to affect its behavior. For example, you may want to include additional context on the Trusonafication prompt. You can add these custom fields by calling the `customField` method as shown below. The custom fields will then be available in the Trusonafication received by the mobile SDK.
+
+  Note that the custom fields are not used in the case that the Trusonafication is being handled by the Trusona app.
+
+  ```js
+const trusona = new Trusona(token, secret)
+
+const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+  .emailAddress("user@domain.com")
+  .action("login")
+  .resource("Acme Bank")
+  .customField("lastLogin", "2019-07-03T22:36:00Z")
+  .customField("greeting", "Good afternoon!")
+  .build())
+
+const trusonaficationResult = await trusona.pollForTrusonaficationResult(trusonafication.id)
+
+if (trusonaficationResult.successful) {
+  // handle successful authentication
+}
+
+ ```
+
 #### Creating an Executive Trusonafication
 
 To create an Executive Trusonafication, call the `executive` function initially instead of `essential`.
