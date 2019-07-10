@@ -13,6 +13,7 @@ class Trusonafication {
     this.prompt = trusonaficationBuilder.prompt
     this.show_identity_document = trusonaficationBuilder.show_identity_document
     this.email = trusonaficationBuilder.email
+    this.customFields = trusonaficationBuilder.customFields
   }
 
   static get essential() {
@@ -80,6 +81,14 @@ class TrusonaficationBuilder {
 
   emailAddress(email){
     this.email = email
+    return this
+  }
+
+  customField(name, value){
+    if (this.customFields == null) {
+      this.customFields = new Map()
+    }
+    this.customFields.set(name, value)
     return this
   }
 
