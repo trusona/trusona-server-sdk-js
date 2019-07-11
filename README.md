@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/trusona/trusona-server-sdk-js.svg?branch=master)](https://travis-ci.com/trusona/trusona-server-sdk-js)
 [![Maintainability](https://api.codeclimate.com/v1/badges/1c5f6a27c9cbe4bf57ae/maintainability)](https://codeclimate.com/github/trusona/trusona-server-sdk-js/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/1c5f6a27c9cbe4bf57ae/test_coverage)](https://codeclimate.com/github/trusona/trusona-server-sdk-js/test_coverage)
 
