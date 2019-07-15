@@ -24,3 +24,9 @@ deploy:
     on:
       tags: true
       node_js: "lts/*"
+notifications:
+  slack:
+    on_success: always
+    on_failure: always
+    rooms:
+      - secure: "vY6ZaPFhw58Lw2Kvt5l+jjLUlsrGKI56f1AxB0juRC74lgAPplbaV5kBy0FuvHP1v+WuX+izPYbKFOJk++JBTxiqAJh3iwI70C4/I8CA+CFfpkjmSk1m6O/cjjehxDkk7k8siJ9WeH1Wbj9EP7/Lh/VltmhjLwPRiA+agJ/QxI46mL2WQo79i10pRVHvaxtLL+GxxkpFJsPLMSjLIAT105iVw4T6lTQHd+jFvx/LvS0TJDA8qXQGKmRbBKODCpwNTik36qEazJr6xQgwbSthN47Gwh8vQza7a+YDuyiDCWrgmyP0Y30j37czvRwPp38aIZ5fKjE758albYbCz4Pgug5uazYdiBHWmvQ6w/igfUDvn1NzZWLwOekZCX3u81EuUvp1OW3y6N8TKw5UFi2nKVliyLWL8rxHRGgd8oF7xSBaBYALxcvAoZGCDTJXNI0WKGGfsFZppAO6VjUPMDz/V4KsrMwXCaik8Dqu34WvF1HeHS3KblXvfqWDHNFw/A1wq71bLyIwStk/gKAlnspWE0JQ7mzM/kHRuhgYxdm5HBii/byyoLOimHHYuIqH1CxDfMBJXqfjmulw8lpnaBAkRTqENRAzA/KLCgQ2reQxmeT6kXLbyTx62z0I/3rOAEDm6jTQieTLBWqIVzrI8uwJTr5rxmsNDTDydkTiupjhR40="

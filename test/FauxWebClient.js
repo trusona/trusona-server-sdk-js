@@ -1,4 +1,5 @@
 const request = require('request-promise')
+const Trusona = require('../src/Trusona')
 
 const ENDPOINT = process.env.TRUSONA_ENDPOINT || Trusona.UAT
 
