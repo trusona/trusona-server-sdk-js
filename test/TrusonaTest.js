@@ -2,6 +2,7 @@ const dotenv = require('dotenv').config()
 const uuid = require('uuid/v4')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
+const until = require('test-until')
 
 chai.use(chaiAsPromised)
 const assert = chai.assert
@@ -9,6 +10,7 @@ const assert = chai.assert
 const FauxMobileClient = require('./FauxMobileClient')
 const FauxWebClient = require('./FauxWebClient')
 const FauxDevice = require('./FauxDevice')
+const Buster = require('./Buster')
 
 const { Trusona, Trusonafication } = require('../src/Trusona')
 
@@ -233,7 +235,7 @@ describe('Trusona', () => {
     context('with a trusona id', () => {
       xit('should create it with desired level 2 and be in progress', async () => {
         const trusonafication = Trusonafication.essential
-          .trusonaId("123456789")
+          .trusonaId('123456789')
           .action('login')
           .resource('resource')
           .build()
@@ -241,23 +243,6 @@ describe('Trusona', () => {
         const response = await trusona.createTrusonafication(trusonafication)
         assert.equal(response.status, 'IN_PROGRESS')
         assert.equal(response.desiredLevel, 2)
-        assert.isTrue(response.userPresence)
-      })
-    })
-
-    context('with a trusona id', () => {
-      xit('should create it with a custom field and be in progress', async () => {
-        const trusonafication = Trusonafication.essential
-          .trusonaId("123456789")
-          .action('login')
-          .customField("foo", "bar")
-          .resource('resource')
-          .build()
-
-        const response = await trusona.createTrusonafication(trusonafication)
-        assert.equal(response.status, 'IN_PROGRESS')
-        assert.equal(response.desiredLevel, 2)
-        assert.equal(response.customFields["foo"], "bar")
         assert.isTrue(response.userPresence)
       })
     })
@@ -334,6 +319,45 @@ describe('Trusona', () => {
 
         const response = await trusona.createTrusonafication(trusonafication)
         assert.isFalse(response.prompt)
+      })
+    })
+
+    context('with a custom field', () => {
+      it('should return the field name and value', async () => {
+        const trusonafication = Trusonafication.essential
+          .deviceIdentifier(activeDevice.deviceIdentifier)
+          .action('login')
+          .resource('resource')
+          .customField('foo', 'bar')
+          .build()
+
+        const response = await trusona.createTrusonafication(trusonafication)
+        assert.equal(response.customFields['foo'], 'bar')
+      })
+    })
+
+    context('with a callback url', () => {
+      it('should call the callback when the trusonafication is completed', async () => {
+        const callbackId = uuid()
+
+        const trusonafication = await trusona.createTrusonafication(Trusonafication.essential
+          .userIdentifier(activeDevice.userIdentifier)
+          .action('login')
+          .resource('resource')
+          .callbackUrl(Buster.getCallbackUrl(callbackId))
+          .build())
+
+        await fauxDevice.acceptTrusonafication(trusonafication.id)
+
+        let callback
+
+        await until('the callback is received', async () => {
+          callback = await Buster.getCallback(callbackId)
+          return callback !== undefined
+        }, 7000)
+
+        assert.equal(callback.id, trusonafication.id)
+        assert.equal(callback.status, 'ACCEPTED')
       })
     })
   })
