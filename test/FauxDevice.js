@@ -23,7 +23,7 @@ class FauxDevice {
   constructor(attributes) {
     this.id = attributes.id
   }
-  
+
   static async requestBuster(options) {
     return request(Object.assign(BUSTER_DEFAULTS, options))
   }
@@ -55,6 +55,24 @@ class FauxDevice {
       }
     })
   }
+
+  async acceptTrusonafication(trusonaficationId) {
+    return FauxDevice.requestBuster({
+      url: `/${this.id}/trusonafication_responses`,
+      method: 'POST',
+      body: {
+        trusonafication_id: trusonaficationId
+      }
+    })
+  }
+
+  async rejectTrusonafication(trusonaficationId) {
+    return FauxDevice.requestBuster({
+      url: `/${this.id}/api/v2/trusonafication_responses/${trusonaficationId}`,
+      method: 'DELETE'
+    })
+  }
+
 }
 
 module.exports = FauxDevice

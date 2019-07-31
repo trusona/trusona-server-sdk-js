@@ -13,7 +13,8 @@ class Trusonafication {
     this.prompt = trusonaficationBuilder.prompt
     this.show_identity_document = trusonaficationBuilder.show_identity_document
     this.email = trusonaficationBuilder.email
-    this.customFields = trusonaficationBuilder.customFields
+    this.custom_fields = trusonaficationBuilder.custom_fields
+    this.callback_url = trusonaficationBuilder.callback_url
   }
 
   static get essential() {
@@ -32,6 +33,7 @@ class TrusonaficationBuilder {
     this.prompt = true
     this.user_presence = true
     this.show_identity_document = false
+    this.custom_fields = {}
   }
 
   deviceIdentifier(device_identifier) {
@@ -85,10 +87,12 @@ class TrusonaficationBuilder {
   }
 
   customField(name, value){
-    if (this.customFields == null) {
-      this.customFields = new Map()
-    }
-    this.customFields.set(name, value)
+    this.custom_fields[name] = value
+    return this
+  }
+
+  callbackUrl(url) {
+    this.callback_url = url
     return this
   }
 
