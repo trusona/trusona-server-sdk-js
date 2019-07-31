@@ -338,7 +338,7 @@ Alternatively, if you already know the Trusonafication has been completed or wan
 | `expiresAt`           |    N     |  null   | An ISO-8601 UTC date that sets the expiration time of the Trusonafication.                       |
 | `withoutUserPresence` |    N     |  false  | Removes the requirement for the user to demonstrate presence when accepting the Trusonafication. |
 | `withoutPrompt`       |    N     |  false  | Removes the requirement for the user to explicityly "Accept" or "Reject" the Trusonafication.    |
-| `customField`         |    N     |  null   | Adds custom fields to the Trusonafication, which can be inspected in the mobile SDK when receiving the Trusonafication. |
+| `customFields`         |    N     |  null   | Adds custom fields to the Trusonafication, which can be inspected in the mobile SDK when receiving the Trusonafication. |
 | `callbackUrl`         |    N     |  null   | An HTTPS URL to call when the trusonafication has been completed (accepted, rejected, or expired).<br>The request will be a POST and the body will be the same JSON format as sending a GET request to /api/v2/trusonafications/{id}.<br><br> **NOTE:** The URL should include a randomized segment so it cannot be guessed and abused by third-parties (i.e https://your.domain.com/completed_authentications/f8abe61d-4e51-493f-97b1-464c157624f2). |
 
 [^1]: You must provide at least one field that would allow Trusona to determine which user to authenticate. The identifier fields are `deviceIdentifier`, `truCode`, `emailAddress` and `userIdentifier`.
