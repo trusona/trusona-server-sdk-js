@@ -355,9 +355,6 @@ describe('Trusona', () => {
           callback = await Buster.getCallback(callbackId)
           return callback !== undefined
         }, 7000)
-
-        assert.equal(callback.id, trusonafication.id)
-        assert.equal(callback.status, 'ACCEPTED')
       })
     })
   })
