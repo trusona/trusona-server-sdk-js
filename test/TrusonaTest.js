@@ -354,7 +354,7 @@ describe('Trusona', () => {
         await until('the callback is received', async () => {
           callback = await Buster.getCallback(callbackId)
           return callback !== undefined
-        }, 14000)
+        }, 120000)
       })
     })
   })
