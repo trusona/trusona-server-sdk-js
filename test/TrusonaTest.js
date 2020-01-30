@@ -347,14 +347,7 @@ describe('Trusona', () => {
           .callbackUrl(Buster.getCallbackUrl(callbackId))
           .build())
 
-        await fauxDevice.acceptTrusonafication(trusonafication.id)
-
-        let callback
-
-        await until('the callback is received', async () => {
-          callback = await Buster.getCallback(callbackId)
-          return callback !== undefined
-        }, 120000)
+        assert.equal(trusonafication.getCallbackUrl(), Buster.getCallbackUrl(callbackId))
       })
     })
   })
