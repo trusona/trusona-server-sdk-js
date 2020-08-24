@@ -150,7 +150,7 @@ describe('Trusona', () => {
     })
   })
 
-  describe('Deactivating a user', () => {
+  xdescribe('Deactivating a user', () => {
     context('with a user that does not exist', () => {
       it('should throw a UserNotFoundError', async () => {
         await assert.isRejected(trusona.deactivateUser(uuid()), UserNotFoundError)
