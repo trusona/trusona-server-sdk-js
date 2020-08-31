@@ -21,7 +21,7 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "^8.2.0",
     "mocha": "^8.1.1",
-    "nyc": "^14.1.1",
+    "nyc": "^15.1.0",
     "test-until": "^1.1.1"
   },
   "repository": {
