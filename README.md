@@ -94,6 +94,8 @@ You'll also want to make sure the `token` and `secret` values aren't checked in 
 
 ### Registering devices with Trusona
 
+> **Note**: This section only applies if you are using your own mobile app with the Trusona mobile SDK. If plan to use the Trusona app, then section can be skipped.
+
 To get a device ready to be used with Trusona, there are three main steps:
 
 1.  Create a device
