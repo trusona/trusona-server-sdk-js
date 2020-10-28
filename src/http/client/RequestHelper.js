@@ -50,9 +50,11 @@ class RequestHelper {
   }
 
   getHeaders(options) {
+    const date = new Date().toUTCString()
     let headers = {
       'user-agent': 'TrusonaServerSdk/1.0',
-      'date' : new Date().toUTCString()
+      'x-date' : date,
+      'date' : date
     }
 
     if (options.body) {
