@@ -514,7 +514,7 @@ Failed requests get thrown as a `TrusonaError`, which TrusonaError a message abo
 All users are provisioned in the default region. Unless otherwise noted, you will not need to configure Trusona to use a specific region. If you have been provisioned in a specific region, you will need to point the SDK to use that region. This can be done by passing the appropriate region endpoint to the constructor. For example:
 
 ```js
-const trusona = new Trusona(token, secret, Trusona.AP_PRODUCTION)
+const trusona = new Trusona(token, secret, Trusona.EU_PRODUCTION)
 ```
 
 

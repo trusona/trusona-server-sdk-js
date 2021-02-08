@@ -16,8 +16,6 @@ class Trusona {
 
   static get UAT() { return 'https://api.staging.trusona.net' }
   static get PRODUCTION() { return 'https://api.trusona.net' }
-  static get AP_UAT() { return 'https://api.staging.ap.trusona.net' }
-  static get AP_PRODUCTION() { return 'https://api.ap.trusona.net' }
   static get EU_UAT() { return 'https://api.staging.eu.trusona.net' }
   static get EU_PRODUCTION() { return 'https://api.eu.trusona.net' }
 
