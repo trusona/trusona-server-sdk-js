@@ -4,3 +4,6 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
+    pull-request-branch-name:
+      separator: "-"
+    open-pull-requests-limit: 10
