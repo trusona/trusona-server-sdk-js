@@ -23,6 +23,11 @@ jobs:
     if: ${{ success() }}
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      TRUSONA_TOKEN: ${{ secrets.TRUSONA_TOKEN }}
+      TRUSONA_SECRET: ${{ secrets.TRUSONA_SECRET }}
+      BUSTER_USERNAME: ${{ secrets.BUSTER_USERNAME }}
+      BUSTER_PASSWORD: ${{ secrets.BUSTER_PASSWORD }}
+
     with:
       DISPLAYED_USERNAME: Trusona Server SDK in JS Build CI
       MESSAGE: 'CI run completed successfully! :tada: :tada:'

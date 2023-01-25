@@ -1,5 +1,17 @@
 name: Specs
-on: [ workflow_call ]
+on:
+  workflow_call:
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: true
+      TRUSONA_TOKEN:
+        required: true
+      TRUSONA_SECRET:
+        required: true
+      BUSTER_USERNAME:
+        required: true
+      BUSTER_PASSWORD:
+        required: true
 jobs:
   test:
     name: Tests
@@ -7,6 +19,10 @@ jobs:
     env:
       TRUSONA_ENDPOINT: https://api.staging.trusona.net
       BUSTER_BASE_URL: https://buster.staging.trusona.net
+      TRUSONA_TOKEN: ${{ secrets.TRUSONA_TOKEN }}
+      TRUSONA_SECRET: ${{ secrets.TRUSONA_SECRET }}
+      BUSTER_USERNAME: ${{ secrets.BUSTER_USERNAME }}
+      BUSTER_PASSWORD: ${{ secrets.BUSTER_PASSWORD }}
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
