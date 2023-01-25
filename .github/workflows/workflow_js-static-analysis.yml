@@ -1,0 +1,30 @@
+name: Static Analysis
+on: [ workflow_call ]
+jobs:
+  static:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+        cache: yarn
+    - name: Dependency Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: ${{ github.repository }}
+        path: Gemfile.lock
+        format: 'HTML'
+        args: >
+          --scan yarn.lock
+          --failOnCVSS 0
+          --suppression suppression.xml
+    - name: Upload Dependency Check Report
+      if: ${{ success() || failure() }}
+      uses: actions/upload-artifact@v3
+      with:
+          name: Dependency Check Report
+          path: ${{github.workspace}}/reports

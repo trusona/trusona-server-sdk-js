@@ -1,0 +1,23 @@
+name: Specs
+on: [ workflow_call ]
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    env:
+      TRUSONA_ENDPOINT: https://api.staging.trusona.net
+      BUSTER_BASE_URL: https://buster.staging.trusona.net
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+        cache: yarn
+    - run: |
+      curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      chmod +x ./cc-test-reporter
+      ./cc-test-reporter before-build
+      npm run test
+      ./cc-test-reporter after-build --exit-code $?
