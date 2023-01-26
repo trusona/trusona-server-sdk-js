@@ -16,10 +16,9 @@ jobs:
       uses: dependency-check/Dependency-Check_Action@main
       with:
         project: ${{ github.repository }}
-        path: Gemfile.lock
+        path: yarn.lock
         format: 'HTML'
         args: >
-          --scan yarn.lock
           --failOnCVSS 0
           --suppression suppression.xml
     - name: Upload Dependency Check Report
