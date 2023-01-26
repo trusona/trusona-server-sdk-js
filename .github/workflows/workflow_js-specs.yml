@@ -2,8 +2,6 @@ name: Specs
 on:
   workflow_call:
     secrets:
-      SLACK_WEBHOOK_URL:
-        required: true
       TRUSONA_TOKEN:
         required: true
       TRUSONA_SECRET:

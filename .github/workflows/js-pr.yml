@@ -13,6 +13,11 @@ permissions:
 jobs:
   test:
     uses: ./.github/workflows/workflow_js-specs.yml
+    secrets:
+      TRUSONA_TOKEN: ${{ secrets.TRUSONA_TOKEN }}
+      TRUSONA_SECRET: ${{ secrets.TRUSONA_SECRET }}
+      BUSTER_USERNAME: ${{ secrets.BUSTER_USERNAME }}
+      BUSTER_PASSWORD: ${{ secrets.BUSTER_PASSWORD }}
 
   static:
     uses: ./.github/workflows/workflow_js-static-analysis.yml
@@ -23,10 +28,6 @@ jobs:
     if: ${{ success() }}
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      TRUSONA_TOKEN: ${{ secrets.TRUSONA_TOKEN }}
-      TRUSONA_SECRET: ${{ secrets.TRUSONA_SECRET }}
-      BUSTER_USERNAME: ${{ secrets.BUSTER_USERNAME }}
-      BUSTER_PASSWORD: ${{ secrets.BUSTER_PASSWORD }}
 
     with:
       DISPLAYED_USERNAME: Trusona Server SDK in JS Build CI
