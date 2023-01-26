@@ -38,8 +38,8 @@ describe('Trusona', () => {
     it('should expose variables for configuring which environment you are pointing to', () => {
       assert.equal(Trusona.UAT, 'https://api.staging.trusona.net')
       assert.equal(Trusona.PRODUCTION, 'https://api.trusona.net')
-      // assert.equal(Trusona.EU_UAT, 'https://api.staging.eu.trusona.net')
-      // assert.equal(Trusona.EU_PRODUCTION, 'https://api.eu.trusona.net')
+      assert.equal(Trusona.EU_UAT, 'https://api.staging.eu.trusona.net')
+      assert.equal(Trusona.EU_PRODUCTION, 'https://api.eu.trusona.net')
     })
 
     it('should point to production by default', () => {
