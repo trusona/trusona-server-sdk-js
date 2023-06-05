@@ -1,6 +1,6 @@
 {
-  "name": "trusona-server-sdk",
-  "version": "2.0.1",
+  "name": "@trusona/server-sdk",
+  "version": "2.1.0",
   "description": "Trusona Server SDK for JavaScript",
   "author": "Trusona Engineering <engineering@trusona.com>",
   "main": "src/Trusona.js",
@@ -33,5 +33,8 @@
   "bugs": {
     "url": "https://github.com/trusona/trusona-server-sdk-js/issues"
   },
-  "homepage": "https://github.com/trusona/trusona-server-sdk-js#readme"
+  "homepage": "https://github.com/trusona/trusona-server-sdk-js#readme",
+  "directories": {
+    "test": "test"
+  }
 }

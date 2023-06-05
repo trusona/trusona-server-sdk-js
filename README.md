@@ -62,7 +62,7 @@ The Trusona Server SDK requires Node JS 7.10.1 or above.
 In your project, run the following command to install the latest version of the Trusona SDK.
 
 ```
-npm i trusona-server-sdk
+npm i @trusona/server-sdk
 ```
 
 Alternatively, you may also search for the NPM package in www.npmjs.com
@@ -74,9 +74,9 @@ Alternatively, you may also search for the NPM package in www.npmjs.com
 
 ```js
 // CommonJS
-const { Trusona, Trusonafication } = require("trusona-server-sdk")
+const { Trusona, Trusonafication } = require("@trusona/server-sdk")
 // ES Modules
-import { Trusona, Trusonafication } from "trusona-server-sdk"
+import { Trusona, Trusonafication } from "@trusona/server-sdk"
 ```
 
 ### Creating a Trusona object
