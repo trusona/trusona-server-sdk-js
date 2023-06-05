@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+  <suppress>
+    <notes><![CDATA[
+   file name: request:2.88.2
+   ]]></notes>
+    <packageUrl regex="true">^pkg:npm/request@.*$</packageUrl>
+    <vulnerabilityName>CVE-2023-28155</vulnerabilityName>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+   file name: request:2.88.2
+   ]]></notes>
+    <packageUrl regex="true">^pkg:npm/request@.*$</packageUrl>
+    <vulnerabilityName>GHSA-p8p7-x288-28g6</vulnerabilityName>
+  </suppress>
 </suppressions>
